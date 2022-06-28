@@ -10,6 +10,9 @@ import com.app.garant.R
 import com.app.garant.presenter.adapters.InstallmentAdapter
 import com.app.garant.databinding.ItemRecyclerBinding
 import com.app.garant.models.InstallmentHistoryData
+import dagger.hilt.android.AndroidEntryPoint
+
+@AndroidEntryPoint
 
 class InstallmentRecyclerView(val data:ArrayList<InstallmentHistoryData>)
     : Fragment(R.layout.item_recycler) {

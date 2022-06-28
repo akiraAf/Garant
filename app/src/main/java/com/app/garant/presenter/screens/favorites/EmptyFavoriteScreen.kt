@@ -7,6 +7,9 @@ import androidx.navigation.fragment.findNavController
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.app.garant.R
 import com.app.garant.databinding.ScreenEmptyFavoriteBinding
+import dagger.hilt.android.AndroidEntryPoint
+
+@AndroidEntryPoint
 
 class EmptyFavoriteScreen : Fragment(R.layout.screen_empty_favorite) {
 

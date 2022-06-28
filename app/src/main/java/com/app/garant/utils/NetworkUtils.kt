@@ -1,13 +1,13 @@
-package uz.softkomunal.a24seven.utils
+package com.app.garant.utils
 
 import android.content.Context
+import com.app.garant.BuildConfig
+import com.app.garant.data.pref.MyPref
 import com.readystatesoftware.chuck.ChuckInterceptor
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import timber.log.Timber
-import uz.softkomunal.a24seven.BuildConfig
-import uz.softkomunal.a24seven.data.pref.MyPref
 
 fun OkHttpClient.Builder.addLoggingInterceptor(context: Context): OkHttpClient.Builder {
     HttpLoggingInterceptor.Level.HEADERS

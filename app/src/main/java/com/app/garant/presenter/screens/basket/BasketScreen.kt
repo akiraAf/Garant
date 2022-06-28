@@ -11,7 +11,9 @@ import com.app.garant.presenter.adapters.OrderAdapter
 import com.app.garant.databinding.ScreenBasketBinding
 import com.app.garant.presenter.dialogs.DialogCleanBasket
 import com.app.garant.models.OrderData
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 
 class BasketScreen : Fragment(R.layout.screen_basket) {
 

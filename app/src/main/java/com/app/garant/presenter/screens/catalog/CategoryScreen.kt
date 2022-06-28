@@ -9,6 +9,9 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import com.app.garant.R
 import com.app.garant.presenter.adapters.CategoryAdapter
 import com.app.garant.databinding.ScreenCategoryBinding
+import dagger.hilt.android.AndroidEntryPoint
+
+@AndroidEntryPoint
 
 class CategoryScreen : Fragment(R.layout.screen_category) {
 

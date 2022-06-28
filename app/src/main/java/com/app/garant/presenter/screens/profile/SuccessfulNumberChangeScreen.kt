@@ -7,7 +7,10 @@ import androidx.navigation.fragment.findNavController
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.app.garant.R
 import com.app.garant.databinding.ScreenSuccessfulChangeNumberBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+
+@AndroidEntryPoint
 
 class SuccessfulNumberChangeScreen : Fragment(R.layout.screen_successful_change_number) {
 

@@ -9,6 +9,9 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import com.app.garant.R
 import com.app.garant.presenter.adapters.BranchAdapter
 import com.app.garant.databinding.ScreenBranchSelectionBinding
+import dagger.hilt.android.AndroidEntryPoint
+
+@AndroidEntryPoint
 
 class BranchSelectionPage : Fragment(R.layout.screen_branch_selection) {
     private val bind by viewBinding(ScreenBranchSelectionBinding::bind)

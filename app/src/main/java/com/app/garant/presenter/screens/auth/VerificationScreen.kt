@@ -11,8 +11,10 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import com.app.garant.R
 import com.app.garant.databinding.ScreenVerificationBinding
 import com.app.garant.utils.hideKeyboard
+import dagger.hilt.android.AndroidEntryPoint
 
 
+@AndroidEntryPoint
 class VerificationScreen() : Fragment(R.layout.screen_verification) {
 
     private val bind by viewBinding(ScreenVerificationBinding::bind)

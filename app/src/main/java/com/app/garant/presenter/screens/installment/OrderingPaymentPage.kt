@@ -10,7 +10,10 @@ import com.app.garant.R
 import com.app.garant.presenter.adapters.OrderAdapter
 import com.app.garant.databinding.PageOrderingPaymentBinding
 import com.app.garant.models.OrderData
+import dagger.hilt.android.AndroidEntryPoint
 
+
+@AndroidEntryPoint
 
 class OrderingPaymentPage : Fragment(R.layout.page_ordering_payment) {
 

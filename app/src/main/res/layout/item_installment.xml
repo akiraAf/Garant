@@ -32,7 +32,6 @@
             android:layout_marginTop="5dp"
             android:text="@string/default_number_installment"
             android:textColor="@color/default_black"
-            android:textFontWeight="@integer/m3_sys_motion_duration_400"
             android:textSize="16sp"
             app:layout_constraintStart_toEndOf="@+id/imageView"
             app:layout_constraintTop_toTopOf="parent" />

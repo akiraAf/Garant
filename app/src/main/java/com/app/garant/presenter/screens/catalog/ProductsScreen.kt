@@ -10,7 +10,9 @@ import com.app.garant.R
 import com.app.garant.models.ProductData
 import com.app.garant.presenter.adapters.ProductsAdapter
 import com.app.garant.databinding.ScreenProductsBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 
 class ProductsScreen : Fragment(R.layout.screen_products) {
     private val bind by viewBinding(ScreenProductsBinding::bind)

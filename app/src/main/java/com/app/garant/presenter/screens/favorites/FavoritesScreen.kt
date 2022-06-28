@@ -10,6 +10,9 @@ import com.app.garant.R
 import com.app.garant.models.ProductData
 import com.app.garant.presenter.adapters.ProductsAdapter
 import com.app.garant.databinding.ScreenFavoritesBinding
+import dagger.hilt.android.AndroidEntryPoint
+
+@AndroidEntryPoint
 
 class FavoritesScreen : Fragment(R.layout.screen_favorites) {
 

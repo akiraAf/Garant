@@ -10,6 +10,9 @@ import com.app.garant.R
 import com.app.garant.presenter.adapters.OrderAdapter
 import com.app.garant.databinding.ScreenBasketCheckBinding
 import com.app.garant.models.OrderData
+import dagger.hilt.android.AndroidEntryPoint
+
+@AndroidEntryPoint
 
 class CheckBasketScreen:Fragment(R.layout.screen_basket_check) {
 

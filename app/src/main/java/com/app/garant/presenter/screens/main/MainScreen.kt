@@ -12,6 +12,9 @@ import com.app.garant.presenter.adapters.*
 import com.app.garant.databinding.ScreenMainBinding
 import com.app.garant.utils.hideKeyboard
 import com.google.android.material.tabs.TabLayoutMediator
+import dagger.hilt.android.AndroidEntryPoint
+
+@AndroidEntryPoint
 
 class MainScreen : Fragment(R.layout.screen_main) {
 

@@ -9,7 +9,10 @@ import com.app.garant.R
 import com.app.garant.presenter.adapters.HistoryPaymentAdapter
 import com.app.garant.databinding.PageHistotyPaymentBinding
 import com.app.garant.models.PaymentInfo
+import dagger.hilt.android.AndroidEntryPoint
 
+
+@AndroidEntryPoint
 
 class HistoryPaymentPage : Fragment(R.layout.page_histoty_payment) {
 

@@ -14,7 +14,9 @@ import com.app.garant.presenter.adapters.BannerProductAdapter
 import com.app.garant.presenter.adapters.ProductsAdapter
 import com.app.garant.databinding.ScreenProductDetailsBinding
 import com.app.garant.models.ProductData
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 
 class ProductDetailsScreen : Fragment(R.layout.screen_product_details) {
 

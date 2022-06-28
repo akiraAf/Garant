@@ -7,7 +7,10 @@ import androidx.navigation.fragment.findNavController
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.app.garant.R
 import com.app.garant.databinding.PageOrderingDeliveryBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+
+@AndroidEntryPoint
 
 class OrderingDeliveryPage : Fragment(R.layout.page_ordering_delivery) {
 

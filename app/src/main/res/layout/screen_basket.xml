@@ -186,7 +186,6 @@
         android:layout_height="wrap_content"
         android:textSize="14sp"
         android:textColor="@color/default_black"
-        android:textFontWeight="@integer/m3_sys_motion_duration_400"
         android:text="@string/month_payment"
         android:layout_marginStart="15dp"
         android:layout_marginTop="40dp"
@@ -201,7 +200,6 @@
         android:textColor="@color/default_black"
         android:layout_margin="15dp"
         android:text="@string/amount_products"
-        android:textFontWeight="@integer/m3_sys_motion_duration_400"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/month_pay_tv" />
 
@@ -223,7 +221,6 @@
         android:text="7 490 000 сум"
         android:textSize="14sp"
         android:textColor="@color/default_black"
-        android:textFontWeight="@integer/m3_sys_motion_duration_400"
         android:layout_marginEnd="15dp"
         android:layout_marginTop="40dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -235,7 +232,6 @@
         android:layout_height="wrap_content"
         android:layout_margin="15dp"
         android:textSize="14sp"
-        android:textFontWeight="@integer/m3_sys_motion_duration_400"
         android:textColor="@color/default_black"
         android:text="6 штук"
         app:layout_constraintEnd_toEndOf="parent"

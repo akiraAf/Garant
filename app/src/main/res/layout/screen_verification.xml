@@ -158,7 +158,6 @@
         android:gravity="center"
         android:text="@string/time"
         android:textColor="@color/default_white"
-        android:textFontWeight="@integer/m3_sys_motion_duration_300"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -195,7 +194,6 @@
             android:gravity="center"
             android:text="@string/input_attempts1"
             android:textColor="@color/default_white"
-            android:textFontWeight="@integer/m3_sys_motion_duration_300"
             android:visibility="gone" />
         <TextView
             android:id="@+id/attempt2"
@@ -207,7 +205,6 @@
             android:gravity="center"
             android:text="@string/input_attempts2"
             android:textColor="@color/default_white"
-            android:textFontWeight="@integer/m3_sys_motion_duration_300"
             android:visibility="gone" />
 
        <androidx.appcompat.widget.AppCompatButton
@@ -215,7 +212,6 @@
            android:layout_width="match_parent"
            android:layout_height="60dp"
            android:text="@string/confirm"
-           android:textFontWeight="@integer/m3_sys_motion_duration_700"
            android:layout_marginHorizontal="30dp"
            android:textColor="@color/default_red"
            android:background="@drawable/white_bg"

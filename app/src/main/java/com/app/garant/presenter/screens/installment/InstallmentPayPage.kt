@@ -7,7 +7,10 @@ import androidx.navigation.fragment.findNavController
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.app.garant.R
 import com.app.garant.databinding.PageInstallmentPayBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+
+@AndroidEntryPoint
 
 class InstallmentPayPage : Fragment(R.layout.page_installment_pay) {
    private val bind by viewBinding(PageInstallmentPayBinding::bind)

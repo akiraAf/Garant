@@ -10,7 +10,10 @@ import com.app.garant.R
 import com.app.garant.databinding.PageStockBinding
 import com.app.garant.models.ProductData
 import com.app.garant.presenter.adapters.ProductsAdapter
+import dagger.hilt.android.AndroidEntryPoint
 
+
+@AndroidEntryPoint
 
 class StockPage : Fragment(R.layout.page_stock) {
 

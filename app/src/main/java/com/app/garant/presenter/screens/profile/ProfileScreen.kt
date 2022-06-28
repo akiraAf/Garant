@@ -10,6 +10,9 @@ import com.app.garant.R
 import com.app.garant.databinding.ScreenProfileBinding
 import com.app.garant.presenter.dialogs.DialogLogout
 import com.app.garant.presenter.dialogs.DialogLanguage
+import dagger.hilt.android.AndroidEntryPoint
+
+@AndroidEntryPoint
 
 class ProfileScreen : Fragment(R.layout.screen_profile) {
 

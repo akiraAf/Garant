@@ -6,6 +6,9 @@ import android.view.View
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.app.garant.R
 import com.app.garant.databinding.ScreenSearchProductsBinding
+import dagger.hilt.android.AndroidEntryPoint
+
+@AndroidEntryPoint
 
 class SearchProductsPage : Fragment(R.layout.screen_search_products) {
 

@@ -9,7 +9,9 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import com.app.garant.R
 import com.app.garant.presenter.adapters.BottomNavAdapter
 import com.app.garant.databinding.ScreenNavigationBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 
 class NavigationScreen : Fragment(R.layout.screen_navigation) {
 

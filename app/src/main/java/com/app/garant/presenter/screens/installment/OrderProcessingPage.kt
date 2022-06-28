@@ -7,7 +7,10 @@ import androidx.navigation.fragment.findNavController
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.app.garant.R
 import com.app.garant.databinding.PageOrderProcessingBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+
+@AndroidEntryPoint
 
 class OrderProcessingPage : Fragment(R.layout.page_order_processing) {
     private val bind by viewBinding(PageOrderProcessingBinding::bind)

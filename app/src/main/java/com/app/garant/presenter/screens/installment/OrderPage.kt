@@ -10,6 +10,9 @@ import com.app.garant.R
 import com.app.garant.presenter.adapters.OrderAdapter
 import com.app.garant.databinding.PageOrderBinding
 import com.app.garant.models.OrderData
+import dagger.hilt.android.AndroidEntryPoint
+
+@AndroidEntryPoint
 
 class OrderPage : Fragment(R.layout.page_order) {
     private val orderData = ArrayList<OrderData>()

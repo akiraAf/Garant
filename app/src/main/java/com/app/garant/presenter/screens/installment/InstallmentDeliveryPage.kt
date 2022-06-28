@@ -7,7 +7,10 @@ import androidx.navigation.fragment.findNavController
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.app.garant.R
 import com.app.garant.databinding.PageInstallmentDeliveryBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+
+@AndroidEntryPoint
 
 class InstallmentDeliveryPage : Fragment(R.layout.page_installment_delivery) {
 

@@ -9,6 +9,9 @@ import com.app.garant.R
 import com.app.garant.presenter.adapters.InstallmentInfoPagerAdapter
 import com.app.garant.databinding.PageInstallmentBinding
 import com.google.android.material.tabs.TabLayoutMediator
+import dagger.hilt.android.AndroidEntryPoint
+
+@AndroidEntryPoint
 
 class InstallmentPage : Fragment(R.layout.page_installment) {
 

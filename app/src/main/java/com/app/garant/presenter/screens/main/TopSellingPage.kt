@@ -10,6 +10,9 @@ import com.app.garant.R
 import com.app.garant.databinding.PageTopsellingBinding
 import com.app.garant.models.ProductData
 import com.app.garant.presenter.adapters.ProductsAdapter
+import dagger.hilt.android.AndroidEntryPoint
+
+@AndroidEntryPoint
 
 class TopSellingPage : Fragment(R.layout.page_topselling) {
 

@@ -9,6 +9,9 @@ import com.app.garant.R
 import com.app.garant.presenter.adapters.InstallmentPagerAdapter
 import com.app.garant.databinding.ScreenInstallmentHistoryBinding
 import com.google.android.material.tabs.TabLayoutMediator
+import dagger.hilt.android.AndroidEntryPoint
+
+@AndroidEntryPoint
 
 class InstallmentHistoryScreen : Fragment(R.layout.screen_installment_history) {
 
