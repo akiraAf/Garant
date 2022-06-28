@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_profile"
+    app:startDestination="@id/profileScreen">
+    <fragment
+        android:id="@+id/profileScreen"
+        android:name="com.app.garant.presenter.screens.profile.ProfileScreen"
+        android:label="screen_profile"
+        tools:layout="@layout/screen_profile" >
+        <action
+            android:id="@+id/action_profileScreen_to_accountPage"
+            app:destination="@id/accountPage" />
+        <action
+            android:id="@+id/action_profileScreen_to_changePhoneNumberPage"
+            app:destination="@id/changePhoneNumberPage" />
+        <action
+            android:id="@+id/action_profileScreen_to_favoritesPage"
+            app:destination="@id/favoritesPage" />
+        <action
+            android:id="@+id/action_profileScreen_to_emptyHistory"
+            app:destination="@id/emptyHistory" />
+        <action
+            android:id="@+id/action_profileScreen_to_installmentHistoryScreen"
+            app:destination="@id/installmentHistoryScreen" />
+    </fragment>
+    <fragment
+        android:id="@+id/accountPage"
+        android:name="com.app.garant.presenter.screens.profile.AccountScreen"
+        android:label="page_account"
+        tools:layout="@layout/screen_account" >
+        <action
+            android:id="@+id/action_accountPage_to_profileScreen"
+            app:destination="@id/profileScreen" />
+    </fragment>
+    <fragment
+        android:id="@+id/changePhoneNumberPage"
+        android:name="com.app.garant.presenter.screens.profile.ChangePhoneNumberScreen"
+        android:label="page_change_phone_number"
+        tools:layout="@layout/screen_change_number" >
+        <action
+            android:id="@+id/action_changePhoneNumberPage_to_receiveConfirmationCodePage2"
+            app:destination="@id/receiveConfirmationCodePage2" />
+    </fragment>
+    <fragment
+        android:id="@+id/successfulNumberChangePage2"
+        android:name="com.app.garant.presenter.screens.profile.SuccessfulNumberChangeScreen"
+        android:label="page_successful_number_change"
+        tools:layout="@layout/screen_successful_change_number" >
+        <action
+            android:id="@+id/action_successfulNumberChangePage2_to_profileScreen"
+            app:destination="@id/profileScreen" />
+    </fragment>
+    <fragment
+        android:id="@+id/receiveConfirmationCodePage2"
+        android:name="com.app.garant.presenter.screens.profile.ReceiveConfirmationCodeScreen"
+        android:label="page_receive_confirmation_code"
+        tools:layout="@layout/screen_receive_confirmation_code" >
+        <action
+            android:id="@+id/action_receiveConfirmationCodePage2_to_successfulNumberChangePage2"
+            app:destination="@id/successfulNumberChangePage2" />
+    </fragment>
+    <fragment
+        android:id="@+id/favoritesPage"
+        android:name="com.app.garant.presenter.screens.favorites.FavoritesScreen"
+        android:label="page_favorites"
+        tools:layout="@layout/screen_favorites" >
+        <action
+            android:id="@+id/action_favoritesPage_to_nav_product_details"
+            app:destination="@id/nav_product_details" />
+    </fragment>
+    <fragment
+        android:id="@+id/emptyHistory"
+        android:name="com.app.garant.presenter.screens.installment.EmptyHistory"
+        android:label="page_empty_history"
+        tools:layout="@layout/screen_empty_history" />
+    <fragment
+        android:id="@+id/installmentHistoryScreen"
+        android:name="com.app.garant.presenter.screens.installment.InstallmentHistoryScreen"
+        android:label="screen_installment_history"
+        tools:layout="@layout/screen_installment_history" />
+    <include app:graph="@navigation/nav_product_details" />
+</navigation>

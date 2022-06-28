@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="purple_200">#FFBB86FC</color>
+    <color name="purple_500">#ff0000</color>
+    <color name="purple_700">#FFFFFF</color>
+    <color name="teal_200">#FF03DAC5</color>
+    <color name="teal_700">#FF018786</color>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="default_red">#F55146</color>
+    <color name="account_page_color">#E5E5E5</color>
+    <color name="btn_hint_color">#8F8F8F</color>
+    <color name="default_color">#F5F4F9</color>
+    <color name="default_black">#3A3B40</color>
+    <color name="confirmation_color">#64D6A2</color>
+    <color name="available">#23ED42</color>
+    <color name="order_confirm">#01E727</color>
+    <color name="not_confirmation_color">#F55449</color>
+    <color name="closed">#787878</color>
+    <color name="waiting_color">#E7B901</color>
+    <color name="grey">#838488</color>
+    <color name="default_white">#CDFFFFFF</color>
+</resources>

@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/default_red">
+
+
+    <ImageView
+        app:layout_constraintVertical_bias="0.12"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/white_logo"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/choose_language"
+        app:layout_constraintVertical_bias="0.23"
+        android:textColor="@color/white"
+        android:gravity="center"
+        android:fontFamily="@font/ruberoid_medium"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/russianLanguageBg"
+        android:layout_width="0dp"
+        android:layout_margin="30dp"
+        android:layout_height="60dp"
+        app:layout_constraintVertical_bias="0.4"
+        android:src="@drawable/dark_grey_bg"
+        android:background="?android:selectableItemBackground"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/iconRu"
+        android:layout_width="?actionBarSize"
+        android:layout_margin="15dp"
+        android:padding="15dp"
+        android:src="@drawable/ic_russia"
+        app:layout_constraintLeft_toLeftOf="@id/russianLanguageBg"
+        app:layout_constraintTop_toTopOf="@id/russianLanguageBg"
+        app:layout_constraintBottom_toBottomOf="@id/russianLanguageBg"
+        android:layout_height="?actionBarSize" />
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_margin="15dp"
+        android:padding="10dp"
+        app:layout_constraintRight_toRightOf="@id/russianLanguageBg"
+        app:layout_constraintLeft_toLeftOf="@id/iconRu"
+        android:text="@string/russian_language"
+        android:gravity="center"
+        android:textColor="@color/default_white"
+        android:fontFamily="@font/ruberoid_medium"
+        android:textSize="16sp"
+        app:layout_constraintTop_toTopOf="@id/russianLanguageBg"
+        app:layout_constraintBottom_toBottomOf="@id/russianLanguageBg"
+        android:layout_height="?actionBarSize"/>
+
+    <ImageView
+        android:id="@+id/uzbekLanguageBg"
+        android:layout_width="0dp"
+        android:layout_height="60dp"
+        android:layout_marginHorizontal="30dp"
+        android:layout_marginVertical="15dp"
+        android:src="@drawable/dark_grey_bg"
+        android:background="?android:selectableItemBackground"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/russianLanguageBg" />
+
+    <ImageView
+        android:id="@+id/iconUz"
+        android:layout_width="?actionBarSize"
+        android:layout_margin="15dp"
+        android:padding="15dp"
+        android:src="@drawable/ic_uzbekistan"
+        app:layout_constraintLeft_toLeftOf="@id/uzbekLanguageBg"
+        app:layout_constraintTop_toTopOf="@id/uzbekLanguageBg"
+        app:layout_constraintBottom_toBottomOf="@id/uzbekLanguageBg"
+        android:layout_height="?actionBarSize"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_margin="15dp"
+        android:gravity="center"
+        android:padding="10dp"
+        android:text="@string/uzbek_language"
+        android:textColor="@color/default_white"
+        android:fontFamily="@font/ruberoid_medium"
+        android:textSize="16sp"
+        app:layout_constraintLeft_toLeftOf="@id/iconUz"
+        app:layout_constraintRight_toRightOf="@id/uzbekLanguageBg"
+        app:layout_constraintTop_toTopOf="@id/uzbekLanguageBg"
+        app:layout_constraintBottom_toBottomOf="@id/uzbekLanguageBg"
+        android:layout_height="?actionBarSize"/>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

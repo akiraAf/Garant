@@ -1,0 +1,182 @@
+<resources>
+    <string name="app_name">Garant</string>
+    <string name="choose_language">Выберите язык</string>
+    <string name="russian_language">Русский</string>
+    <string name="uzbek_language">O’zbekcha</string>
+    <string name="authorization">Авторизация</string>
+    <string name="phone_number">Номер телефона</string>
+    <string name="agreement">Нажимая  “Далее”  вы  соглашаетесь   \n с  условиями  <u>Обработки  персональных  \n данных </u>  и  <u>Публичной  оферты</u></string>
+    <string name="agreement2"> с  условиями <u>Обработки  персональных </u>   </string>
+    <string name="agreement3"> <u> данных </u>и  <u>Публичной  оферты</u></string>
+    <string name="next">ДАЛЕЕ</string>
+    <string name="verification">Верификация</string>
+    <string name="phone_number_verification_code1"> Введите код подтверждения</string>
+    <string name="phone_number_verification_code2"> отправленный на ваш номер</string>
+    <string name="confirm">ПОДТВЕРДИТЬ</string>
+    <string name="send_code_again">Отправить код повторно</string>
+
+    <!--    Auth fragment-->
+    <string name="star">*</string>
+    <string name="time">00:25</string>
+    <string name="number_phone">+998 (90) 800–80–50</string>
+    <string name="input_attempts1">Вы ввели неправильный код.</string>
+    <string name="input_attempts2">Осталось попыток: 8 из 10</string>
+    <string name="input_attempts">Вы ввели неправильный код.\nОсталось попыток: 8 из 10</string>
+
+    <!--    Account screen-->
+    <string name="account">Аккаунт</string>
+    <string name="passport_data">Паспортные данные</string>
+    <string name="upload">ЗАГРУЗИТЬ</string>
+    <string name="registration_photo">Фото прописки</string>
+    <string name="confirmed">Подтверждено</string>
+    <string name="not_uploaded">Не загружено</string>
+    <string name="awaiting_confirmation">Ожидает подтверждение</string>
+
+    <string name="scan_passport">Скан или фото паспорта</string>
+    <string name="selfie_passport">Селфи с паспортом</string>
+    <string name="contact_info">Контактная информация</string>
+    <string name="telephone_number">Номер телефона</string>
+    <string name="extra_phone_number">Доп. номер телефона</string>
+    <string name="actual_address">Фактический адрес</string>
+    <string name="region">Область</string>
+    <string name="area">Район</string>
+    <string name="city">Город</string>
+    <string name="address">Адрес</string>
+    <string name="work_place">Место работы</string>
+    <string name="position_work">Должность</string>
+    <string name="work">Работа</string>
+    <string name="no_connection_to_the_internet">Нет подключения \nк интернету</string>
+    <string name="refresh">Обновить</string>
+    <string name="payment_passed_successfully">Оплата прошла \nуспешно!</string>
+    <string name="to_main">НА ГЛАВНУЮ</string>
+    <string name="go_to_agreements">ПЕРЕЙТИ В ДОГОВОРА</string>
+    <string name="installment_sent_for_moderation">Рассрочка отправлена \nна модерацию</string>
+    <string name="default_installment_price">2 300 000 сум</string>
+    <string name="installment_months">x 12 мес</string>
+    <string name="product_price">10 700 000 сум</string>
+    <string name="product_name">Apple iPhone 12 \n128GB</string>
+    <string name="button_to_buy">button to buy</string>
+    <string name="menu_main">Главная</string>
+    <string name="menu_documents">Договоры</string>
+    <string name="menu_catalog">Каталог</string>
+    <string name="menu_cart">Корзина</string>
+    <string name="menu_profile">Профиль</string>
+    <string name="cart">Корзина</string>
+    <string name="empty_cart">В корзине нет товаров</string>
+    <string name="go_to_catalog">ПЕРЕЙТИ В КАТАЛОГ</string>
+    <string name="all_products">Все</string>
+    <string name="new_products">Новые товары</string>
+    <string name="top_sales">Топ продаж</string>
+    <string name="promotions">Акции</string>
+    <string name="popular">Популярное</string>
+    <string name="search">Поиск</string>
+    <string name="books">Книги</string>
+
+    <!-- SubCategoryPage -->
+    <string name="sports_equipment_exercise_equipment">Спорт инвертарь,\nтренажеры</string>
+    <string name="mobile_phones_and_smart_phones">Мобильные телефоны,\nсмартфоны</string>
+
+
+    <!-- ProductDetailsPage -->
+    <string name="default_product_details">Apple Watch 6 GPS 44mm\nAluminum Case, Blue</string>
+    <string name="product">Товар</string>
+    <string name="price">Цена:</string>
+    <string name="default_price">3 000 000</string>
+    <string name="sum">сум</string>
+    <string name="in_installments">В рассрочку:</string>
+    <string name="in_installments_price">350 000</string>
+    <string name="sum_month">сум/мес</string>
+    <string name="are_available">Есть в наличии</string>
+    <string name="installment_duration">Длительность рассрочки</string>
+    <string name="one_month">1\nмес.</string>
+    <string name="three_month">3\nмес.</string>
+    <string name="six_month">6\nмес.</string>
+    <string name="nine_month">9\nмес.</string>
+    <string name="twelve_month">12\nмес.</string>
+    <string name="book_installment">ОФОРМИТЬ В РАССРОЧКУ</string>
+    <string name="buy">КУПИТЬ</string>
+    <string name="add_to_cart">ДОБАВИТЬ В КОРЗИНУ</string>
+    <string name="type">Тип</string>
+    <string name="smartphone">Смартфон</string>
+    <string name="OS_ver">Верси ОС на начало продаж</string>
+    <string name="ios_14">IOS 14</string>
+    <string name="type_frame">Тип корпуса</string>
+    <string name="classic">классический</string>
+    <string name="housing_material">Материал корпуса</string>
+    <string name="steel">сталь</string>
+    <string name="design">Конструкция</string>
+    <string name="moisture_protection">Влагозащита</string>
+    <string name="degree_of_protection">Степень защиты</string>
+    <string name="ip68">IP68</string>
+    <string name="general_char">Общие характеристики</string>
+    <string name="promotional_goods">Акционные товары</string>
+    <string name="watching_with_this_product">С этим товаром смотрят</string>
+    <string name="find_by_query">По запросу “Iphone” найдено 347 результатов</string>
+    <string name="favorite">Избранное</string>
+
+    <!-- InstallmentHistory -->
+    <string name="installment">Рассрочки</string>
+    <string name="orders">Заказы</string>
+    <string name="approved">Одобрено</string>
+    <string name="date_installment">Февраль 17, 2022</string>
+    <string name="history_installment">История рассрочек</string>
+    <string name="default_number_installment">Рассрочка #347</string>
+    <string name="you_nothing_order">Вы пока ничего\nне заказывали</string>
+    <string name="sort">Сортировка</string>
+    <string name="contract_pdf">ДОГОВОР.PDF</string>
+    <string name="order_price">Сумма заказа</string>
+    <string name="cost">Стоимость</string>
+    <string name="delivery">Доставка</string>
+    <string name="full_payment">Всего к оплате</string>
+    <string name="duration">Длительность</string>
+    <string name="per_month">В месяц</string>
+    <string name="contract">Договор</string>
+    <string name="payment">Оплата</string>
+    <string name="payment_history">История оплаты</string>
+    <string name="pay">Оплатить</string>
+    <string name="number">№</string>
+    <string name="change_phone_number">Смена телефона</string>
+    <string name="current_number">Текущий номер</string>
+    <string name="new_number">Новый номер</string>
+    <string name="go_to_profile">ПЕРЕЙТИ В ПРОФИЛЬ</string>
+    <string name="successful_number_change">Успешная смена\nномера!</string>
+    <string name="installment_345">Рассрочка #345</string>
+    <string name="prepayment">Предоплата</string>
+    <string name="amount_money">4 500 000</string>
+    <string name="choice_type_payment">Выберите тип оплаты</string>
+    <string name="your_name">Ваше имя</string>
+    <string name="pickup">Самовывоз</string>
+    <string name="type_delivery">Тип доставки</string>
+    <string name="address_delivery">Адрес доставки</string>
+    <string name="conatct_info">Контактная информация</string>
+    <string name="factual_address">Фактический адрес</string>
+    <string name="order_in_processing">Заказ в обработке</string>
+    <string name="go_to_ordering_page">НА СТРАНИЦУ ЗАКАЗОВ</string>
+    <string name="checkout">Оформление заказа</string>
+    <string name="branch_selection">Выбор филиала</string>
+    <string name="filter">Фильтр</string>
+    <string name="filter_tashkent">Фильтр по “Ташкентской области”</string>
+    <string name="choose">ВЫБРАТЬ</string>
+    <string name="notification">Уведомления</string>
+    <string name="reject">Отклонить</string>
+    <string name="view">Просмотреть</string>
+
+
+    <string name="save">Сохранить</string>
+    <string name="no">Нет</string>
+    <string name="yes">Да</string>
+    <string name="six">6</string>
+
+    <string name="clean_basket">Очистить корзину</string>
+    <string name="full_details">Все характеристики</string>
+    <string name="phones_and_smartphones">Телефоны и смартфоны</string>
+    <string name="products">Товары</string>
+    <string name="logout_from_account">Выйти с аккаунта</string>
+    <string name="history_order">История заказов</string>
+    <string name="language">Язык</string>
+    <string name="profile">Профиль</string>
+    <string name="garant_admin">\@GARANT_ADMIN</string>
+    <string name="month_payment">Ежемясячный платеж</string>
+    <string name="amount_products">Кол-во товаров</string>
+
+</resources>

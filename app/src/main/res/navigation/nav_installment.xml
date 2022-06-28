@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_installment"
+    app:startDestination="@id/installmentCreationPage">
+
+    <fragment
+        android:id="@+id/paymentPassedPage"
+        android:name="com.app.garant.presenter.screens.installment.PaymentPassedPage"
+        android:label="page_payment_passed"
+        tools:layout="@layout/page_payment_passed" >
+        <action
+            android:id="@+id/action_paymentPassedPage_to_nav_doc2"
+            app:destination="@id/nav_doc" />
+        <action
+            android:id="@+id/action_paymentPassedPage_to_mainPage2"
+            app:destination="@id/mainPage2" />
+    </fragment>
+    <fragment
+        android:id="@+id/installmentCreationPage"
+        android:name="com.app.garant.presenter.screens.installment.InstallmentCreationPage"
+        android:label="page_installment_creation"
+        tools:layout="@layout/page_installment_creation" >
+        <action
+            android:id="@+id/action_installmentCreationPage_to_installmentDeliveryPage"
+            app:destination="@id/installmentDeliveryPage" />
+    </fragment>
+    <fragment
+        android:id="@+id/installmentDeliveryPage"
+        android:name="com.app.garant.presenter.screens.installment.InstallmentDeliveryPage"
+        android:label="page_installment_delivery"
+        tools:layout="@layout/page_installment_delivery" >
+        <action
+            android:id="@+id/action_installmentDeliveryPage_to_installmentPayPage"
+            app:destination="@id/installmentPayPage" />
+        <action
+            android:id="@+id/action_installmentDeliveryPage_to_branchSelectionPage2"
+            app:destination="@id/branchSelectionPage2" />
+    </fragment>
+    <fragment
+        android:id="@+id/installmentPayPage"
+        android:name="com.app.garant.presenter.screens.installment.InstallmentPayPage"
+        android:label="page_installment_pay"
+        tools:layout="@layout/page_installment_pay" >
+        <action
+            android:id="@+id/action_installmentPayPage_to_paymentPassedPage"
+            app:destination="@id/paymentPassedPage" />
+    </fragment>
+    <fragment
+        android:id="@+id/branchSelectionPage2"
+        android:name="com.app.garant.presenter.screens.installment.BranchSelectionPage"
+        android:label="page_branch_selection"
+        tools:layout="@layout/screen_branch_selection" />
+    <include app:graph="@navigation/nav_doc" />
+    <fragment
+        android:id="@+id/mainPage2"
+        android:name="com.app.garant.presenter.screens.main.MainScreen"
+        android:label="page_main"
+        tools:layout="@layout/screen_main" />
+</navigation>

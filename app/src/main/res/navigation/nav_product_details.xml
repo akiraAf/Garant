@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_product_details"
+    app:startDestination="@id/productDetailsPage3">
+
+    <fragment
+        android:id="@+id/productDetailsPage3"
+        android:name="com.app.garant.presenter.screens.catalog.ProductDetailsScreen"
+        android:label="page_product_details"
+        tools:layout="@layout/screen_product_details" >
+        <action
+            android:id="@+id/action_productDetailsPage3_to_fullDetails3"
+            app:destination="@id/fullDetails3" />
+        <action
+            android:id="@+id/action_productDetailsPage3_self"
+            app:destination="@id/productDetailsPage3" />
+        <action
+            android:id="@+id/action_productDetailsPage3_to_nav_installment"
+            app:destination="@id/nav_installment" />
+        <action
+            android:id="@+id/action_productDetailsPage3_self2"
+            app:destination="@id/productDetailsPage3" />
+        <action
+            android:id="@+id/action_productDetailsPage3_to_nav_ordering"
+            app:destination="@id/nav_ordering" />
+    </fragment>
+    <fragment
+        android:id="@+id/fullDetails3"
+        android:name="com.app.garant.presenter.screens.catalog.FullDetailsScreen"
+        android:label="paget_full_details"
+        tools:layout="@layout/screen_full_details" />
+    <include app:graph="@navigation/nav_installment" />
+    <include app:graph="@navigation/nav_ordering" />
+</navigation>

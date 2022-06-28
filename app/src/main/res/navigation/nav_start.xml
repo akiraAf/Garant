@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/languageScreen">
+
+    <fragment
+        android:id="@+id/languageScreen"
+        android:name="com.app.garant.presenter.screens.auth.LanguageScreen"
+        android:label="screen_language"
+        tools:layout="@layout/screen_language">
+        <action
+            android:id="@+id/action_languageScreen_to_authorizationScreen"
+            app:destination="@id/authorizationScreen"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@android:anim/fade_in"
+            app:popExitAnim="@android:anim/fade_out" />
+    </fragment>
+    <fragment
+        android:id="@+id/authorizationScreen"
+        android:name="com.app.garant.presenter.screens.auth.AuthorizationScreen"
+        android:label="screen_authorization"
+        tools:layout="@layout/screen_authorization">
+        <action
+            android:id="@+id/action_authorizationScreen_to_verificationScreen"
+            app:destination="@id/verificationScreen"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@android:anim/fade_in"
+            app:popExitAnim="@android:anim/fade_out" />
+    </fragment>
+    <fragment
+        android:id="@+id/verificationScreen"
+        android:name="com.app.garant.presenter.screens.auth.VerificationScreen"
+        android:label="page_verification"
+        tools:layout="@layout/screen_verification">
+        <action
+            android:id="@+id/action_verificationScreen_to_navigationScreen"
+            app:destination="@id/navigationScreen" />
+    </fragment>
+    <fragment
+        android:id="@+id/navigationScreen"
+        android:name="com.app.garant.presenter.screens.NavigationScreen"
+        android:label="NavigationScreen" />
+</navigation>

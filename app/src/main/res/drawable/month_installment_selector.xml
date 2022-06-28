@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_single="true"
+        android:drawable="@drawable/red_bg"/>
+
+    <item
+        android:drawable="@drawable/stoke_bg"/>
+
+</selector>

@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/default_color">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="20dp">
+
+        <LinearLayout
+            android:id="@+id/tg_link"
+            android:visibility="gone"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:layout_marginVertical="30dp"
+            app:layout_constraintBottom_toTopOf="@id/ad_img"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:id="@+id/telegram_ic"
+                android:layout_width="28dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:padding="18dp"
+                android:visibility="visible"
+                android:src="@drawable/ic_telegram" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_weight="0.6"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:textColor="@color/default_black"
+                android:layout_gravity="center"
+                android:text="Telegram: "/>
+
+            <TextView
+                android:id="@+id/link"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="14sp"
+                android:textColor="#00A2FF"
+                android:paddingVertical="10dp"
+                android:layout_gravity="center"
+                android:text="@string/garant_admin"/>
+
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/close"
+                android:layout_width="24dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:padding="18dp"
+                android:visibility="visible"
+                android:src="@drawable/ic_close" />
+
+        </LinearLayout>
+        <ImageView
+            android:id="@+id/logo_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="15dp"
+            android:src="@drawable/red_logo"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/bell"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="?android:selectableItemBackground"
+            android:paddingVertical="15dp"
+            android:paddingHorizontal="10dp"
+            android:src="@drawable/ic_bell"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.SearchView
+            android:id="@+id/search"
+            android:layout_width="wrap_content"
+            android:layout_height="60dp"
+            app:searchIcon="@drawable/ic_search"
+            android:paddingVertical="6dp"
+            android:paddingHorizontal="0dp"
+            android:background="?android:selectableItemBackground"
+            app:commitIcon="@drawable/white_bg"
+            app:queryBackground="@drawable/white_bg"
+            android:src="@drawable/ic_search"
+            app:layout_constraintRight_toLeftOf="@id/bell"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+
+
+        <ImageView
+            android:id="@+id/telegram"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingVertical="18dp"
+            android:paddingHorizontal="10dp"
+            android:background="?android:selectableItemBackground"
+            android:src="@drawable/ic_telegram"
+            app:layout_constraintRight_toLeftOf="@id/search"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/count_notification"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:background="@drawable/red_bg"
+            android:paddingHorizontal="5dp"
+            android:text="@string/six"
+            android:textColor="@color/white"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/ad_img"
+            android:layout_width="370dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="15dp"
+            app:cardCornerRadius="10dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/logo_image">
+
+            <androidx.viewpager2.widget.ViewPager2
+                android:id="@+id/sales_pager"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/red_bg" />
+        </androidx.cardview.widget.CardView>
+
+
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tabLayout"
+            android:layout_width="0dp"
+            style="@style/CustomTabLayout"
+            android:layout_height="40dp"
+            android:layout_marginHorizontal="10dp"
+            android:background="?android:selectableItemBackground"
+            android:layout_marginVertical="25sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/ad_img"
+            app:tabBackground="@drawable/tablayout_selector"
+            app:tabRippleColor="@null"
+            app:tabIndicatorAnimationMode="elastic"
+            app:tabIndicatorHeight="0dp"
+            app:tabMinWidth="50dp"
+            app:tabSelectedTextColor="@color/white"
+            app:tabTextColor="@color/default_black"
+            tools:ignore="SpeakableTextPresentCheck" />
+
+        <TextView
+            android:id="@+id/new_products"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="30sp"
+            android:text="@string/new_products"
+            android:textColor="@color/default_black"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tabLayout" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="15dp"
+            android:text="@string/all_products"
+            android:textColor="@color/default_red"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toBottomOf="@id/new_products"
+            app:layout_constraintRight_toRightOf="parent" />
+
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/products_pager"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginVertical="15dp"
+            android:layout_marginStart="5dp"
+            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/new_products" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.core.widget.NestedScrollView>

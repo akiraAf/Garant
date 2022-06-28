@@ -1,0 +1,492 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/account_page_color"
+    tools:context=".presenter.screens.profile.AccountScreen">
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/header"
+        android:layout_marginTop="15sp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/account_textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/account"
+            android:textColor="@color/default_black"
+            android:layout_marginTop="20dp"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="25dp"
+            android:layout_marginTop="15dp"
+            android:src="@drawable/ic_back_grey"
+            app:layout_constraintBottom_toBottomOf="@+id/account_textView"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/passport_data"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:paddingTop="20dp"
+            android:paddingBottom="20dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/header">
+
+            <!--            Блок 1            -->
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/border1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="40dp"
+                android:background="@drawable/button_next_bg"
+                app:layout_constraintBottom_toTopOf="@id/border2"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/passport_data">
+
+                <TextView
+                    android:id="@+id/passport_textView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="20dp"
+                    android:text="@string/passport_data"
+                    android:textColor="@color/default_black"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="@id/border1"
+                    app:layout_constraintTop_toTopOf="@+id/border1" />
+
+                <TextView
+                    android:id="@+id/scan_passport_textView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="20dp"
+                    android:text="@string/scan_passport"
+                    android:textColor="@color/default_black"
+                    android:textSize="14sp"
+                    app:layout_constraintStart_toStartOf="@id/border1"
+                    app:layout_constraintTop_toBottomOf="@+id/passport_textView" />
+
+                <TextView
+                    android:id="@+id/expectation_passport_textView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="5dp"
+                    android:text="@string/awaiting_confirmation"
+                    android:textColor="@color/waiting_color"
+                    android:textSize="14sp"
+                    app:layout_constraintStart_toStartOf="@id/border1"
+                    app:layout_constraintTop_toBottomOf="@+id/scan_passport_textView" />
+
+
+                <Button
+                    android:id="@+id/upload_passport_btn"
+                    android:layout_width="match_parent"
+                    android:layout_height="?actionBarSize"
+                    android:layout_marginHorizontal="20dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/greyish_bg"
+                    android:text="@string/upload"
+                    android:textColor="@color/white"
+                    android:textSize="14sp"
+                    app:layout_constraintEnd_toEndOf="@id/border1"
+                    app:layout_constraintStart_toStartOf="@id/border1"
+                    app:layout_constraintTop_toBottomOf="@+id/expectation_passport_textView" />
+
+
+                <TextView
+                    android:id="@+id/phone_registration_textView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="20dp"
+                    android:text="@string/registration_photo"
+                    android:textColor="@color/default_black"
+                    android:textSize="14sp"
+                    app:layout_constraintStart_toStartOf="@id/border1"
+                    app:layout_constraintTop_toBottomOf="@+id/upload_passport_btn" />
+
+                <TextView
+                    android:id="@+id/expectation_registration_textView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="5dp"
+                    android:text="@string/confirmed"
+                    android:textColor="@color/confirmation_color"
+                    android:textSize="14sp"
+                    app:layout_constraintStart_toStartOf="@id/border1"
+                    app:layout_constraintTop_toBottomOf="@+id/phone_registration_textView" />
+
+
+                <Button
+                    android:id="@+id/upload_registration_btn"
+                    android:layout_width="match_parent"
+                    android:layout_height="?actionBarSize"
+                    android:layout_marginHorizontal="20dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/greyish_bg"
+                    android:text="@string/upload"
+                    android:textColor="@color/white"
+                    android:textSize="14sp"
+                    app:layout_constraintEnd_toEndOf="@id/border1"
+                    app:layout_constraintStart_toStartOf="@id/border1"
+                    app:layout_constraintTop_toBottomOf="@+id/expectation_registration_textView" />
+
+                <TextView
+                    android:id="@+id/selfie_passport_textView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="20dp"
+                    android:text="@string/selfie_passport"
+                    android:textColor="@color/default_black"
+                    android:textSize="14sp"
+                    app:layout_constraintStart_toStartOf="@id/border1"
+                    app:layout_constraintTop_toBottomOf="@+id/upload_registration_btn" />
+
+                <TextView
+                    android:id="@+id/expectation_selfie_passport_textView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="5dp"
+                    android:text="@string/not_uploaded"
+                    android:textColor="@color/not_confirmation_color"
+                    android:textSize="14sp"
+                    app:layout_constraintStart_toStartOf="@id/border1"
+                    app:layout_constraintTop_toBottomOf="@+id/selfie_passport_textView" />
+
+
+                <Button
+                    android:id="@+id/selfie_passport_btn"
+                    android:layout_width="match_parent"
+                    android:layout_height="?actionBarSize"
+                    android:layout_marginHorizontal="20dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/greyish_bg"
+                    android:text="@string/upload"
+                    android:textColor="@color/white"
+                    android:textSize="14sp"
+                    app:layout_constraintEnd_toEndOf="@id/border1"
+                    app:layout_constraintStart_toStartOf="@id/border1"
+                    app:layout_constraintTop_toBottomOf="@+id/expectation_selfie_passport_textView" />
+
+
+                <ImageView
+                    android:id="@+id/selfie_passport_example"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="45dp"
+                    android:padding="10dp"
+                    android:contentDescription="@string/selfie_passport"
+                    android:src="@drawable/passport_example"
+                    app:layout_constraintBottom_toBottomOf="@id/border1"
+                    app:layout_constraintEnd_toEndOf="@id/border1"
+                    app:layout_constraintStart_toStartOf="@id/border1"
+                    app:layout_constraintTop_toBottomOf="@id/selfie_passport_btn" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <!--            Блок 2            -->
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/border2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="10dp"
+                android:background="@drawable/button_next_bg"
+                android:paddingBottom="20dp"
+                app:layout_constraintBottom_toTopOf="@id/border3"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/border1">
+
+                <TextView
+                    android:id="@+id/contact_info_textView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="20dp"
+                    android:gravity="center"
+                    android:text="@string/contact_info"
+                    android:textColor="@color/default_black"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="@id/border2"
+                    app:layout_constraintTop_toTopOf="@+id/border2" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/input_phone_number"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:layout_marginHorizontal="20dp"
+                    android:layout_marginVertical="20dp"
+                    android:background="@drawable/grey_bg"
+                    app:layout_constraintBottom_toTopOf="@id/input_extra_phone_number"
+                    app:layout_constraintEnd_toEndOf="@id/border2"
+                    app:layout_constraintStart_toStartOf="@id/border2"
+                    app:layout_constraintTop_toBottomOf="@+id/contact_info_textView">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:layout_margin="10dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/grey_bg"
+                        android:hint="@string/telephone_number"
+                        android:textColorHint="@color/btn_hint_color" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/input_extra_phone_number"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:background="@drawable/grey_bg"
+                    android:layout_marginHorizontal="20dp"
+                    android:layout_marginBottom="5dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/input_phone_number">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_margin="10dp"
+                        android:background="@drawable/grey_bg"
+                        android:hint="@string/extra_phone_number"
+                        android:textColorHint="@color/btn_hint_color" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <!--            Блок 3            -->
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/border3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                android:background="@drawable/button_next_bg"
+                android:paddingBottom="20dp"
+                app:layout_constraintBottom_toTopOf="@id/border4"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/border2">
+
+
+                <TextView
+                    android:id="@+id/actual_address"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="20dp"
+                    android:text="@string/actual_address"
+                    android:textColor="@color/default_black"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="@id/border3"
+                    app:layout_constraintTop_toTopOf="@+id/border3" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/input_region"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:layout_marginHorizontal="20dp"
+                    android:layout_marginVertical="20dp"
+                    android:background="@drawable/grey_bg"
+                    app:layout_constraintEnd_toEndOf="@id/border3"
+                    app:layout_constraintStart_toStartOf="@id/border3"
+                    app:layout_constraintTop_toBottomOf="@+id/actual_address">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_margin="10dp"
+                        android:background="@drawable/grey_bg"
+                        android:hint="@string/region"
+                        android:textColorHint="@color/btn_hint_color" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/input_city"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:layout_marginHorizontal="20dp"
+                    android:layout_marginVertical="20dp"
+                    android:background="@drawable/grey_bg"
+                    app:layout_constraintEnd_toEndOf="@id/border3"
+                    app:layout_constraintStart_toStartOf="@id/border3"
+                    app:layout_constraintTop_toBottomOf="@+id/input_region">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_margin="10dp"
+                        android:background="@drawable/grey_bg"
+                        android:hint="@string/city"
+                        android:textColorHint="@color/btn_hint_color" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/input_area"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:layout_marginHorizontal="20dp"
+                    android:layout_marginVertical="20dp"
+                    android:background="@drawable/grey_bg"
+                    app:layout_constraintEnd_toEndOf="@id/border3"
+                    app:layout_constraintStart_toStartOf="@id/border3"
+                    app:layout_constraintTop_toBottomOf="@+id/input_city">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_margin="10dp"
+                        android:background="@drawable/grey_bg"
+                        android:hint="@string/area"
+                        android:textColorHint="@color/btn_hint_color" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/input_address"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:layout_marginHorizontal="20dp"
+                    android:background="@drawable/grey_bg"
+                    android:layout_marginVertical="20dp"
+                    app:layout_constraintBottom_toBottomOf="@id/border3"
+                    app:layout_constraintEnd_toEndOf="@id/border3"
+                    app:layout_constraintStart_toStartOf="@id/border3"
+                    app:layout_constraintTop_toBottomOf="@+id/input_area">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_margin="10dp"
+                        android:background="@drawable/grey_bg"
+                        android:hint="@string/address"
+                        android:textColorHint="@color/btn_hint_color" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <!--            Блок 4            -->
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/border4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/button_next_bg"
+                android:paddingBottom="20dp"
+                app:layout_constraintBottom_toTopOf="@id/save"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/border3">
+
+                <TextView
+                    android:id="@+id/work_info_textView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="20dp"
+                    android:text="@string/work"
+                    android:textColor="@color/default_black"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="@id/border4"
+                    app:layout_constraintTop_toTopOf="@+id/border4" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/input_work_place"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:layout_marginHorizontal="20dp"
+                    android:background="@drawable/grey_bg"
+                    android:layout_marginVertical="20dp"
+                    app:layout_constraintBottom_toTopOf="@id/input_position_work"
+                    app:layout_constraintEnd_toEndOf="@id/border4"
+                    app:layout_constraintStart_toStartOf="@id/border4"
+                    app:layout_constraintTop_toBottomOf="@+id/work_info_textView">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_margin="10dp"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/grey_bg"
+                        android:hint="@string/work_place"
+                        android:textColorHint="@color/btn_hint_color" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/input_position_work"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:layout_marginHorizontal="20dp"
+                    app:layout_constraintBottom_toBottomOf="@id/border4"
+                    android:background="@drawable/grey_bg"
+                    app:layout_constraintEnd_toEndOf="@id/border4"
+                    app:layout_constraintStart_toStartOf="@id/border4"
+                    app:layout_constraintTop_toBottomOf="@+id/input_work_place">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_margin="10dp"
+                        android:background="@drawable/grey_bg"
+                        android:hint="@string/position_work"
+                        android:textColorHint="@color/btn_hint_color" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/save"
+                android:layout_width="0dp"
+                android:layout_height="?actionBarSize"
+                android:background="@drawable/red_bg"
+                android:text="@string/save"
+                android:layout_marginTop="10dp"
+                android:textColor="@color/white"
+                android:textSize="14sp"
+                app:iconGravity="textStart"
+                app:layout_constraintTop_toBottomOf="@id/border4"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.core.widget.NestedScrollView>

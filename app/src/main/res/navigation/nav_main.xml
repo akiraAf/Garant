@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_main"
+    app:startDestination="@id/mainPage">
+
+    <fragment
+        android:id="@+id/mainPage"
+        android:name="com.app.garant.presenter.screens.main.MainScreen"
+        android:label="page_main"
+        tools:layout="@layout/screen_main" >
+        <action
+            android:id="@+id/action_mainPage_to_notificationScreen"
+            app:destination="@id/notificationScreen" />
+        <action
+            android:id="@+id/action_mainPage_to_searchProductsPage"
+            app:destination="@id/searchProductsPage" />
+        <action
+            android:id="@+id/action_mainPage_to_nav_product_details"
+            app:destination="@id/nav_product_details" />
+    </fragment>
+    <fragment
+        android:id="@+id/notificationScreen"
+        android:name="com.app.garant.presenter.screens.notification.NotificationScreen"
+        android:label="screen_notification"
+        tools:layout="@layout/screen_notification" />
+    <fragment
+        android:id="@+id/searchProductsPage"
+        android:name="com.app.garant.presenter.screens.search.SearchProductsPage"
+        android:label="page_search_products"
+        tools:layout="@layout/screen_search_products" />
+    <include app:graph="@navigation/nav_product_details" />
+</navigation>

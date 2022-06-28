@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_checkout"
+    app:startDestination="@id/cartEmptyPage">
+
+    <fragment
+        android:id="@+id/cartEmptyPage"
+        android:name="com.app.garant.presenter.screens.basket.BasketEmptyScreen"
+        android:label="page_cart_empty"
+        tools:layout="@layout/screen_basket_empty" >
+        <action
+            android:id="@+id/action_cartEmptyPage_to_basketPage"
+            app:destination="@id/basketPage" />
+    </fragment>
+    <fragment
+        android:id="@+id/basketPage"
+        android:name="com.app.garant.presenter.screens.basket.BasketScreen"
+        android:label="page_basket"
+        tools:layout="@layout/screen_basket" >
+        <action
+            android:id="@+id/action_basketPage_to_nav_ordering"
+            app:destination="@id/nav_ordering" />
+        <action
+            android:id="@+id/action_basketPage_to_checkBasketPage"
+            app:destination="@id/checkBasketPage" />
+    </fragment>
+    <include app:graph="@navigation/nav_installment" />
+    <include app:graph="@navigation/nav_ordering" />
+    <fragment
+        android:id="@+id/checkBasketPage"
+        android:name="com.app.garant.presenter.screens.basket.CheckBasketScreen"
+        android:label="page_basket_check"
+        tools:layout="@layout/screen_basket_check" >
+        <action
+            android:id="@+id/action_checkBasketPage_to_nav_installment"
+            app:destination="@id/nav_installment" />
+    </fragment>
+</navigation>

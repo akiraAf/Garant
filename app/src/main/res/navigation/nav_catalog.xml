@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_catalog"
+    app:startDestination="@id/catalogPage">
+
+    <fragment
+        android:id="@+id/catalogPage"
+        android:name="com.app.garant.presenter.screens.catalog.CategoryScreen"
+        android:label="page_catalog"
+        tools:layout="@layout/screen_category" >
+        <action
+            android:id="@+id/action_catalogPage_to_favoritesPage2"
+            app:destination="@id/favoritesPage2" />
+        <action
+            android:id="@+id/action_catalogPage_to_subcategoryPage"
+            app:destination="@id/subcategoryPage" />
+    </fragment>
+    <fragment
+        android:id="@+id/favoritesPage2"
+        android:name="com.app.garant.presenter.screens.favorites.FavoritesScreen"
+        android:label="page_favorites"
+        tools:layout="@layout/screen_favorites" />
+    <fragment
+        android:id="@+id/subcategoryPage"
+        android:name="com.app.garant.presenter.screens.catalog.SubcategoryScreen"
+        android:label="page_subcategory"
+        tools:layout="@layout/screen_subcategory" >
+        <action
+            android:id="@+id/action_subcategoryPage_to_productsPage"
+            app:destination="@id/productsPage" />
+        <action
+            android:id="@+id/action_subcategoryPage_to_emptyFavoritePage"
+            app:destination="@id/emptyFavoritePage" />
+    </fragment>
+    <fragment
+        android:id="@+id/productsPage"
+        android:name="com.app.garant.presenter.screens.catalog.ProductsScreen"
+        android:label="page_products"
+        tools:layout="@layout/screen_products" >
+        <action
+            android:id="@+id/action_productsPage_to_nav_product_details"
+            app:destination="@id/nav_product_details" />
+        <action
+            android:id="@+id/action_productsPage_to_emptyFavoritePage"
+            app:destination="@id/emptyFavoritePage" />
+    </fragment>
+    <include app:graph="@navigation/nav_product_details" />
+    <fragment
+        android:id="@+id/emptyFavoritePage"
+        android:name="com.app.garant.presenter.screens.favorites.EmptyFavoriteScreen"
+        android:label="EmptyFavoritePage" >
+        <action
+            android:id="@+id/action_emptyFavoritePage_to_catalogPage"
+            app:destination="@id/catalogPage" />
+    </fragment>
+</navigation>

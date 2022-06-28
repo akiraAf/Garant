@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_doc"
+    app:startDestination="@id/installmentHistoryScreen2">
+
+    <fragment
+        android:id="@+id/installmentHistoryScreen2"
+        android:name="com.app.garant.presenter.screens.installment.InstallmentHistoryScreen"
+        android:label="screen_installment_history"
+        tools:layout="@layout/screen_installment_history" >
+        <action
+            android:id="@+id/action_installmentHistoryScreen2_to_installmentPage"
+            app:destination="@id/installmentPage" />
+        <action
+            android:id="@+id/action_installmentHistoryScreen2_to_orderPage"
+            app:destination="@id/orderPage" />
+    </fragment>
+    <fragment
+        android:id="@+id/installmentHistoryPaymentPage"
+        android:name="com.app.garant.presenter.screens.installment.InstallmentHistoryPaymentPage"
+        android:label="page_installment_history_payment"
+        tools:layout="@layout/page_installment_history_payment" />
+    <fragment
+        android:id="@+id/installmentContractPage"
+        android:name="com.app.garant.presenter.screens.installment.InstallmentContractPage"
+        android:label="page_installment_contract"
+        tools:layout="@layout/page_installment_contract" >
+        <action
+            android:id="@+id/action_installmentContractPage_to_installmentPaymentPage2"
+            app:destination="@id/installmentPaymentPage" />
+    </fragment>
+    <fragment
+        android:id="@+id/installmentPaymentPage"
+        android:name="com.app.garant.presenter.screens.installment.InstallmentPaymentPage"
+        android:label="page_installment_payment"
+        tools:layout="@layout/page_installment_payment" >
+        <action
+            android:id="@+id/action_installmentPaymentPage_to_installmentHistoryPaymentPage"
+            app:destination="@id/installmentHistoryPaymentPage" />
+    </fragment>
+    <fragment
+        android:id="@+id/installmentSentModerationPage"
+        android:name="com.app.garant.presenter.screens.installment.InstallmentSentModerationPage"
+        android:label="page_installment_sent_moderation"
+        tools:layout="@layout/page_installment_sent_moderation" >
+        <action
+            android:id="@+id/action_installmentSentModerationPage_to_installmentHistoryScreen2"
+            app:destination="@id/installmentHistoryScreen2" />
+    </fragment>
+    <fragment
+        android:id="@+id/installmentPage"
+        android:name="com.app.garant.presenter.screens.installment.InstallmentPage"
+        android:label="screen_installment"
+        tools:layout="@layout/page_installment" >
+        <action
+            android:id="@+id/action_installmentPage_to_installmentContractPage"
+            app:destination="@id/installmentContractPage" />
+    </fragment>
+    <fragment
+        android:id="@+id/orderPage"
+        android:name="com.app.garant.presenter.screens.installment.OrderPage"
+        android:label="page_order"
+        tools:layout="@layout/page_order" />
+</navigation>
