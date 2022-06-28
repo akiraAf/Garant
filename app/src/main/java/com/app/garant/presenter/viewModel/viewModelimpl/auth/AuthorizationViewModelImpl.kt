@@ -25,11 +25,9 @@ class AuthorizationViewModelImpl @Inject constructor(private val authRepository:
     override val progressFlow= eventValueFlow<Boolean>()
 
     override fun login(request: LoginRequest) {
-        if (isConnected()) {
-
+        if (!isConnected()) {
             return
         }
-
         authRepository.login(request).onEach {
             it.onSuccess {
                 progressFlow.emit(false)
