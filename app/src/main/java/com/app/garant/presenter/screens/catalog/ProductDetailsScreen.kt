@@ -74,7 +74,7 @@ class ProductDetailsScreen : Fragment(R.layout.screen_product_details) {
     private val pagerChangePos = object : ViewPager2.OnPageChangeCallback() {
         override fun onPageSelected(position: Int) {
             super.onPageSelected(position)
-            bind.indicators.selection = position
+//            bind.indicators.selection = position
         }
     }
 

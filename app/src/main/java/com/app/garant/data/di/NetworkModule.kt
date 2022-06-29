@@ -2,6 +2,8 @@ package com.app.garant.data.di
 
 import android.content.Context
 import com.app.garant.data.pref.MyPref
+import com.app.garant.utils.addHeaderInterceptor
+import com.app.garant.utils.addLoggingInterceptor
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -10,8 +12,6 @@ import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import com.app.garant.utils.addHeaderInterceptor
-import com.app.garant.utils.addLoggingInterceptor
 import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
