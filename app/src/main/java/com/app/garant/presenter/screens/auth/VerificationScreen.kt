@@ -11,6 +11,7 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import com.app.garant.R
 import com.app.garant.databinding.ScreenVerificationBinding
 import com.app.garant.utils.hideKeyboard
+import com.app.garant.utils.showToast
 import dagger.hilt.android.AndroidEntryPoint
 
 
@@ -22,6 +23,10 @@ class VerificationScreen() : Fragment(R.layout.screen_verification) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        arguments?.let {
+            var value = it.getString("phone") as String
+            showToast(value)
+        }
         changeFocus()
         navigation()
 
@@ -31,7 +36,7 @@ class VerificationScreen() : Fragment(R.layout.screen_verification) {
     }
 
 
-    private fun navigation(){
+    private fun navigation() {
         bind.back.setOnClickListener {
             findNavController().popBackStack()
         }
@@ -41,23 +46,25 @@ class VerificationScreen() : Fragment(R.layout.screen_verification) {
         }
     }
 
-    private fun changeFocus(){
+    private fun changeFocus() {
         bind.inputOne.addTextChangedListener(textWatcher(bind.inputTwo))
         bind.inputTwo.addTextChangedListener(textWatcher(bind.inputThree))
         bind.inputThree.addTextChangedListener(textWatcher(bind.inputFour))
     }
 
-    private fun textWatcher(editText: EditText):TextWatcher {
+    private fun textWatcher(editText: EditText): TextWatcher {
         return object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
 
             }
+
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 if (count == 1) {
                     editText.requestFocus()
                 }
 
             }
+
             override fun afterTextChanged(s: Editable?) {
             }
         }

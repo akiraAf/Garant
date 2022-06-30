@@ -15,17 +15,16 @@ import javax.inject.Inject
 class AuthRepositoryImpl @Inject constructor(private val api: AuthApi, private val pref: MyPref) :
     AuthRepository {
 
-
-    override fun login(loginRequest: LoginRequest): Flow<Result<LoginResponse>> =
-        flow {
-            val response = api.login(loginRequest)
-            if (response.isSuccessful) {
-                emit(Result.success(response.body()!!))
-            } else {
-                emit(Result.failure(Throwable(response.message())))
-            }
-        }.catch {
-
-            emit(Result.failure(Throwable(it.message)))
-        }.flowOn(Dispatchers.IO)
+    override fun login(loginRequest: LoginRequest): Flow<Result<LoginResponse>> = flow {
+        val responce = api.login(loginRequest)
+        if (responce.isSuccessful) {
+            emit(Result.success<LoginResponse>(responce.body()!!))
+        } else {
+            emit(Result.failure(Throwable(responce.errorBody().toString())))
+        }
+    }.catch {
+//        val errorMessage = Throwable("Sever bilan muammo bo'ldi")
+        val errorMessage = Throwable(it.message)
+        emit(Result.failure(errorMessage))
+    }.flowOn(Dispatchers.IO)
 }
