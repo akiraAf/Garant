@@ -14,8 +14,8 @@ android {
 
     defaultConfig {
         applicationId "com.app.garant"
-        minSdk 26
-        targetSdk 31
+        minSdk 21
+        targetSdk 30
         versionCode 1
         versionName "1.0"
 
