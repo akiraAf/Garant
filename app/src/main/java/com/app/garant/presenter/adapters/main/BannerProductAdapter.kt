@@ -1,4 +1,4 @@
-package com.app.garant.presenter.adapters
+package com.app.garant.presenter.adapters.main
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment

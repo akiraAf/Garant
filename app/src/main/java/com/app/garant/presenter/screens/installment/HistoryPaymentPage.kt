@@ -6,7 +6,7 @@ import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.app.garant.R
-import com.app.garant.presenter.adapters.HistoryPaymentAdapter
+import com.app.garant.presenter.adapters.installment.HistoryPaymentAdapter
 import com.app.garant.databinding.PageHistotyPaymentBinding
 import com.app.garant.models.PaymentInfo
 import dagger.hilt.android.AndroidEntryPoint

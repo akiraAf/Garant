@@ -25,9 +25,6 @@ class AuthorizationViewModelImpl @Inject constructor(private val authRepository:
 
     override fun login(request: LoginRequest) {
         if (!isConnected()) {
-            viewModelScope.launch {
-                errorFlow.emit("Internet bilan muammo bo'ldi")
-            }
             return
         }
         viewModelScope.launch {

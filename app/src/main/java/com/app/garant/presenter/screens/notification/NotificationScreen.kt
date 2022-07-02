@@ -7,7 +7,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.app.garant.R
-import com.app.garant.presenter.adapters.NotificationAdapter
+import com.app.garant.presenter.adapters.notification.NotificationAdapter
 import com.app.garant.databinding.ScreenNotificationBinding
 import dagger.hilt.android.AndroidEntryPoint
 

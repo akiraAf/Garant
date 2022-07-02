@@ -24,6 +24,9 @@
         <action
             android:id="@+id/action_profileScreen_to_installmentHistoryScreen"
             app:destination="@id/installmentHistoryScreen" />
+        <action
+            android:id="@+id/action_profileScreen_to_nav_graph"
+            app:destination="@id/nav_graph" />
     </fragment>
     <fragment
         android:id="@+id/accountPage"
@@ -36,7 +39,7 @@
     </fragment>
     <fragment
         android:id="@+id/changePhoneNumberPage"
-        android:name="com.app.garant.presenter.screens.profile.ChangePhoneNumberScreen"
+        android:name="com.app.garant.presenter.screens.profile.ChangePhoneScreen"
         android:label="page_change_phone_number"
         tools:layout="@layout/screen_change_number" >
         <action
@@ -54,7 +57,7 @@
     </fragment>
     <fragment
         android:id="@+id/receiveConfirmationCodePage2"
-        android:name="com.app.garant.presenter.screens.profile.ReceiveConfirmationCodeScreen"
+        android:name="com.app.garant.presenter.screens.profile.UpdatePhoneScreen"
         android:label="page_receive_confirmation_code"
         tools:layout="@layout/screen_receive_confirmation_code" >
         <action
@@ -81,4 +84,5 @@
         android:label="screen_installment_history"
         tools:layout="@layout/screen_installment_history" />
     <include app:graph="@navigation/nav_product_details" />
+    <include app:graph="@navigation/nav_start" />
 </navigation>

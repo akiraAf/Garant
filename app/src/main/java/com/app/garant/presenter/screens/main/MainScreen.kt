@@ -8,8 +8,9 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.app.garant.R
-import com.app.garant.presenter.adapters.*
 import com.app.garant.databinding.ScreenMainBinding
+import com.app.garant.presenter.adapters.main.BannerSalesAdapter
+import com.app.garant.presenter.adapters.main.ProductPagerAdapter
 import com.app.garant.utils.hideKeyboard
 import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint

@@ -7,7 +7,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.app.garant.R
-import com.app.garant.presenter.adapters.InstallmentAdapter
+import com.app.garant.presenter.adapters.installment.InstallmentAdapter
 import com.app.garant.databinding.ItemRecyclerBinding
 import com.app.garant.models.InstallmentHistoryData
 import dagger.hilt.android.AndroidEntryPoint

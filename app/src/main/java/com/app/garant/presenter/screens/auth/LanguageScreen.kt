@@ -19,16 +19,16 @@ class LanguageScreen : Fragment(R.layout.screen_language) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        bind.russianLanguageBg.setOnClickListener{
+        bind.russianLanguageBg.setOnClickListener {
             openAuth()
         }
 
-        bind.uzbekLanguageBg.setOnClickListener{
+        bind.uzbekLanguageBg.setOnClickListener {
             openAuth()
         }
     }
 
-    fun openAuth(){
+    fun openAuth() {
         findNavController().navigate(R.id.action_languageScreen_to_authorizationScreen)
     }
 

@@ -13,6 +13,7 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 
+
 class BranchSelectionPage : Fragment(R.layout.screen_branch_selection) {
     private val bind by viewBinding(ScreenBranchSelectionBinding::bind)
 

@@ -9,8 +9,8 @@ import com.app.garant.R
 import com.app.garant.databinding.ScreenAccountBinding
 import dagger.hilt.android.AndroidEntryPoint
 
-@AndroidEntryPoint
 
+@AndroidEntryPoint
 class AccountScreen : Fragment(R.layout.screen_account) {
 
     private val bind by viewBinding(ScreenAccountBinding::bind)

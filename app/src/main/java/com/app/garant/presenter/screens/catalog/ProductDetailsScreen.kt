@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import androidx.viewpager2.widget.ViewPager2
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.app.garant.R
-import com.app.garant.presenter.adapters.BannerProductAdapter
+import com.app.garant.presenter.adapters.main.BannerProductAdapter
 import com.app.garant.presenter.adapters.ProductsAdapter
 import com.app.garant.databinding.ScreenProductDetailsBinding
 import com.app.garant.models.ProductData

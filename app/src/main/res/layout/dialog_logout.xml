@@ -3,23 +3,24 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="343dp"
-    android:layout_height="218dp"
+    android:layout_height="188dp"
     android:layout_gravity="center"
-    tools:context=".presenter.dialogs.DialogLogout"
-    app:cardCornerRadius="10dp">
+    app:cardCornerRadius="10dp"
+    tools:context=".presenter.dialogs.DialogLogout">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="343dp"
-        android:layout_height="218dp"
+        android:layout_height="188dp"
         android:layout_gravity="center">
+
         <ImageView
             android:layout_width="match_parent"
-            android:layout_height="218dp"
+            android:layout_height="180dp"
             android:src="@drawable/white_bg"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"/>
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/textView"

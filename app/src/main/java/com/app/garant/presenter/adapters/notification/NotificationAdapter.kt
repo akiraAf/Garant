@@ -1,4 +1,4 @@
-package com.app.garant.presenter.adapters
+package com.app.garant.presenter.adapters.notification
 
 import android.view.LayoutInflater
 import android.view.View

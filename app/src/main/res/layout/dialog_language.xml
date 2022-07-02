@@ -1,20 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@drawable/white_bg"
+    android:layout_width="343dp"
+    android:layout_height="218dp"
+    android:layout_gravity="center"
+    app:cardCornerRadius="10dp"
     tools:context=".presenter.dialogs.DialogLanguage">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="380dp"
-        android:layout_height="200dp"
-        android:padding="10dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:layout_width="343dp"
+        android:layout_height="180dp"
+        android:layout_gravity="center">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="218dp"
+            android:src="@drawable/white_bg"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/language"
@@ -22,7 +28,7 @@
             android:layout_height="wrap_content"
             android:paddingVertical="20dp"
             android:paddingStart="15dp"
-            android:text="Язык"
+            android:text="@string/language"
             android:textColor="@color/default_black"
             android:textSize="18sp"
             app:layout_constraintStart_toStartOf="parent"
@@ -33,7 +39,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="15dp"
-            android:text="O’zbekcha"
+            android:text="@string/uzbek_language"
             android:textColor="@color/default_black"
             android:textSize="16sp"
             app:layout_constraintLeft_toLeftOf="parent"
@@ -44,7 +50,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="15dp"
-            android:text="Русский"
+            android:text="@string/russian_language"
             android:textColor="@color/default_black"
             android:textSize="16sp"
             app:layout_constraintLeft_toLeftOf="parent"
@@ -60,18 +66,23 @@
             app:layout_constraintTop_toBottomOf="@+id/language">
 
             <RadioButton
+                android:id="@+id/russian_radio"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="15dp"
                 android:button="@drawable/radio_selector" />
 
             <RadioButton
+                android:id="@+id/uzbek_radio"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="15dp"
-                android:button="@drawable/radio_selector" />
+                android:button="@drawable/radio_selector"
+                android:checked="true" />
         </RadioGroup>
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-</androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.cardview.widget.CardView>
+

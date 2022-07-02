@@ -6,7 +6,7 @@ import android.view.View
 import androidx.navigation.fragment.findNavController
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.app.garant.R
-import com.app.garant.presenter.adapters.InstallmentPagerAdapter
+import com.app.garant.presenter.adapters.installment.InstallmentPagerAdapter
 import com.app.garant.databinding.ScreenInstallmentHistoryBinding
 import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint

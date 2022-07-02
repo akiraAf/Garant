@@ -94,7 +94,7 @@
         <entry key="..\:/Users/Lenovo/AndroidStudioProjects/Garant/app/src/main/res/layout/dialog_clean_basket.xml" value="0.152" />
         <entry key="..\:/Users/Lenovo/AndroidStudioProjects/Garant/app/src/main/res/layout/dialog_delete_item_basket.xml" value="0.13508612873980055" />
         <entry key="..\:/Users/Lenovo/AndroidStudioProjects/Garant/app/src/main/res/layout/dialog_installment.xml" value="0.20863616930312098" />
-        <entry key="..\:/Users/Lenovo/AndroidStudioProjects/Garant/app/src/main/res/layout/dialog_language.xml" value="0.264" />
+        <entry key="..\:/Users/Lenovo/AndroidStudioProjects/Garant/app/src/main/res/layout/dialog_language.xml" value="0.176" />
         <entry key="..\:/Users/Lenovo/AndroidStudioProjects/Garant/app/src/main/res/layout/dialog_logout.xml" value="0.20778110303548525" />
         <entry key="..\:/Users/Lenovo/AndroidStudioProjects/Garant/app/src/main/res/layout/fragment_account.xml" value="0.2" />
         <entry key="..\:/Users/Lenovo/AndroidStudioProjects/Garant/app/src/main/res/layout/fragment_authorization.xml" value="0.264" />
@@ -168,6 +168,7 @@
         <entry key="..\:/Users/Lenovo/AndroidStudioProjects/Garant/app/src/main/res/layout/product_item.xml" value="0.4" />
         <entry key="..\:/Users/Lenovo/AndroidStudioProjects/Garant/app/src/main/res/layout/screen_authorization.xml" value="0.264" />
         <entry key="..\:/Users/Lenovo/AndroidStudioProjects/Garant/app/src/main/res/layout/screen_branch_selection.xml" value="0.20863616930312098" />
+        <entry key="..\:/Users/Lenovo/AndroidStudioProjects/Garant/app/src/main/res/layout/screen_change_number.xml" value="0.20863616930312098" />
         <entry key="..\:/Users/Lenovo/AndroidStudioProjects/Garant/app/src/main/res/layout/screen_delivery.xml" value="0.20863616930312098" />
         <entry key="..\:/Users/Lenovo/AndroidStudioProjects/Garant/app/src/main/res/layout/screen_installment.xml" value="0.2" />
         <entry key="..\:/Users/Lenovo/AndroidStudioProjects/Garant/app/src/main/res/layout/screen_installment_history.xml" value="0.20863616930312098" />
@@ -177,6 +178,7 @@
         <entry key="..\:/Users/Lenovo/AndroidStudioProjects/Garant/app/src/main/res/layout/screen_notification.xml" value="0.20863616930312098" />
         <entry key="..\:/Users/Lenovo/AndroidStudioProjects/Garant/app/src/main/res/layout/screen_ordering.xml" value="0.20863616930312098" />
         <entry key="..\:/Users/Lenovo/AndroidStudioProjects/Garant/app/src/main/res/layout/screen_profile.xml" value="0.264" />
+        <entry key="..\:/Users/Lenovo/AndroidStudioProjects/Garant/app/src/main/res/layout/screen_receive_confirmation_code.xml" value="0.20863616930312098" />
         <entry key="..\:/Users/Lenovo/AndroidStudioProjects/Garant/app/src/main/res/layout/screen_verification.xml" value="0.20863616930312098" />
         <entry key="..\:/Users/Lenovo/AndroidStudioProjects/Garant/app/src/main/res/layout/stock_page.xml" value="0.20863616930312098" />
         <entry key="..\:/Users/Lenovo/AndroidStudioProjects/Garant/app/src/main/res/layout/topselling_page.xml" value="0.20863616930312098" />

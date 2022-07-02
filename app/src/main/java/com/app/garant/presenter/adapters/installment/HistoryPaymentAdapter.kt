@@ -1,4 +1,4 @@
-package com.app.garant.presenter.adapters
+package com.app.garant.presenter.adapters.installment
 
 import android.view.LayoutInflater
 import android.view.View
@@ -13,7 +13,7 @@ class HistoryPaymentAdapter(val data: ArrayList<PaymentInfo>) :
     RecyclerView.Adapter<HistoryPaymentAdapter.VH>() {
 
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int):VH = VH(
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VH = VH(
         LayoutInflater.from(parent.context).inflate(R.layout.item_history_payment, parent, false)
     )
 

@@ -1,4 +1,4 @@
-package com.app.garant.presenter.adapters
+package com.app.garant.presenter.adapters.installment
 
 import android.graphics.Color
 import android.view.LayoutInflater
@@ -15,7 +15,7 @@ class InstallmentAdapter(val data: ArrayList<InstallmentHistoryData>) :
 
     private var itemListener: ((String) -> Unit)? = null
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): InstallmentAdapter.VH =
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VH =
         VH(
             LayoutInflater.from(parent.context).inflate(R.layout.item_installment, parent, false)
         )

@@ -178,5 +178,7 @@
     <string name="garant_admin">\@GARANT_ADMIN</string>
     <string name="month_payment">Ежемясячный платеж</string>
     <string name="amount_products">Кол-во товаров</string>
+    <string name="receive_code">983204</string>
+    <string name="enter_receive_code">Введите код подтверждения\n отправленный на ваш номер ***–42-22</string>
 
 </resources>

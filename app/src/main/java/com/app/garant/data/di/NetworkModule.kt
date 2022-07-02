@@ -2,7 +2,7 @@ package com.app.garant.data.di
 
 import android.content.Context
 import com.app.garant.data.pref.MyPref
-import com.app.garant.utils.addHeaderInterceptor
+//import com.app.garant.utils.addHeaderInterceptor
 import com.app.garant.utils.addLoggingInterceptor
 import dagger.Module
 import dagger.Provides
@@ -35,7 +35,7 @@ class NetworkModule {
             .addLoggingInterceptor(context)
             .readTimeout(60, TimeUnit.SECONDS)
             .writeTimeout(60, TimeUnit.SECONDS)
-            .addInterceptor(addHeaderInterceptor(pref))
+    //        .addInterceptor(addHeaderInterceptor(pref))
             .build()
 
 }

@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/languageScreen">
+    app:startDestination="@id/navigationScreen">
 
     <fragment
         android:id="@+id/languageScreen"
@@ -43,5 +43,9 @@
     <fragment
         android:id="@+id/navigationScreen"
         android:name="com.app.garant.presenter.screens.NavigationScreen"
-        android:label="NavigationScreen" />
+        android:label="NavigationScreen" >
+        <action
+            android:id="@+id/action_navigationScreen_to_languageScreen"
+            app:destination="@id/languageScreen" />
+    </fragment>
 </navigation>

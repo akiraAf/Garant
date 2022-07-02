@@ -14,6 +14,7 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 
+
 class FavoritesScreen : Fragment(R.layout.screen_favorites) {
 
     private val bind by viewBinding(ScreenFavoritesBinding::bind)
