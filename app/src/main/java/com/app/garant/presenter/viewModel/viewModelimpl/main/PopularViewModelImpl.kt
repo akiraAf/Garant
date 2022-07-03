@@ -25,7 +25,6 @@ class PopularViewModelImpl @Inject constructor(private val categoryRepository: C
     override val successFlow = eventValueFlow<ProductResponse>()
     override val progressFlow = eventValueFlow<Boolean>()
 
-
     override fun getProducts() {
         if (!isConnected()) {
             return
@@ -33,6 +32,7 @@ class PopularViewModelImpl @Inject constructor(private val categoryRepository: C
         viewModelScope.launch {
             progressFlow.emit(true)
         }
+
         categoryRepository.getProducts().onEach {
             it.onSuccess {
                 progressFlow.emit(false)

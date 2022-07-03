@@ -29,16 +29,16 @@ class FavoritesScreen : Fragment(R.layout.screen_favorites) {
                 "Apple iPhone 12 \n128GB", R.drawable.default_product)
             )
         }
-        val productAdapter by lazy { ProductsAdapter(data, true) }
+//        val productAdapter by lazy { ProductsAdapter(data, true) }
 
-        bind.favoriteRV.layoutManager = GridLayoutManager(activity, 2)
-        bind.favoriteRV.adapter = productAdapter
+//        bind.favoriteRV.layoutManager = GridLayoutManager(activity, 2)
+//        bind.favoriteRV.adapter = productAdapter
 
         bind.back.setOnClickListener {
             findNavController().popBackStack()
         }
-        productAdapter.setListenerClick {
-            findNavController().navigate(R.id.action_favoritesPage_to_nav_product_details)
-        }
+//        productAdapter.setListenerClick {
+//            findNavController().navigate(R.id.action_favoritesPage_to_nav_product_details)
+//        }
     }
 }

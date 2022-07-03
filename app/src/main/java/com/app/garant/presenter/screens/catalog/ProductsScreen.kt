@@ -17,7 +17,7 @@ import dagger.hilt.android.AndroidEntryPoint
 class ProductsScreen : Fragment(R.layout.screen_products) {
     private val bind by viewBinding(ScreenProductsBinding::bind)
     private var data = ArrayList<ProductData>()
-    private val productsAdapter = ProductsAdapter(data)
+//    private val productsAdapter = ProductsAdapter(data)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -29,13 +29,13 @@ class ProductsScreen : Fragment(R.layout.screen_products) {
             )
         }
 
-
-        bind.productsRecycler.layoutManager = GridLayoutManager(activity,2)
-        bind.productsRecycler.adapter = productsAdapter
-
-        productsAdapter.setListenerClick {
-            findNavController().navigate(R.id.action_productsPage_to_nav_product_details)
-        }
+//
+//        bind.productsRecycler.layoutManager = GridLayoutManager(activity,2)
+//        bind.productsRecycler.adapter = productsAdapter
+//
+//        productsAdapter.setListenerClick {
+//            findNavController().navigate(R.id.action_productsPage_to_nav_product_details)
+//        }
 
         bind.back.setOnClickListener {
             findNavController().popBackStack()

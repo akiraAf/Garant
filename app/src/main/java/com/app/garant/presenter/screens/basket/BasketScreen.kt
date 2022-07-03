@@ -19,18 +19,22 @@ class BasketScreen : Fragment(R.layout.screen_basket) {
 
     private val bind by viewBinding(ScreenBasketBinding::bind)
     private val orderData = ArrayList<OrderData>()
-    private val orderAdapter = OrderAdapter(orderData)
-    private val layoutManager = LinearLayoutManager(activity)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initData()
+        val orderAdapter = OrderAdapter(orderData)
+        val layoutManager = LinearLayoutManager(requireActivity())
+
+        val orderAdapterUn = OrderAdapter(orderData)
+        val layoutManagerUn = LinearLayoutManager(requireActivity())
+
 
         bind.basketRV.adapter = orderAdapter
         bind.basketRV.layoutManager = layoutManager
 
-        bind.unavailableRV.adapter = orderAdapter
-        bind.unavailableRV.layoutManager = layoutManager
+        bind.unavailableRV.adapter = orderAdapterUn
+        bind.unavailableRV.layoutManager = layoutManagerUn
 
 
         bind.cleanBasket.setOnClickListener {
@@ -49,7 +53,7 @@ class BasketScreen : Fragment(R.layout.screen_basket) {
     }
 
     private fun initData() {
-        for (i in 1..4)
+        for (i in 1..2)
             orderData.add(
                 OrderData(
                     "Apple iPhone 12\n128GB",

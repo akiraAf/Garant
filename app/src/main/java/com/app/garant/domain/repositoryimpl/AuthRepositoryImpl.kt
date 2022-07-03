@@ -29,7 +29,7 @@ class AuthRepositoryImpl @Inject constructor(private val api: AuthApi, private v
 
         if (response.isSuccessful) {
 
-            emit(Result.success<LoginResponse>(response.body()!!))
+            emit(Result.success(response.body()!!))
         } else {
             emit(Result.failure(Throwable(response.errorBody().toString())))
         }
@@ -44,7 +44,7 @@ class AuthRepositoryImpl @Inject constructor(private val api: AuthApi, private v
         if (response.isSuccessful) {
             pref.access_token = response.body()!!.token
             pref.authControll = true
-            emit(Result.success<VerifyResponse>(response.body()!!))
+            emit(Result.success(response.body()!!))
         } else {
             emit(Result.failure(Throwable(response.errorBody().toString())))
         }
@@ -54,10 +54,10 @@ class AuthRepositoryImpl @Inject constructor(private val api: AuthApi, private v
 
     override fun logout(): Flow<Result<LogoutResponse>> = flow {
         val response = api.logout()
+        emit(Result.success(response.body()!!))
         if (response.isSuccessful) {
             pref.authControll = false
-            pref.access_token = ""
-            emit(Result.success(response.body()!!))
+
         } else {
             emit(Result.failure(Throwable(response.errorBody().toString())))
         }

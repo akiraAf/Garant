@@ -16,11 +16,12 @@ import dagger.hilt.android.AndroidEntryPoint
 class CategoryScreen : Fragment(R.layout.screen_category) {
 
     private val bind by viewBinding(ScreenCategoryBinding::bind)
-    private val adapterProducts = CategoryAdapter()
-    private val productLayoutManager = GridLayoutManager(activity, 2)
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val adapterProducts = CategoryAdapter()
+        val productLayoutManager = GridLayoutManager(activity, 2)
 
         bind.catalogRV.layoutManager = productLayoutManager
         bind.catalogRV.adapter = adapterProducts

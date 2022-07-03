@@ -22,16 +22,16 @@ class TopSellingPage : Fragment(R.layout.page_topselling) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val adapterProduct = ProductsAdapter(data)
-        val layoutManager = GridLayoutManager(activity, 2)
-
-        bind.recycler.layoutManager = layoutManager
-        initData()
-        bind.recycler.adapter = adapterProduct
-
-        adapterProduct.setListenerClick {
-            findNavController().navigate(R.id.action_mainPage_to_nav_product_details)
-        }
+//        val adapterProduct = ProductsAdapter(data)
+//        val layoutManager = GridLayoutManager(activity, 2)
+//
+//        bind.recycler.layoutManager = layoutManager
+//        initData()
+//        bind.recycler.adapter = adapterProduct
+//
+//        adapterProduct.setListenerClick {
+//            findNavController().navigate(R.id.action_mainPage_to_nav_product_details)
+//        }
 
     }
 

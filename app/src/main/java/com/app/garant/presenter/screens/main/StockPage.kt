@@ -33,14 +33,14 @@ class StockPage : Fragment(R.layout.page_stock) {
                 )
             )
         }
-
-        val adapterProduct = ProductsAdapter(data)
-        bind.recycler.layoutManager = GridLayoutManager(activity, 2)
-        bind.recycler.adapter = adapterProduct
-
-        adapterProduct.setListenerClick {
-            findNavController().navigate(R.id.action_mainPage_to_nav_product_details)
-        }
+//
+//        val adapterProduct = ProductsAdapter(data)
+//        bind.recycler.layoutManager = GridLayoutManager(activity, 2)
+//        bind.recycler.adapter = adapterProduct
+//
+//        adapterProduct.setListenerClick {
+//            findNavController().navigate(R.id.action_mainPage_to_nav_product_details)
+//        }
     }
 
 

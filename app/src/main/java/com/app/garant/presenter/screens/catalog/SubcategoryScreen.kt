@@ -36,5 +36,6 @@ class SubcategoryScreen : Fragment(R.layout.screen_subcategory) {
         bind.back.setOnClickListener {
             findNavController().popBackStack()
         }
+
     }
 }

@@ -40,22 +40,23 @@ class ProductDetailsScreen : Fragment(R.layout.screen_product_details) {
                 )
             )
         }
-        val adapterProduct by lazy { ProductsAdapter(data) }
+
+//        val adapterProduct by lazy { ProductsAdapter(data) }
 
         bind.back.setOnClickListener {
             findNavController().popBackStack()
         }
-        bind.promotionalGoodsRV.layoutManager =
-            StaggeredGridLayoutManager(1, LinearLayoutManager.HORIZONTAL)
-        bind.promotionalGoodsRV.adapter = adapterProduct
-        bind.popularProductsRV.layoutManager =
-            StaggeredGridLayoutManager(1, LinearLayoutManager.HORIZONTAL)
-        bind.popularProductsRV.adapter = adapterProduct
-
-
-        adapterProduct.setListenerClick {
-            findNavController().navigate(R.id.action_productDetailsPage3_self)
-        }
+//        bind.promotionalGoodsRV.layoutManager =
+//            StaggeredGridLayoutManager(1, LinearLayoutManager.HORIZONTAL)
+//        bind.promotionalGoodsRV.adapter = adapterProduct
+//        bind.popularProductsRV.layoutManager =
+//            StaggeredGridLayoutManager(1, LinearLayoutManager.HORIZONTAL)
+//        bind.popularProductsRV.adapter = adapterProduct
+//
+//
+//        adapterProduct.setListenerClick {
+//            findNavController().navigate(R.id.action_productDetailsPage3_self)
+//        }
 
         bind.fullDetails.setOnClickListener {
             findNavController().navigate(R.id.action_productDetailsPage3_to_fullDetails3)
