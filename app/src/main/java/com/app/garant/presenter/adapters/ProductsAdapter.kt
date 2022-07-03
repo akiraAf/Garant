@@ -27,10 +27,9 @@ class ProductsAdapter(val data: ArrayList<ProductData>, val flagFavorite:Boolean
     }
 
     inner class VH(view: View) : RecyclerView.ViewHolder(view) {
-
         private val bind by viewBinding(ItemProductBinding::bind)
-        fun load(i: Int) {
 
+        fun load(i: Int) {
             bind.apply {
                 installmentCost.text = data[i].installmentCost
                 month.text = data[i].month

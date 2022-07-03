@@ -25,10 +25,4 @@ interface AuthApi {
     @POST("auth/logout")
     suspend fun logout(): Response<LogoutResponse>
 
-    @POST("user/change-phone")
-    suspend fun changePhone(@Body data: ChangePhoneRequest): Response<ChangePhoneResponse>
-
-    @POST("user/update-phone")
-    suspend fun updatePhone(@Body data: UpdatePhoneRequest): Response<UpdatePhoneResponce>
-
 }

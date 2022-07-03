@@ -66,31 +66,5 @@ class AuthRepositoryImpl @Inject constructor(private val api: AuthApi, private v
         emit(Result.failure(errorMessage))
     }.flowOn(Dispatchers.IO)
 
-    override fun changePhone(changePhoneRequest: ChangePhoneRequest): Flow<Result<ChangePhoneResponse>> =
-        flow {
-            val response = api.changePhone(changePhoneRequest)
-
-            if (response.isSuccessful) {
-                emit(Result.success(response.body()!!))
-            } else {
-                emit(Result.failure(Throwable(response.errorBody().toString())))
-            }
-        }.catch {
-            emit(Result.failure(Throwable(it.message)))
-        }.flowOn(Dispatchers.IO)
-
-
-    override fun updatePhone(updatePhoneRequest: UpdatePhoneRequest): Flow<Result<UpdatePhoneResponce>> =
-        flow {
-            val response = api.updatePhone(updatePhoneRequest)
-
-            if (response.isSuccessful) {
-                emit(Result.success(response.body()!!))
-            } else {
-                emit(Result.failure(Throwable(response.errorBody().toString())))
-            }
-        }.catch {
-            emit(Result.failure(Throwable(it.message)))
-        }.flowOn(Dispatchers.IO)
 
 }

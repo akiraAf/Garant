@@ -19,7 +19,4 @@ interface AuthRepository {
 
     fun logout(): Flow<Result<LogoutResponse>>
 
-    fun changePhone(changePhoneRequest: ChangePhoneRequest): Flow<Result<ChangePhoneResponse>>
-
-    fun updatePhone(updatePhoneRequest: UpdatePhoneRequest): Flow<Result<UpdatePhoneResponce>>
 }
