@@ -75,7 +75,7 @@
     </fragment>
     <fragment
         android:id="@+id/emptyHistory"
-        android:name="com.app.garant.presenter.screens.installment.EmptyHistory"
+        android:name="com.app.garant.presenter.screens.others.EmptyHistoryScreen"
         android:label="page_empty_history"
         tools:layout="@layout/screen_empty_history" />
     <fragment

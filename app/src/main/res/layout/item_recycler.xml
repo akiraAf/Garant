@@ -8,4 +8,4 @@
     app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
     app:spanCount="2"
     tools:listitem="@layout/item_product"
-    tools:context=".presenter.screens.installment.InstallmentRecyclerView" />
+    tools:context=".presenter.screens.others.InstallmentRecyclerView" />

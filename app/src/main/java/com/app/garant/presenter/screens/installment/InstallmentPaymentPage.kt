@@ -8,6 +8,7 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import com.app.garant.R
 import com.app.garant.databinding.PageInstallmentPaymentBinding
 import com.app.garant.models.PaymentInfo
+import com.app.garant.presenter.adapters.installment.InstallmentPaymentAdapter
 import dagger.hilt.android.AndroidEntryPoint
 
 

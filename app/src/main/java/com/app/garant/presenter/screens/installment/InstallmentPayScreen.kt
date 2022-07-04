@@ -12,7 +12,7 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 
-class InstallmentPayPage : Fragment(R.layout.page_installment_pay) {
+class InstallmentPayScreen : Fragment(R.layout.page_installment_pay) {
    private val bind by viewBinding(PageInstallmentPayBinding::bind)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

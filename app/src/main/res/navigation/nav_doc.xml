@@ -19,12 +19,12 @@
     </fragment>
     <fragment
         android:id="@+id/installmentHistoryPaymentPage"
-        android:name="com.app.garant.presenter.screens.installment.InstallmentHistoryPaymentPage"
+        android:name="com.app.garant.presenter.screens.installment.InstallmentHistoryPaymentScreen"
         android:label="page_installment_history_payment"
         tools:layout="@layout/page_installment_history_payment" />
     <fragment
         android:id="@+id/installmentContractPage"
-        android:name="com.app.garant.presenter.screens.installment.InstallmentContractPage"
+        android:name="com.app.garant.presenter.screens.installment.InstallmentContractScreen"
         android:label="page_installment_contract"
         tools:layout="@layout/page_installment_contract" >
         <action
@@ -42,7 +42,7 @@
     </fragment>
     <fragment
         android:id="@+id/installmentSentModerationPage"
-        android:name="com.app.garant.presenter.screens.installment.InstallmentSentModerationPage"
+        android:name="com.app.garant.presenter.screens.installment.InstallmentSentModerationScreen"
         android:label="page_installment_sent_moderation"
         tools:layout="@layout/page_installment_sent_moderation" >
         <action
@@ -51,7 +51,7 @@
     </fragment>
     <fragment
         android:id="@+id/installmentPage"
-        android:name="com.app.garant.presenter.screens.installment.InstallmentPage"
+        android:name="com.app.garant.presenter.screens.installment.InstallmentScreen"
         android:label="screen_installment"
         tools:layout="@layout/page_installment" >
         <action
@@ -60,7 +60,7 @@
     </fragment>
     <fragment
         android:id="@+id/orderPage"
-        android:name="com.app.garant.presenter.screens.installment.OrderPage"
+        android:name="com.app.garant.presenter.screens.order.OrderScreen"
         android:label="page_order"
         tools:layout="@layout/page_order" />
 </navigation>

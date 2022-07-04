@@ -13,7 +13,7 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 
-class InstallmentPage : Fragment(R.layout.page_installment) {
+class InstallmentScreen : Fragment(R.layout.page_installment) {
 
     private val bind by viewBinding(PageInstallmentBinding::bind)
     private val tabTitles = listOf("Договор", "Оплата", "История оплаты")

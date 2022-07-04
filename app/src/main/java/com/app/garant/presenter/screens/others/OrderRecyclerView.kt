@@ -1,4 +1,4 @@
-package com.app.garant.presenter.screens.installment
+package com.app.garant.presenter.screens.others
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment

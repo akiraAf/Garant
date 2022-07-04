@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/orderingDeliveryPage"
-        android:name="com.app.garant.presenter.screens.installment.OrderingDeliveryPage"
+        android:name="com.app.garant.presenter.screens.order.OrderingDeliveryPage"
         android:label="page_ordering_delivery"
         tools:layout="@layout/page_ordering_delivery" >
         <action
@@ -19,7 +19,7 @@
     </fragment>
     <fragment
         android:id="@+id/orderingPaymentPage"
-        android:name="com.app.garant.presenter.screens.installment.OrderingPaymentPage"
+        android:name="com.app.garant.presenter.screens.order.OrderingPaymentPage"
         android:label="page_ordering_payment"
         tools:layout="@layout/page_ordering_payment" >
         <action
@@ -28,7 +28,7 @@
     </fragment>
     <fragment
         android:id="@+id/orderProcessingPage"
-        android:name="com.app.garant.presenter.screens.installment.OrderProcessingPage"
+        android:name="com.app.garant.presenter.screens.order.OrderProcessingPage"
         android:label="page_order_processing"
         tools:layout="@layout/page_order_processing" >
         <action
@@ -37,7 +37,7 @@
     </fragment>
     <fragment
         android:id="@+id/branchSelectionPage"
-        android:name="com.app.garant.presenter.screens.installment.BranchSelectionPage"
+        android:name="com.app.garant.presenter.screens.others.BranchSelectionPage"
         android:label="page_branch_selection"
         tools:layout="@layout/screen_branch_selection" />
     <fragment

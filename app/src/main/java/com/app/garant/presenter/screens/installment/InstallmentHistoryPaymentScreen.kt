@@ -13,7 +13,7 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 
 
-class InstallmentHistoryPaymentPage : Fragment(R.layout.page_installment_history_payment) {
+class InstallmentHistoryPaymentScreen : Fragment(R.layout.page_installment_history_payment) {
     private val bind by viewBinding(PageInstallmentHistoryPaymentBinding::bind)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

@@ -15,7 +15,7 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 
-class InstallmentCreationPage : Fragment(R.layout.page_installment_creation) {
+class InstallmentCreationScreen : Fragment(R.layout.page_installment_creation) {
 
     private val bind by viewBinding(PageInstallmentCreationBinding::bind)
 

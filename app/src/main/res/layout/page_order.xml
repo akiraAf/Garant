@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/default_color"
-    tools:context=".presenter.screens.installment.OrderPage">
+    tools:context=".presenter.screens.order.OrderScreen">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"

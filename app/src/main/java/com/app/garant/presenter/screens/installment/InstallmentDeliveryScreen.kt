@@ -6,30 +6,17 @@ import android.view.View
 import androidx.navigation.fragment.findNavController
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.app.garant.R
-import com.app.garant.databinding.PageOrderingDeliveryBinding
+import com.app.garant.databinding.PageInstallmentDeliveryBinding
 import dagger.hilt.android.AndroidEntryPoint
 
 
 @AndroidEntryPoint
 
-class OrderingDeliveryPage : Fragment(R.layout.page_ordering_delivery) {
+class InstallmentDeliveryScreen : Fragment(R.layout.page_installment_delivery) {
 
-    private val bind by viewBinding(PageOrderingDeliveryBinding::bind)
+    private val bind by viewBinding(PageInstallmentDeliveryBinding::bind)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        bind.next.setOnClickListener {
-            findNavController().navigate(R.id.action_orderingDeliveryPage_to_orderingPaymentPage)
-        }
-        bind.back.setOnClickListener {
-            findNavController().popBackStack()
-        }
-
-        bind.choiceBranch.setOnClickListener {
-            findNavController().navigate(R.id.action_orderingDeliveryPage_to_branchSelectionPage)
-        }
-
         bind.radioDelivery.setOnClickListener {
             bind.selfType.visibility = View.GONE
             bind.deliveryType.visibility = View.VISIBLE
@@ -37,6 +24,18 @@ class OrderingDeliveryPage : Fragment(R.layout.page_ordering_delivery) {
         bind.radioSelfDelivery.setOnClickListener{
             bind.selfType.visibility = View.VISIBLE
             bind.deliveryType.visibility = View.GONE
+        }
+
+        bind.back.setOnClickListener {
+            findNavController().popBackStack()
+        }
+
+        bind.next.setOnClickListener {
+            findNavController().navigate(R.id.action_installmentDeliveryPage_to_installmentPayPage)
+        }
+
+        bind.choiceBranch.setOnClickListener {
+            findNavController().navigate(R.id.action_installmentDeliveryPage_to_branchSelectionPage2)
         }
     }
 

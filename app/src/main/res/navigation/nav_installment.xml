@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/paymentPassedPage"
-        android:name="com.app.garant.presenter.screens.installment.PaymentPassedPage"
+        android:name="com.app.garant.presenter.screens.others.PaymentPassedScreen"
         android:label="page_payment_passed"
         tools:layout="@layout/page_payment_passed" >
         <action
@@ -19,7 +19,7 @@
     </fragment>
     <fragment
         android:id="@+id/installmentCreationPage"
-        android:name="com.app.garant.presenter.screens.installment.InstallmentCreationPage"
+        android:name="com.app.garant.presenter.screens.installment.InstallmentCreationScreen"
         android:label="page_installment_creation"
         tools:layout="@layout/page_installment_creation" >
         <action
@@ -28,7 +28,7 @@
     </fragment>
     <fragment
         android:id="@+id/installmentDeliveryPage"
-        android:name="com.app.garant.presenter.screens.installment.InstallmentDeliveryPage"
+        android:name="com.app.garant.presenter.screens.installment.InstallmentDeliveryScreen"
         android:label="page_installment_delivery"
         tools:layout="@layout/page_installment_delivery" >
         <action
@@ -40,7 +40,7 @@
     </fragment>
     <fragment
         android:id="@+id/installmentPayPage"
-        android:name="com.app.garant.presenter.screens.installment.InstallmentPayPage"
+        android:name="com.app.garant.presenter.screens.installment.InstallmentPayScreen"
         android:label="page_installment_pay"
         tools:layout="@layout/page_installment_pay" >
         <action
@@ -49,7 +49,7 @@
     </fragment>
     <fragment
         android:id="@+id/branchSelectionPage2"
-        android:name="com.app.garant.presenter.screens.installment.BranchSelectionPage"
+        android:name="com.app.garant.presenter.screens.others.BranchSelectionPage"
         android:label="page_branch_selection"
         tools:layout="@layout/screen_branch_selection" />
     <include app:graph="@navigation/nav_doc" />

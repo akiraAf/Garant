@@ -1,4 +1,4 @@
-package com.app.garant.presenter.screens.installment
+package com.app.garant.presenter.adapters.installment
 
 import android.view.LayoutInflater
 import android.view.View
@@ -8,14 +8,13 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import com.app.garant.R
 import com.app.garant.databinding.ItemPaymentBinding
 import com.app.garant.models.PaymentInfo
-import dagger.hilt.android.AndroidEntryPoint
 
 
 class InstallmentPaymentAdapter(val data: ArrayList<PaymentInfo>, ) :
     RecyclerView.Adapter<InstallmentPaymentAdapter.VH>() {
 
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int):VH = VH(
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VH = VH(
         LayoutInflater.from(parent.context).inflate(R.layout.item_payment, parent, false)
     )
 

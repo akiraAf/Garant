@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/default_color"
-    tools:context=".presenter.screens.installment.InstallmentContractPage">
+    tools:context=".presenter.screens.installment.InstallmentContractScreen">
 
 
 <androidx.constraintlayout.widget.ConstraintLayout

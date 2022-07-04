@@ -1,4 +1,4 @@
-package com.app.garant.presenter.screens.installment
+package com.app.garant.presenter.screens.others
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -11,7 +11,7 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 
-class PaymentPassedPage : Fragment(R.layout.page_payment_passed) {
+class PaymentPassedScreen : Fragment(R.layout.page_payment_passed) {
     private val bind by viewBinding(PagePaymentPassedBinding::bind)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

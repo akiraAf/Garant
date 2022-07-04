@@ -22,7 +22,7 @@ class ApiModule {
     fun getUserApi(retrofit: Retrofit): UserApi = retrofit.create(UserApi::class.java)
 
     @[Provides Singleton]
-    fun getCategory(retrofit: Retrofit): CategoryApi = retrofit.create(CategoryApi::class.java)
+    fun getCategoryApi(retrofit: Retrofit): CategoryApi = retrofit.create(CategoryApi::class.java)
 
 
 }
