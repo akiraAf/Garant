@@ -1,9 +1,8 @@
 package com.app.garant.presenter.viewModel.viewModelimpl.main
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.app.garant.data.response.category.product.ProductCategoryResponse
+import com.app.garant.data.response.category.product.ProductResponse
 import com.app.garant.domain.repository.CategoryRepository
 import com.app.garant.presenter.viewModel.main.PopularPageViewModel
 import com.app.garant.utils.eventValueFlow
@@ -20,7 +19,7 @@ class PopularPageViewModelImpl @Inject constructor(
 ) :
     ViewModel(), PopularPageViewModel {
 
-    override val successFlowProduct = eventValueFlow<ProductCategoryResponse>()
+    override val successFlowProduct = eventValueFlow<ProductResponse>()
     override val progressFlowProduct = eventValueFlow<Boolean>()
     override val errorFlowProduct = eventValueFlow<String>()
 

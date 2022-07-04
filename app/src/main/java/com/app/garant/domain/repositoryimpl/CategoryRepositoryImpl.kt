@@ -1,8 +1,7 @@
 package com.app.garant.domain.repositoryimpl
 
-import android.util.Log
 import com.app.garant.data.api.CategoryApi
-import com.app.garant.data.response.category.product.ProductCategoryResponse
+import com.app.garant.data.response.category.product.ProductResponse
 import com.app.garant.domain.repository.CategoryRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -15,10 +14,10 @@ class CategoryRepositoryImpl @Inject constructor(
     private val api: CategoryApi
 ) : CategoryRepository {
 
-    override fun getProducts(): Flow<Result<ProductCategoryResponse>> = flow {
+    override fun getProducts(): Flow<Result<ProductResponse>> = flow {
         val response = api.getProduct()
         if (response.isSuccessful) {
-            emit(Result.success<ProductCategoryResponse>(response.body()!!))
+            emit(Result.success<ProductResponse>(response.body()!!))
         } else {
             emit(Result.failure(Throwable(response.errorBody().toString())))
         }
