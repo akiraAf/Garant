@@ -26,30 +26,22 @@ class PopularPage : Fragment(R.layout.item_recycler) {
 
     private val bind by viewBinding(ItemRecyclerBinding::bind)
     private val viewModel: PopularPageViewModel by viewModels<PopularPageViewModelImpl>()
+    private val adapterProduct = ProductsAdapter()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val adapterProduct = ProductsAdapter()
 
         viewModel.getProducts()
-
-
 
         viewModel.successFlowProduct.onEach {
             adapterProduct.submitList(it)
             showToast(it.size.toString())
-            bind.recycler.adapter = adapterProduct
-            bind.recycler.layoutManager =
-                GridLayoutManager(requireContext(), 2, GridLayoutManager.VERTICAL, false)
-
         }.launchIn(lifecycleScope)
 
-
-        viewModel.errorFlowProduct.onEach {
-            showToast(it)
-            Log.i("LOL", it)
-        }.launchIn(lifecycleScope)
+        bind.recycler.adapter = adapterProduct
+        bind.recycler.layoutManager =
+            GridLayoutManager(requireContext(), 2, GridLayoutManager.VERTICAL, false)
 
 
         adapterProduct.setListenerClick {
