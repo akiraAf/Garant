@@ -7,6 +7,8 @@ import android.view.View
 import androidx.navigation.fragment.findNavController
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.app.garant.R
+import com.app.garant.app.App
+import com.app.garant.data.pref.MyPref
 import com.app.garant.databinding.ScreenLanguageBinding
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -22,6 +24,9 @@ class LanguageScreen : Fragment(R.layout.screen_language) {
         bind.russianLanguageBg.setOnClickListener {
             openAuth()
         }
+
+        val mypref = MyPref(App.instance)
+        mypref.access_token = ""
 
         bind.uzbekLanguageBg.setOnClickListener {
             openAuth()

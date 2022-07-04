@@ -8,6 +8,7 @@ import com.app.garant.data.request.profile.ChangePhoneRequest
 import com.app.garant.data.request.profile.UpdatePhoneRequest
 import com.app.garant.data.response.auth.LoginResponse
 import com.app.garant.data.response.auth.LogoutResponse
+import com.app.garant.data.response.auth.MeResponse
 import com.app.garant.data.response.auth.VerifyResponse
 import com.app.garant.data.response.profile.ChangePhoneResponse
 import com.app.garant.data.response.profile.UpdatePhoneResponce
@@ -52,12 +53,27 @@ class AuthRepositoryImpl @Inject constructor(private val api: AuthApi, private v
         emit(Result.failure(Throwable(it.message)))
     }.flowOn(Dispatchers.IO)
 
+
     override fun logout(): Flow<Result<LogoutResponse>> = flow {
         val response = api.logout()
         emit(Result.success(response.body()!!))
         if (response.isSuccessful) {
             pref.authControll = false
 
+        } else {
+            emit(Result.failure(Throwable(response.errorBody().toString())))
+        }
+    }.catch {
+        val errorMessage = Throwable("Проблемы с сервером")
+        emit(Result.failure(errorMessage))
+    }.flowOn(Dispatchers.IO)
+
+
+    override fun me(): Flow<Result<MeResponse>> = flow {
+        val response = api.me()
+
+        if (response.isSuccessful) {
+            emit(Result.success(response.body()!!))
         } else {
             emit(Result.failure(Throwable(response.errorBody().toString())))
         }

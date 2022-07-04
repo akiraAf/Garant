@@ -19,6 +19,14 @@ fun OkHttpClient.Builder.addLoggingInterceptor(context: Context): OkHttpClient.B
     return this
 }
 
+fun addHeaderInterceptor(pref: MyPref) = Interceptor { chain ->
+    val request = chain.request()
+    val newRequest = request.newBuilder().removeHeader("Authorization").addHeader("Authorization", "Bearer " + pref.access_token).build()
+    val response = chain.proceed(newRequest)
+    response
+}
+
+
 
 
 

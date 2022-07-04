@@ -9,21 +9,20 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.app.garant.R
-import com.app.garant.data.response.category.product.Product
-import com.app.garant.data.response.category.product.ProductResponseItem
+import com.app.garant.data.response.category.product.ProductCategoryResponse
+import com.app.garant.data.response.category.product.ProductCategoryResponseItem
 import com.app.garant.databinding.ItemProductBinding
-import com.app.garant.models.ProductData
 import com.app.garant.utils.scope
 import com.bumptech.glide.Glide
 
-class ProductsAdapter() : ListAdapter<ProductResponseItem, ProductsAdapter.VH>(MyDifUtils) {
+class ProductsAdapter() : ListAdapter<ProductCategoryResponse, ProductsAdapter.VH>(MyDifUtils) {
 
     private var itemListener: ((Int) -> Unit)? = null
 
-    object MyDifUtils : DiffUtil.ItemCallback<ProductResponseItem>() {
+    object MyDifUtils : DiffUtil.ItemCallback<ProductCategoryResponse>() {
         override fun areItemsTheSame(
-            oldItem: ProductResponseItem,
-            newItem: ProductResponseItem
+            oldItem: ProductCategoryResponse,
+            newItem: ProductCategoryResponse
         ): Boolean {
             return oldItem == newItem
         }
@@ -31,8 +30,8 @@ class ProductsAdapter() : ListAdapter<ProductResponseItem, ProductsAdapter.VH>(M
         @SuppressLint("DiffUtilEquals")
         override fun areContentsTheSame(
 
-            oldItem: ProductResponseItem,
-            newItem: ProductResponseItem
+            oldItem: ProductCategoryResponse,
+            newItem: ProductCategoryResponse
         ): Boolean {
             return oldItem == newItem
         }
@@ -57,20 +56,20 @@ class ProductsAdapter() : ListAdapter<ProductResponseItem, ProductsAdapter.VH>(M
         }
 
         fun load() = bind.scope {
-            val value = getItem(absoluteAdapterPosition) as Product
-
-            installmentCost.text = value.monthly_price.toString()
-            month.text = "x 12 мес"
-            fullCost.text = value.price.toString()
-            descriptionProduct.text = value.name
-            Glide.with(productImageView.context).load(value.image).into(productImageView)
+            val values = getItem(absoluteAdapterPosition) as ProductCategoryResponseItem
+            val i = absoluteAdapterPosition
+//            if (values.name == "Grady_PLC") {
+                name.text = values.products[i].name
+                monthlyPrice.text = values.products[i].monthly_price.toString()
+                price.text = values.products[i].price.toString()
+                Glide.with(productImageView.context).load(values.products[i].image)
+                    .into(productImageView)
+//            }
 
             bind.parent.setOnClickListener {
                 itemListener?.invoke(absoluteAdapterPosition)
-
             }
         }
-
     }
 
     fun setListenerClick(function: (Int) -> Unit) {

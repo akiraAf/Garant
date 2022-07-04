@@ -6,6 +6,7 @@ import com.app.garant.data.request.profile.ChangePhoneRequest
 import com.app.garant.data.request.profile.UpdatePhoneRequest
 import com.app.garant.data.response.auth.LoginResponse
 import com.app.garant.data.response.auth.LogoutResponse
+import com.app.garant.data.response.auth.MeResponse
 import com.app.garant.data.response.auth.VerifyResponse
 import com.app.garant.data.response.profile.ChangePhoneResponse
 import com.app.garant.data.response.profile.UpdatePhoneResponce
@@ -18,5 +19,7 @@ interface AuthRepository {
     fun verify(verifyRequest: VerifyRequest): Flow<Result<VerifyResponse>>
 
     fun logout(): Flow<Result<LogoutResponse>>
+
+    fun me():Flow<Result<MeResponse>>
 
 }

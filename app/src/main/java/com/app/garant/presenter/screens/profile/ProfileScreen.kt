@@ -5,6 +5,7 @@ import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.View
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.app.garant.R
@@ -14,7 +15,9 @@ import com.app.garant.presenter.dialogs.DialogLogout
 import com.app.garant.presenter.dialogs.DialogLanguage
 import com.app.garant.presenter.viewModel.profile.ProfileViewModel
 import com.app.garant.presenter.viewModel.viewModelimpl.profile.ProfileViewModelImpl
+import com.app.garant.utils.showToast
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 
 
@@ -44,14 +47,9 @@ class ProfileScreen : Fragment(R.layout.screen_profile) {
             findNavController().navigate(R.id.action_profileScreen_to_emptyHistory)
         }
 
-        viewModel.successFlow.onEach {
-            val pref = MyPref(requireContext())
-            findNavController().navigate(R.id.languageScreen)
-        }
 
         viewModel.errorFlow.onEach {
-            val pref = MyPref(requireContext())
-            findNavController().navigate(R.id.languageScreen)
+            showToast("Ошибка")
         }
 
         bind.logout.setOnClickListener {
@@ -64,7 +62,9 @@ class ProfileScreen : Fragment(R.layout.screen_profile) {
             dialog.setYes {
                 viewModel.getLogout()
                 dialog.dismiss()
-                findNavController().navigate(R.id.action_profileScreen_to_nav_graph)
+                viewModel.successFlow.onEach {
+                    findNavController().navigate(R.id.action_profileScreen_to_nav_graph)
+                }.launchIn(lifecycleScope)
 
             }
         }
@@ -72,6 +72,14 @@ class ProfileScreen : Fragment(R.layout.screen_profile) {
         bind.language.setOnClickListener {
             val language = DialogLanguage()
             language.show(parentFragmentManager, "DialogLanguage")
+            language.setRu {
+                language.dismiss()
+                showToast("Выбран русский язык")
+            }
+            language.setUz {
+                language.dismiss()
+                showToast("O‘zbek tili tanlandi")
+            }
         }
     }
 

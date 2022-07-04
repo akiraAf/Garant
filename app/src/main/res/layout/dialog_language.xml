@@ -66,14 +66,14 @@
             app:layout_constraintTop_toBottomOf="@+id/language">
 
             <RadioButton
-                android:id="@+id/russian_radio"
+                android:id="@+id/uzbek_radio"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="15dp"
                 android:button="@drawable/radio_selector" />
 
             <RadioButton
-                android:id="@+id/uzbek_radio"
+                android:id="@+id/russian_radio"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="15dp"
