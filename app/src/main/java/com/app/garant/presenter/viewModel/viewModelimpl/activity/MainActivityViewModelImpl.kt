@@ -5,11 +5,13 @@ import androidx.lifecycle.viewModelScope
 import com.app.garant.domain.repository.AuthRepository
 import com.app.garant.presenter.viewModel.activity.MainActivityViewModel
 import com.app.garant.utils.eventValueFlow
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
 
+@HiltViewModel
 class MainActivityViewModelImpl @Inject constructor(private val authRepository: AuthRepository) :
     ViewModel(),
     MainActivityViewModel {

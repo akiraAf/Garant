@@ -1,8 +1,10 @@
 package com.app.garant.utils
 
 import android.content.Context
+import android.os.CountDownTimer
 import android.view.View
 import android.view.inputmethod.InputMethodManager
+import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.viewbinding.ViewBinding
@@ -48,3 +50,4 @@ fun File.toFormData(partName: String = "file"): MultipartBody.Part {
     val request = asRequestBody("multipart/form-data".toMediaTypeOrNull())
     return MultipartBody.Part.createFormData(partName, name, request)
 }
+

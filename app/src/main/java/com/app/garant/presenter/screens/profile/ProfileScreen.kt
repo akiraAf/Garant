@@ -9,6 +9,8 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.app.garant.R
+import com.app.garant.app.App
+import com.app.garant.data.other.StaticValue
 import com.app.garant.data.pref.MyPref
 import com.app.garant.databinding.ScreenProfileBinding
 import com.app.garant.presenter.dialogs.DialogLogout
@@ -63,9 +65,9 @@ class ProfileScreen : Fragment(R.layout.screen_profile) {
                 viewModel.getLogout()
                 dialog.dismiss()
                 viewModel.successFlow.onEach {
-                    findNavController().navigate(R.id.action_profileScreen_to_nav_graph)
+                    MyPref(App.instance).startScreen = true
                 }.launchIn(lifecycleScope)
-
+                StaticValue.screenNavigateLiveData.value = Unit
             }
         }
 

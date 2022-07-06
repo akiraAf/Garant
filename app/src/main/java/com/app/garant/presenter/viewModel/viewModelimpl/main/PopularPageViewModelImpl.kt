@@ -27,12 +27,13 @@ class PopularPageViewModelImpl @Inject constructor(
         if (!isConnected()) {
             return
         }
+
         viewModelScope.launch {
             progressFlowProduct.emit(true)
         }
 
         categoryRepository.getProducts().onEach {
-            it.onSuccess { products->
+            it.onSuccess { products ->
                 progressFlowProduct.emit(false)
                 successFlowProduct.emit(products)
             }

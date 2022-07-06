@@ -59,7 +59,6 @@ class AuthRepositoryImpl @Inject constructor(private val api: AuthApi, private v
         emit(Result.success(response.body()!!))
         if (response.isSuccessful) {
             pref.authControll = false
-
         } else {
             emit(Result.failure(Throwable(response.errorBody().toString())))
         }

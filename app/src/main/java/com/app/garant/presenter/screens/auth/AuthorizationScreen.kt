@@ -29,13 +29,16 @@ class AuthorizationScreen : Fragment(R.layout.screen_authorization) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        view.setOnClickListener {
-            it.hideKeyboard()
-        }
 
         bind.back.setOnClickListener {
             findNavController().popBackStack()
         }
+
+        view.setOnClickListener {
+            it.hideKeyboard()
+        }
+
+//        bind.inputPhoneNumber.isLaidOut = true
 
 
         bind.next.setOnClickListener {

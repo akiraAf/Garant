@@ -7,6 +7,8 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.app.garant.R
+import com.app.garant.app.App
+import com.app.garant.data.pref.MyPref
 import com.app.garant.presenter.adapters.main.BottomNavAdapter
 import com.app.garant.databinding.ScreenNavigationBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -21,7 +23,6 @@ class NavigationScreen : Fragment(R.layout.screen_navigation) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
 
         bind.pager.adapter = BottomNavAdapter(childFragmentManager, lifecycle)
         bind.pager.isUserInputEnabled = false
@@ -46,7 +47,6 @@ class NavigationScreen : Fragment(R.layout.screen_navigation) {
             }
             return@setOnItemSelectedListener true
         }
-
 
     }
 

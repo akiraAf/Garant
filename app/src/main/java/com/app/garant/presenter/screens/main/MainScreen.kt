@@ -4,54 +4,67 @@ import android.app.ActionBar
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.view.View
-import android.view.ViewGroup
 import android.widget.LinearLayout
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.app.garant.R
-import com.app.garant.app.App
-import com.app.garant.data.pref.MyPref
+import com.app.garant.data.other.StaticValue
 import com.app.garant.databinding.ScreenMainBinding
 import com.app.garant.presenter.adapters.main.BannerSalesAdapter
 import com.app.garant.presenter.adapters.main.ProductPagerAdapter
+import com.app.garant.presenter.viewModel.main.MainScreenViewModel
+import com.app.garant.presenter.viewModel.viewModelimpl.main.MainScreenViewModelImpl
 import com.app.garant.utils.hideKeyboard
 import com.app.garant.utils.scope
-import com.app.garant.utils.showToast
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 
 @AndroidEntryPoint
-
 class MainScreen : Fragment(R.layout.screen_main) {
-
     private val bind by viewBinding(ScreenMainBinding::bind)
-
+    private val viewModel: MainScreenViewModel by viewModels<MainScreenViewModelImpl>()
+    private val bundle = Bundle()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
         bind.salesPager.adapter = BannerSalesAdapter(childFragmentManager, lifecycle)
-        bind.productsPager.adapter = ProductPagerAdapter(childFragmentManager, lifecycle)
 
         view.setOnClickListener {
             it.hideKeyboard()
         }
 
-        updateUI()
+        viewModel.getProducts()
+
+        viewModel.successFlow.onEach {
+            viewModel.getNames()
+            bind.all.setOnClickListener {
+                findNavController().navigate(R.id.action_mainPage_to_productsScreen, bundle)
+            }
+            bind.progress.visibility = View.GONE
+        }.launchIn(lifecycleScope)
 
 
-        TabLayoutMediator(bind.tabLayout, bind.productsPager) { tab, position ->
-            tab.text = tabProductTitles[position]
 
-        }.attach()
+        viewModel.progressFlow.onEach {
+            bind.progress.visibility = View.VISIBLE
+        }.launchIn(lifecycleScope)
 
+        viewModel.tabСontentLoad.onEach {
+            bind.productsPager.adapter =
+                ProductPagerAdapter(it.size, childFragmentManager, lifecycle)
 
+            TabLayoutMediator(bind.tabLayout, bind.productsPager) { tab, position ->
+                tab.text = it[position]
+            }.attach()
+        }.launchIn(lifecycleScope)
 
         bind.bell.setOnClickListener {
             findNavController().navigate(R.id.action_mainPage_to_notificationScreen)
@@ -87,6 +100,8 @@ class MainScreen : Fragment(R.layout.screen_main) {
                 countNotification.visibility = View.VISIBLE
             }
         }
+        updateUI()
+
     }
 
     private fun updateUI() {
@@ -122,9 +137,15 @@ class MainScreen : Fragment(R.layout.screen_main) {
             false
         }
 
+
+        bind.productsPager.isUserInputEnabled = false
+
         bind.tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab?) {
                 bind.newProducts.text = tab?.text
+                StaticValue.nameCategory = tab?.text.toString()
+                bundle.putString(NAME_CATEGORY, tab?.text.toString())
+                bundle.putInt(ID_CATEGORY, (1 + tab?.position!!.toInt()))
             }
 
             override fun onTabUnselected(tab: TabLayout.Tab?) {}
@@ -133,7 +154,8 @@ class MainScreen : Fragment(R.layout.screen_main) {
     }
 
     companion object {
-        val tabProductTitles = listOf("Топ продаж", "Акции", "Популярное")
+        const val NAME_CATEGORY = "NAME_CATEGORY"
+        const val ID_CATEGORY = "ID_CATEGORY"
     }
 
 }

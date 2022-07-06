@@ -8,16 +8,16 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.app.garant.R
 import com.app.garant.presenter.adapters.installment.InstallmentAdapter
-import com.app.garant.databinding.ItemRecyclerBinding
+import com.app.garant.databinding.PagePopularBinding
 import com.app.garant.models.InstallmentHistoryData
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 
 class OrderRecyclerView(val data:ArrayList<InstallmentHistoryData>)
-    : Fragment(R.layout.item_recycler) {
+    : Fragment(R.layout.page_popular) {
 
-    private val bind by viewBinding(ItemRecyclerBinding::bind)
+    private val bind by viewBinding(PagePopularBinding::bind)
     private val installmentAdapter by lazy {  InstallmentAdapter(data) }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

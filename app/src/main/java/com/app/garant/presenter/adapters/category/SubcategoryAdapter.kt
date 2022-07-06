@@ -1,40 +1,68 @@
 package com.app.garant.presenter.adapters.category
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import by.kirich1409.viewbindingdelegate.viewBinding
 import com.app.garant.R
+import com.app.garant.data.other.StaticValue
+import com.app.garant.data.response.category.categories.Category
+import com.app.garant.data.response.category.categories.CategoryResponseItem
+import com.app.garant.databinding.ItemCatalogBinding
 import com.app.garant.databinding.ItemSubcategoryBinding
+import com.bumptech.glide.Glide
 
-class SubcategoryAdapter:RecyclerView.Adapter<SubcategoryAdapter.SubcategoryViewHolder>() {
+class SubcategoryAdapter : ListAdapter<Category, SubcategoryAdapter.SubcategoryVH>(MyDifUtils) {
 
-    private var itemListener: ((String) -> Unit)? = null
+    object MyDifUtils : DiffUtil.ItemCallback<Category>() {
+        override fun areItemsTheSame(
+            oldItem: Category,
+            newItem: Category
+        ): Boolean {
+            return oldItem == newItem
+        }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SubcategoryViewHolder {
-        val inflater = LayoutInflater.from(parent.context)
-        val binding = ItemSubcategoryBinding.inflate(inflater, parent, false)
-        return SubcategoryViewHolder(binding)
+        @SuppressLint("DiffUtilEquals")
+        override fun areContentsTheSame(
+            oldItem: Category,
+            newItem: Category
+        ): Boolean {
+            return oldItem == newItem
+        }
     }
 
-    override fun onBindViewHolder(holder: SubcategoryViewHolder, position: Int) {
-        with(holder.binding){
-            subcategoryImg.setImageResource(R.drawable.ic_category)
-            subcategoryName.setText(R.string.mobile_phones_and_smart_phones)
-            parent.setOnClickListener {
-                itemListener?.invoke("data.toString()")
+    private var itemListener: ((Int) -> Unit)? = null
 
+    inner class SubcategoryVH(view: View) : RecyclerView.ViewHolder(view) {
+        private val bind by viewBinding(ItemSubcategoryBinding::bind)
+
+        fun load() {
+            val value = getItem(absoluteAdapterPosition)
+            bind.subcategoryName.text = value.name
+            Glide.with(bind.subcategoryImg.context).load(value.image).into(bind.subcategoryImg)
+            bind.parent.setOnClickListener {
+                itemListener?.invoke(absoluteAdapterPosition)
             }
         }
     }
 
-    override fun getItemCount(): Int = 10
+    override fun onBindViewHolder(holder: SubcategoryAdapter.SubcategoryVH, position: Int) {
+        holder.load()
+    }
 
+    override fun onCreateViewHolder(
+        parent: ViewGroup,
+        viewType: Int
+    ): SubcategoryAdapter.SubcategoryVH =
+        SubcategoryVH(
+            LayoutInflater.from(parent.context).inflate(R.layout.item_subcategory, parent, false)
+        )
 
-    class SubcategoryViewHolder(
-        val binding: ItemSubcategoryBinding
-    ):RecyclerView.ViewHolder(binding.root)
-
-    fun setListenerClick(function: (String) -> Unit) {
+    fun setListenerClick(function: (Int) -> Unit) {
         itemListener = function
     }
 }

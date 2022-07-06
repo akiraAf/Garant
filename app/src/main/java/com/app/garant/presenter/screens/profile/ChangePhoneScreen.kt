@@ -14,6 +14,7 @@ import com.app.garant.data.request.profile.ChangePhoneRequest
 import com.app.garant.databinding.ScreenChangeNumberBinding
 import com.app.garant.presenter.viewModel.profile.ChangeNumberViewModel
 import com.app.garant.presenter.viewModel.viewModelimpl.profile.ChangeNumberViewModelImpl
+import com.app.garant.utils.hideKeyboard
 import com.app.garant.utils.isConnected
 import com.app.garant.utils.scope
 import com.app.garant.utils.showToast
@@ -32,6 +33,10 @@ class ChangePhoneScreen : Fragment(R.layout.screen_change_number) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) = bind.scope {
         super.onViewCreated(view, savedInstanceState)
 
+
+        view.setOnClickListener {
+            it.hideKeyboard()
+        }
         bind.back.setOnClickListener {
             findNavController().popBackStack()
         }
@@ -45,11 +50,10 @@ class ChangePhoneScreen : Fragment(R.layout.screen_change_number) {
         }.launchIn(lifecycleScope)
 
         viewModel.errorFlow.onEach {
-            showToast(it)
+            //    showToast(it)
         }.launchIn(lifecycleScope)
 
         viewModel.progressFlow.onEach {
-            showToast("IN PROGRESS")
         }.launchIn(lifecycleScope)
 
         bind.next.setOnClickListener {
@@ -64,7 +68,6 @@ class ChangePhoneScreen : Fragment(R.layout.screen_change_number) {
                 showToast("Два одиннаковых номер телефона")
             else if (isConnected()) {
                 viewModel.changeNumber(ChangePhoneRequest(newNumber.toLong()))
-
                 findNavController().navigate(
                     R.id.action_changePhoneNumberPage_to_receiveConfirmationCodePage2,
                     bundle

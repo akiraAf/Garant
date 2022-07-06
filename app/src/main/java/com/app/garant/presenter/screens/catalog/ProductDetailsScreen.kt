@@ -13,7 +13,6 @@ import com.app.garant.R
 import com.app.garant.presenter.adapters.main.BannerProductAdapter
 import com.app.garant.presenter.adapters.ProductsAdapter
 import com.app.garant.databinding.ScreenProductDetailsBinding
-import com.app.garant.models.ProductData
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -21,7 +20,6 @@ import dagger.hilt.android.AndroidEntryPoint
 class ProductDetailsScreen : Fragment(R.layout.screen_product_details) {
 
     private val bind by viewBinding(ScreenProductDetailsBinding::bind)
-    private var data = ArrayList<ProductData>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -32,31 +30,11 @@ class ProductDetailsScreen : Fragment(R.layout.screen_product_details) {
         bind.bannerProduct.registerOnPageChangeCallback(pagerChangePos)
         month_btn()
 
-        for (i in 1..20) {
-            data.add(
-                ProductData(
-                    "2 300 000 сум", "x 12 мес", "10 700 000 сум",
-                    "Apple iPhone 12 \n128GB", R.drawable.default_product
-                )
-            )
-        }
 
-//        val adapterProduct by lazy { ProductsAdapter(data) }
 
         bind.back.setOnClickListener {
             findNavController().popBackStack()
         }
-//        bind.promotionalGoodsRV.layoutManager =
-//            StaggeredGridLayoutManager(1, LinearLayoutManager.HORIZONTAL)
-//        bind.promotionalGoodsRV.adapter = adapterProduct
-//        bind.popularProductsRV.layoutManager =
-//            StaggeredGridLayoutManager(1, LinearLayoutManager.HORIZONTAL)
-//        bind.popularProductsRV.adapter = adapterProduct
-//
-//
-//        adapterProduct.setListenerClick {
-//            findNavController().navigate(R.id.action_productDetailsPage3_self)
-//        }
 
         bind.fullDetails.setOnClickListener {
             findNavController().navigate(R.id.action_productDetailsPage3_to_fullDetails3)
@@ -80,16 +58,15 @@ class ProductDetailsScreen : Fragment(R.layout.screen_product_details) {
     }
 
     private fun month_btn() {
-
         val param = LinearLayout.LayoutParams(
-            230,
-            240,
+            170,
+            170,
             0F
         )
 
         val paramDef = LinearLayout.LayoutParams(
-            320,
-            240,
+            210,
+            170,
             0F
         )
         param.setMargins(15, 0, 15, 0)
@@ -103,13 +80,42 @@ class ProductDetailsScreen : Fragment(R.layout.screen_product_details) {
             button6Month.layoutParams = param
             button9Month.layoutParams = param
             button12Month.layoutParams = param
-            button1Month.left = 10
-            button1Month.right = 10
 
             button1Month.setOnClickListener {
-
                 button1Month.layoutParams = paramDef
+                button3Month.layoutParams = param
+                button6Month.layoutParams = param
+                button9Month.layoutParams = param
+                button12Month.layoutParams = param
+            }
 
+            button3Month.setOnClickListener {
+                button1Month.layoutParams = param
+                button3Month.layoutParams = paramDef
+                button6Month.layoutParams = param
+                button9Month.layoutParams = param
+                button12Month.layoutParams = param
+            }
+            button6Month.setOnClickListener {
+                button1Month.layoutParams = param
+                button3Month.layoutParams = param
+                button6Month.layoutParams = paramDef
+                button9Month.layoutParams = param
+                button12Month.layoutParams = param
+            }
+            button9Month.setOnClickListener {
+                button1Month.layoutParams = param
+                button3Month.layoutParams = param
+                button6Month.layoutParams = param
+                button9Month.layoutParams = paramDef
+                button12Month.layoutParams = param
+            }
+            button12Month.setOnClickListener {
+                button1Month.layoutParams = param
+                button3Month.layoutParams = param
+                button6Month.layoutParams = param
+                button9Month.layoutParams = param
+                button12Month.layoutParams = paramDef
             }
         }
     }

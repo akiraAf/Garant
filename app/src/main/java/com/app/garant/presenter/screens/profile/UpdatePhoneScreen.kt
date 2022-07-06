@@ -1,7 +1,7 @@
 package com.app.garant.presenter.screens.profile
 
 import android.os.Bundle
-import android.util.Log
+import android.os.CountDownTimer
 import androidx.fragment.app.Fragment
 import android.view.View
 import androidx.fragment.app.viewModels
@@ -34,8 +34,6 @@ class UpdatePhoneScreen : Fragment(R.layout.screen_receive_confirmation_code) {
             findNavController().popBackStack()
         }
 
-
-
         arguments?.getString(PHONE_ARG)?.let {
             phoneNumber = it
         }
@@ -45,6 +43,13 @@ class UpdatePhoneScreen : Fragment(R.layout.screen_receive_confirmation_code) {
 
         enterCodeTextView.text =
             "Введите код подтверждения\n отправленный на ваш номер ***${phoneNumberTextView}"
+
+        bind.reset.setOnClickListener {
+            bind.reset.visibility = View.GONE
+            timerX.start()
+        }
+
+        timerX.start()
 
 
         viewModel.successFlow.onEach {
@@ -68,6 +73,26 @@ class UpdatePhoneScreen : Fragment(R.layout.screen_receive_confirmation_code) {
                 showToast("Введите код потверждения")
             }
         }
+    }
+
+    private var timerX = object : CountDownTimer(25000, 1000) {
+        override fun onTick(millisUntilFinished: Long) {
+            if (millisUntilFinished / 1000 > 9L)
+                bind.timer.text = "00:${(millisUntilFinished / 1000)}"
+            else
+                bind.timer.text = "00:0${(millisUntilFinished / 1000)}"
+        }
+
+        override fun onFinish() {
+            bind.timer.text = "Отправить код повторно"
+            bind.reset.visibility = View.VISIBLE
+        }
+
+    }
+
+    override fun onStop() {
+        super.onStop()
+        timerX.cancel()
     }
 
     companion object {

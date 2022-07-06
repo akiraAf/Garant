@@ -70,7 +70,7 @@
 
 
     <TextView
-        android:id="@+id/timer_textView"
+        android:id="@+id/timer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="25dp"
@@ -82,16 +82,16 @@
         app:layout_constraintTop_toBottomOf="@+id/input_code_layout" />
 
     <ImageView
+        android:id="@+id/reset"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="25dp"
         android:src="@drawable/ic_restart"
         android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.19"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.3" />
+        app:layout_constraintTop_toBottomOf="@+id/input_code_layout" />
 
     <TextView
         android:id="@+id/attempts_textView"
@@ -109,7 +109,6 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.35" />
 
-
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/confirm_btn"
         android:layout_width="0dp"
@@ -126,7 +125,7 @@
         app:iconGravity="textStart"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/timer_textView" />
+        app:layout_constraintTop_toBottomOf="@+id/timer" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

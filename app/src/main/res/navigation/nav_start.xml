@@ -17,6 +17,9 @@
             app:exitAnim="@android:anim/fade_out"
             app:popEnterAnim="@android:anim/fade_in"
             app:popExitAnim="@android:anim/fade_out" />
+        <action
+            android:id="@+id/auth_screen"
+            app:destination="@id/authorizationScreen" />
     </fragment>
     <fragment
         android:id="@+id/authorizationScreen"
@@ -42,10 +45,19 @@
     </fragment>
     <fragment
         android:id="@+id/navigationScreen"
+        tools:layout="@layout/screen_navigation"
         android:name="com.app.garant.presenter.screens.NavigationScreen"
         android:label="NavigationScreen" >
         <action
             android:id="@+id/action_navigationScreen_to_languageScreen"
             app:destination="@id/languageScreen" />
+        <action
+            android:id="@+id/action_navigationScreen_to_noConnectionScreen"
+            app:destination="@id/noConnectionScreen" />
     </fragment>
+    <fragment
+        android:id="@+id/noConnectionScreen"
+        android:name="com.app.garant.presenter.screens.others.NoConnectionScreen"
+        android:label="screen_no_connection"
+        tools:layout="@layout/screen_no_connection" />
 </navigation>

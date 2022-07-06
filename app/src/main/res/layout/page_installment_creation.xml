@@ -29,8 +29,8 @@
             android:id="@+id/back"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="25dp"
             android:layout_marginTop="20dp"
+            android:padding="25dp"
             android:src="@drawable/ic_left"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -39,52 +39,54 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler"
             android:layout_width="0dp"
-            android:layout_marginHorizontal="10dp"
             android:layout_height="match_parent"
+            android:layout_marginHorizontal="10dp"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/back"/>
+            app:layout_constraintTop_toBottomOf="@id/back" />
 
         <androidx.cardview.widget.CardView
             android:id="@+id/card"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            app:circularflow_defaultRadius="10dp"
             android:layout_margin="15dp"
             app:cardCornerRadius="10dp"
+            app:circularflow_defaultRadius="10dp"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@id/recycler">
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:padding="20sp"
-                android:orientation="vertical">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Предоплата"
-                android:layout_marginTop="10dp"
-                android:textSize="18sp"
-                android:textColor="@color/default_black"
-                android:textStyle="bold"/>
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:layout_marginTop="15dp"
-                android:hint="4 500 000 "
-                android:inputType="phone"
-                android:paddingHorizontal="10dp"
-                android:background="@drawable/grey_bg"/>
+                android:orientation="vertical"
+                android:padding="20sp">
 
                 <TextView
                     android:layout_width="wrap_content"
-                    android:textSize="14sp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="Предоплата"
                     android:textColor="@color/default_black"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:layout_marginTop="15dp"
+                    android:background="@drawable/grey_bg"
+                    android:hint="4 500 000 "
+                    android:inputType="phone"
+                    android:paddingHorizontal="10dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginVertical="10dp"
-                    android:text="Ежемесячный платеж: 400 000 сум"/>
+                    android:text="Ежемесячный платеж: 400 000 сум"
+                    android:textColor="@color/default_black"
+                    android:textSize="14sp" />
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 
@@ -92,100 +94,122 @@
             android:id="@+id/installment_duration"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textStyle="bold"
             android:layout_marginStart="15dp"
             android:layout_marginTop="25sp"
             android:text="@string/installment_duration"
             android:textColor="@color/default_black"
             android:textSize="18sp"
+            android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/card" />
 
 
-        <LinearLayout
+        <HorizontalScrollView
             android:id="@+id/installment_duration_btns"
             android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_height="70dp"
+            android:layout_marginHorizontal="15dp"
             android:layout_marginTop="15dp"
-            android:layout_marginHorizontal="5dp"
+            android:orientation="horizontal"
+            android:scrollbars="none"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@id/installment_duration">
 
-            <Button
-                android:id="@+id/button1Month"
-                android:layout_width="0dp"
+            <RadioGroup
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_margin="5dp"
-                android:layout_weight="1"
-                android:stateListAnimator="@anim/month_installment"
-                android:button="@null"
-                android:fontFamily="@font/ruberoid_medium"
-                android:background="@drawable/month_installment_selector"
-                android:padding="5dp"
-                android:text="@string/one_month"
-                android:textColor="@color/grey"
-                android:textSize="16sp" />
+                android:orientation="horizontal">
 
-            <Button
-                android:id="@+id/button3Month"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_margin="5dp"
-                android:layout_weight="1"
-                android:background="@drawable/month_installment_selector"
-                android:padding="5dp"
-                android:text="@string/three_month"
-                android:textColor="@color/grey"
-                android:textSize="16sp" />
+                <androidx.appcompat.widget.AppCompatRadioButton
+                    android:id="@+id/button1Month"
+                    style="@null"
+                    android:layout_width="70dp"
+                    android:layout_height="match_parent"
+                    android:layout_margin="5dp"
+                    android:background="@drawable/month_installment_selector"
+                    android:button="@null"
+                    android:gravity="center"
+                    android:hint="@string/one_month"
+                    android:padding="5dp"
+                    android:stateListAnimator="@anim/month_installment"
+                    android:text="@string/one_month"
+                    android:textColor="@drawable/installment_month_text_color"
+                    android:textSize="18sp" />
 
-            <Button
-                android:id="@+id/button6Month"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_margin="5dp"
-                android:layout_weight="1"
-                android:background="@drawable/month_installment_selector"
-                android:padding="5dp"
-                android:text="@string/six_month"
-                android:textColor="@color/grey"
-                android:textSize="16sp"/>
+                <androidx.appcompat.widget.AppCompatRadioButton
+                    android:id="@+id/button3Month"
+                    style="@null"
+                    android:layout_width="70dp"
+                    android:layout_height="match_parent"
+                    android:layout_margin="5dp"
+                    android:background="@drawable/month_installment_selector"
+                    android:button="@null"
+                    android:gravity="center"
+                    android:hint="@string/one_month"
+                    android:padding="5dp"
+                    android:stateListAnimator="@anim/month_installment"
+                    android:text="@string/three_month"
+                    android:textColor="@drawable/installment_month_text_color"
+                    android:textSize="18sp" />
 
-            <Button
-                android:id="@+id/button9Month"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_margin="5dp"
-                android:layout_weight="1"
-                android:background="@drawable/month_installment_selector"
-                android:padding="5dp"
-                android:text="@string/nine_month"
-                android:textColor="@color/grey"
-                android:textSize="16sp" />
+                <androidx.appcompat.widget.AppCompatRadioButton
+                    android:id="@+id/button6Month"
+                    style="@null"
+                    android:layout_width="70dp"
+                    android:layout_height="match_parent"
+                    android:layout_margin="5dp"
+                    android:background="@drawable/month_installment_selector"
+                    android:button="@null"
+                    android:gravity="center"
+                    android:padding="5dp"
+                    android:stateListAnimator="@anim/month_installment"
+                    android:text="@string/six_month"
+                    android:textColor="@drawable/installment_month_text_color"
+                    android:textSize="18sp" />
 
-            <Button
-                android:id="@+id/button12Month"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_margin="5dp"
-                android:layout_weight="1"
-                android:background="@drawable/month_installment_selector"
-                android:padding="5dp"
-                android:text="@string/twelve_month"
-                android:textColor="@color/grey"
-                android:textSize="16sp" />
-        </LinearLayout>
+                <androidx.appcompat.widget.AppCompatRadioButton
+                    android:id="@+id/button9Month"
+                    style="@null"
+                    android:layout_width="70dp"
+                    android:layout_height="match_parent"
+                    android:layout_margin="5dp"
+                    android:background="@drawable/month_installment_selector"
+                    android:button="@null"
+                    android:gravity="center"
+                    android:padding="5dp"
+                    android:stateListAnimator="@anim/month_installment"
+                    android:text="@string/nine_month"
+                    android:textColor="@drawable/installment_month_text_color"
+                    android:textSize="18sp" />
+
+                <androidx.appcompat.widget.AppCompatRadioButton
+                    android:id="@+id/button12Month"
+                    style="@null"
+                    android:layout_width="70dp"
+                    android:layout_height="match_parent"
+                    android:layout_margin="5dp"
+                    android:background="@drawable/month_installment_selector"
+                    android:button="@null"
+                    android:gravity="center"
+                    android:padding="5dp"
+                    android:stateListAnimator="@anim/month_installment"
+                    android:text="@string/twelve_month"
+                    android:textColor="@drawable/installment_month_text_color"
+                    android:textSize="18sp" />
+            </RadioGroup>
+        </HorizontalScrollView>
 
         <androidx.cardview.widget.CardView
             android:id="@+id/payment_info"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            app:cardCornerRadius="10dp"
-            android:layout_marginTop="25dp"
             android:layout_marginHorizontal="15dp"
-            app:layout_constraintTop_toBottomOf="@id/installment_duration_btns"
+            android:layout_marginTop="25dp"
+            app:cardCornerRadius="10dp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent">
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/installment_duration_btns">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -197,10 +221,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="15dp"
-                    android:textStyle="bold"
                     android:text="@string/order_price"
                     android:textColor="@color/default_black"
                     android:textSize="18sp"
+                    android:textStyle="bold"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 

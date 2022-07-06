@@ -44,4 +44,10 @@ class MyPref @Inject constructor(private val context: Context) {
         }
         get() = pref.getBoolean("startScreen", false)
 
+    var language: Boolean
+        set(value) {
+            pref.edit().putBoolean("language", value).apply()
+        }
+        get() = pref.getBoolean("language", true)!!
+
 }

@@ -2,9 +2,9 @@ package com.app.garant.presenter.screens.auth
 
 import android.content.Context
 import android.os.Bundle
+import android.os.CountDownTimer
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.View
 import android.widget.EditText
 import androidx.fragment.app.Fragment
@@ -23,7 +23,6 @@ import com.app.garant.utils.hideKeyboard
 import com.app.garant.utils.scope
 import com.app.garant.utils.showToast
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.last
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 
@@ -36,6 +35,7 @@ class VerificationScreen() : Fragment(R.layout.screen_verification) {
     private var phone: String = ""
     private var verifyCode = ""
 
+
     override fun onAttach(context: Context) {
         super.onAttach(context)
         arguments?.getString(PHONE)?.let {
@@ -46,11 +46,16 @@ class VerificationScreen() : Fragment(R.layout.screen_verification) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) = bind.scope {
         super.onViewCreated(view, savedInstanceState)
 
-
         bind.back.setOnClickListener {
             findNavController().popBackStack()
         }
 
+        bind.reset.setOnClickListener {
+            bind.reset.visibility = View.GONE
+            timerX.start()
+        }
+
+        timerX.start()
 
         bind.confirm.setOnClickListener {
             if (inputOne.text.toString().isNotEmpty() &&
@@ -63,7 +68,6 @@ class VerificationScreen() : Fragment(R.layout.screen_verification) {
                 verifyCode += inputTwo.text?.toString()
                 verifyCode += inputThree.text?.toString()
                 verifyCode += inputFour.text?.toString()
-                showToast(phone.trim())
 
                 if (phone.isNotEmpty() && verifyCode.length == 4)
                     viewModel.sendVerify(
@@ -78,6 +82,7 @@ class VerificationScreen() : Fragment(R.layout.screen_verification) {
         }
 
 
+
         view.setOnClickListener {
             it.hideKeyboard()
         }
@@ -90,8 +95,6 @@ class VerificationScreen() : Fragment(R.layout.screen_verification) {
 
         viewModel.successFlow.onEach {
             findNavController().navigate(R.id.action_verificationScreen_to_navigationScreen)
-            val pref = MyPref(App.instance)
-            pref.startScreen = true
         }.launchIn(lifecycleScope)
 
     }
@@ -113,13 +116,34 @@ class VerificationScreen() : Fragment(R.layout.screen_verification) {
                 if (count == 1) {
                     editText.requestFocus()
                 }
-
             }
 
             override fun afterTextChanged(s: Editable?) {
+
             }
         }
     }
+
+    private var timerX = object : CountDownTimer(25000, 1000) {
+        override fun onTick(millisUntilFinished: Long) {
+            if (millisUntilFinished / 1000 > 9L)
+                bind.timer.text = "00:${(millisUntilFinished / 1000)}"
+            else
+                bind.timer.text = "00:0${(millisUntilFinished / 1000)}"
+        }
+
+        override fun onFinish() {
+            bind.timer.text = "Отправить код повторно"
+            bind.reset.visibility = View.VISIBLE
+        }
+
+    }
+
+    override fun onStop() {
+        super.onStop()
+        timerX.cancel()
+    }
+
 
     companion object {
         private const val PHONE: String = "PHONE"

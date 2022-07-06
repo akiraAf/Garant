@@ -21,7 +21,9 @@ class LanguageScreen : Fragment(R.layout.screen_language) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+
         bind.russianLanguageBg.setOnClickListener {
+            MyPref(App.instance).startScreen = false
             openAuth()
         }
 
@@ -29,6 +31,7 @@ class LanguageScreen : Fragment(R.layout.screen_language) {
         mypref.access_token = ""
 
         bind.uzbekLanguageBg.setOnClickListener {
+            MyPref(App.instance).startScreen = false
             openAuth()
         }
     }

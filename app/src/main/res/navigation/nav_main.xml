@@ -19,6 +19,9 @@
         <action
             android:id="@+id/action_mainPage_to_nav_product_details"
             app:destination="@id/nav_product_details" />
+        <action
+            android:id="@+id/action_mainPage_to_productsScreen"
+            app:destination="@id/productsScreen" />
     </fragment>
     <fragment
         android:id="@+id/notificationScreen"
@@ -31,4 +34,8 @@
         android:label="page_search_products"
         tools:layout="@layout/screen_search_products" />
     <include app:graph="@navigation/nav_product_details" />
+    <fragment
+        android:id="@+id/productsScreen"
+        android:name="com.app.garant.presenter.screens.catalog.ProductsScreen"
+        android:label="ProductsScreen" />
 </navigation>

@@ -33,6 +33,12 @@
         <action
             android:id="@+id/action_subcategoryPage_to_emptyFavoritePage"
             app:destination="@id/emptyFavoritePage" />
+        <argument
+            android:name="subCategory"
+            app:argType="com.app.garant.data.response.category.categories.Category[]" />
+        <argument android:name="nameSubCategory"
+            app:argType="string"
+            app:nullable="true" />
     </fragment>
     <fragment
         android:id="@+id/productsPage"
