@@ -6,6 +6,7 @@ import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.GridLayoutManager
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.app.garant.R
@@ -24,17 +25,19 @@ import kotlinx.coroutines.flow.onEach
 
 class ProductsScreen : Fragment(R.layout.screen_products) {
     private val bind by viewBinding(ScreenProductsBinding::bind)
+    private val args by navArgs<ProductsScreenArgs>()
     private val productAdapter = ProductsAdapter()
     private val viewModel: ProductsScreenViewModel by viewModels<ProductsScreenViewModelImpl>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        bind.nameCategory.text = arguments?.getString(NAME_CATEGORY)
+        bind.nameCategory.text = args.name
 
         bind.progress.bringToFront()
 
-        val idCategory = arguments?.getInt(ID_CATEGORY)
+        val idCategory = args.id
+
 
         if (idCategory == 1)
             viewModel.getAllProducts(2)
@@ -45,9 +48,13 @@ class ProductsScreen : Fragment(R.layout.screen_products) {
             it.hideKeyboard()
         }
 
+
         viewModel.successFlow.onEach {
             bind.progress.visibility = View.GONE
             productAdapter.submitList(it.data)
+            productAdapter.setListenerClick {
+                findNavController().navigate(R.id.nav_product_details)
+            }
         }.launchIn(lifecycleScope)
 
         viewModel.progressFlow.onEach {
@@ -65,6 +72,8 @@ class ProductsScreen : Fragment(R.layout.screen_products) {
         bind.favorites.setOnClickListener {
             findNavController().navigate(R.id.action_productsPage_to_emptyFavoritePage)
         }
+
+
     }
 
     companion object {

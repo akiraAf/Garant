@@ -30,7 +30,8 @@ import kotlinx.coroutines.flow.onEach
 class MainScreen : Fragment(R.layout.screen_main) {
     private val bind by viewBinding(ScreenMainBinding::bind)
     private val viewModel: MainScreenViewModel by viewModels<MainScreenViewModelImpl>()
-    private val bundle = Bundle()
+    var nameCategory = ""
+    var idCategory = 1
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -46,8 +47,12 @@ class MainScreen : Fragment(R.layout.screen_main) {
         viewModel.successFlow.onEach {
             viewModel.getNames()
             bind.all.setOnClickListener {
-                findNavController().navigate(R.id.action_mainPage_to_productsScreen, bundle)
+                val action =
+                    MainScreenDirections.actionMainPageToProductsScreen(nameCategory, idCategory)
+                findNavController().navigate(action)
             }
+
+            bind.container.isClickable = true
             bind.progress.visibility = View.GONE
         }.launchIn(lifecycleScope)
 
@@ -55,7 +60,8 @@ class MainScreen : Fragment(R.layout.screen_main) {
 
         viewModel.progressFlow.onEach {
             bind.progress.visibility = View.VISIBLE
-        }.launchIn(lifecycleScope)
+            bind.container.isEnabled = false
+        }.launchIn(lifecycleScope)  
 
         viewModel.tabСontentLoad.onEach {
             bind.productsPager.adapter =
@@ -144,8 +150,8 @@ class MainScreen : Fragment(R.layout.screen_main) {
             override fun onTabSelected(tab: TabLayout.Tab?) {
                 bind.newProducts.text = tab?.text
                 StaticValue.nameCategory = tab?.text.toString()
-                bundle.putString(NAME_CATEGORY, tab?.text.toString())
-                bundle.putInt(ID_CATEGORY, (1 + tab?.position!!.toInt()))
+                nameCategory = tab?.text.toString()
+                idCategory = (1 + tab?.position!!.toInt())
             }
 
             override fun onTabUnselected(tab: TabLayout.Tab?) {}

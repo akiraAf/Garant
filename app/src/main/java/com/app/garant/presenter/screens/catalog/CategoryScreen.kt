@@ -37,7 +37,15 @@ class CategoryScreen : Fragment(R.layout.screen_category) {
 
         viewModel.getCategory()
 
+        viewModel.progressFlow.onEach {
+            bind.progress.bringToFront()
+            bind.catalogRV.visibility = View.GONE
+            bind.progress.visibility = View.VISIBLE
+        }
+
         viewModel.successFlow.onEach {
+            bind.progress.visibility = View.GONE
+            bind.catalogRV.visibility = View.VISIBLE
             adapterCategory.submitList(it.reversed())
         }.launchIn(lifecycleScope)
 

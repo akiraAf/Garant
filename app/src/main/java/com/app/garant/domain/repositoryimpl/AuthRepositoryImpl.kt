@@ -1,5 +1,6 @@
 package com.app.garant.domain.repositoryimpl
 
+import com.app.garant.app.App
 import com.app.garant.data.api.AuthApi
 import com.app.garant.data.pref.MyPref
 import com.app.garant.data.request.auth.LoginRequest
@@ -29,7 +30,6 @@ class AuthRepositoryImpl @Inject constructor(private val api: AuthApi, private v
         val response = api.login(loginRequest)
 
         if (response.isSuccessful) {
-
             emit(Result.success(response.body()!!))
         } else {
             emit(Result.failure(Throwable(response.errorBody().toString())))

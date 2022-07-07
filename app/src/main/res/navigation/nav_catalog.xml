@@ -51,9 +51,16 @@
         <action
             android:id="@+id/action_productsPage_to_emptyFavoritePage"
             app:destination="@id/emptyFavoritePage" />
+        <argument
+            android:name="name"
+            app:argType="string" />
+        <argument
+            android:name="id"
+            app:argType="integer" />
     </fragment>
     <include app:graph="@navigation/nav_product_details" />
     <fragment
+        tools:layout="@layout/screen_empty_favorite"
         android:id="@+id/emptyFavoritePage"
         android:name="com.app.garant.presenter.screens.favorites.EmptyFavoriteScreen"
         android:label="EmptyFavoritePage" >

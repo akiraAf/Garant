@@ -30,8 +30,6 @@ class ProductDetailsScreen : Fragment(R.layout.screen_product_details) {
         bind.bannerProduct.registerOnPageChangeCallback(pagerChangePos)
         month_btn()
 
-
-
         bind.back.setOnClickListener {
             findNavController().popBackStack()
         }

@@ -180,5 +180,6 @@
     <string name="amount_products">Кол-во товаров</string>
     <string name="receive_code">983204</string>
     <string name="enter_receive_code">Введите код подтверждения\n отправленный на ваш номер ***–42-22</string>
+    <string name="discount">  <strike> 940 000 сум </strike>  </string>
 
 </resources>

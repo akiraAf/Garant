@@ -35,11 +35,13 @@ class SubcategoryScreen : Fragment(R.layout.screen_subcategory) {
             bind.subcategoryRecycler.visibility = View.GONE
         }
 
+
         bind.subcategoryRecycler.layoutManager = LinearLayoutManager(activity)
         bind.subcategoryRecycler.adapter = subcategoryAdapter
 
-        subcategoryAdapter.setListenerClick {
-            findNavController().navigate(R.id.action_subcategoryPage_to_productsPage)
+        subcategoryAdapter.setListenerClick { id, name ->
+            val action = SubcategoryScreenDirections.actionSubcategoryPageToProductsPage(name, id)
+            findNavController().navigate(action)
         }
         bind.favorites.setOnClickListener {
             findNavController().navigate(R.id.action_subcategoryPage_to_emptyFavoritePage)

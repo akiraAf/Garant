@@ -10,6 +10,8 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.app.garant.R
+import com.app.garant.app.App
+import com.app.garant.data.pref.MyPref
 import com.app.garant.data.request.profile.ChangePhoneRequest
 import com.app.garant.databinding.ScreenChangeNumberBinding
 import com.app.garant.presenter.viewModel.profile.ChangeNumberViewModel
@@ -34,6 +36,9 @@ class ChangePhoneScreen : Fragment(R.layout.screen_change_number) {
         super.onViewCreated(view, savedInstanceState)
 
 
+
+        bind.inputCurrentNumber.setText("  ${MyPref(App.instance).phoneNumber}")
+
         view.setOnClickListener {
             it.hideKeyboard()
         }
@@ -42,7 +47,6 @@ class ChangePhoneScreen : Fragment(R.layout.screen_change_number) {
         }
 
         viewModel.successFlow.onEach {
-            showToast("SUCCESS")
             findNavController().navigate(
                 R.id.action_changePhoneNumberPage_to_receiveConfirmationCodePage2,
                 bundle

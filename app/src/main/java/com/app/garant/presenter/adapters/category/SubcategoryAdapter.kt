@@ -35,7 +35,7 @@ class SubcategoryAdapter : ListAdapter<Category, SubcategoryAdapter.SubcategoryV
         }
     }
 
-    private var itemListener: ((Int) -> Unit)? = null
+    private var itemListener: ((Int, String) -> Unit)? = null
 
     inner class SubcategoryVH(view: View) : RecyclerView.ViewHolder(view) {
         private val bind by viewBinding(ItemSubcategoryBinding::bind)
@@ -45,7 +45,7 @@ class SubcategoryAdapter : ListAdapter<Category, SubcategoryAdapter.SubcategoryV
             bind.subcategoryName.text = value.name
             Glide.with(bind.subcategoryImg.context).load(value.image).into(bind.subcategoryImg)
             bind.parent.setOnClickListener {
-                itemListener?.invoke(absoluteAdapterPosition)
+                itemListener?.invoke(absoluteAdapterPosition, value.name)
             }
         }
     }
@@ -62,7 +62,7 @@ class SubcategoryAdapter : ListAdapter<Category, SubcategoryAdapter.SubcategoryV
             LayoutInflater.from(parent.context).inflate(R.layout.item_subcategory, parent, false)
         )
 
-    fun setListenerClick(function: (Int) -> Unit) {
+    fun setListenerClick(function: (Int, String) -> Unit) {
         itemListener = function
     }
 }

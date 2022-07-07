@@ -3,13 +3,18 @@ package com.app.garant.presenter.screens.auth
 import android.app.AlertDialog
 import android.content.DialogInterface
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import android.view.View
+import android.widget.EditText
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.app.garant.R
+import com.app.garant.app.App
+import com.app.garant.data.pref.MyPref
 import com.app.garant.data.request.auth.LoginRequest
 import com.app.garant.databinding.ScreenAuthorizationBinding
 import com.app.garant.presenter.viewModel.auth.AuthorizationViewModel
@@ -30,6 +35,7 @@ class AuthorizationScreen : Fragment(R.layout.screen_authorization) {
         super.onViewCreated(view, savedInstanceState)
 
 
+
         bind.back.setOnClickListener {
             findNavController().popBackStack()
         }
@@ -38,8 +44,7 @@ class AuthorizationScreen : Fragment(R.layout.screen_authorization) {
             it.hideKeyboard()
         }
 
-//        bind.inputPhoneNumber.isLaidOut = true
-
+        bind.inputPhoneNumber.setText("-")
 
         bind.next.setOnClickListener {
             val phoneNumber = bind.inputPhoneNumber.text?.toString()
@@ -50,7 +55,7 @@ class AuthorizationScreen : Fragment(R.layout.screen_authorization) {
                 ?.replace(")", "")
                 ?.replace("_", "")
 
-
+            MyPref(App.instance).phoneNumber = bind.inputPhoneNumber.unMasked
             if (phoneNumber != null) {
                 bundle.putString(PHONE, phoneNumber)
             }

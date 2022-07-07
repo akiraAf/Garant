@@ -1,7 +1,6 @@
 package com.app.garant.presenter.adapters
 
 import android.annotation.SuppressLint
-import android.icu.text.DecimalFormat
 import android.icu.text.NumberFormat
 import android.util.Log
 import android.view.LayoutInflater
@@ -52,7 +51,6 @@ class ProductsAdapter : ListAdapter<Data, ProductsAdapter.ProductVH>(MyDifUtils)
         private fun price_converter(price: Long): String {
             numberFormat.maximumFractionDigits = 0;
             val convert = numberFormat.format(price)
-            Log.i("LOL", convert)
             return (convert.replace(",", " ") + " cум")
         }
 

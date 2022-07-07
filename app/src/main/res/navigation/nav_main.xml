@@ -36,6 +36,16 @@
     <include app:graph="@navigation/nav_product_details" />
     <fragment
         android:id="@+id/productsScreen"
+        tools:layout="@layout/screen_products"
         android:name="com.app.garant.presenter.screens.catalog.ProductsScreen"
-        android:label="ProductsScreen" />
+        android:label="ProductsScreen" >
+        <argument
+            android:name="name"
+            app:argType="string" />
+        <argument android:name="id"
+            app:argType="integer" />
+        <action
+            android:id="@+id/action_productsScreen_to_nav_product_details"
+            app:destination="@id/nav_product_details" />
+    </fragment>
 </navigation>
