@@ -33,7 +33,7 @@ class InstallmentContractScreen : Fragment(R.layout.page_installment_contract) {
         super.onViewCreated(view, savedInstanceState)
 
         initData()
-        bind.orderRV.adapter = OrderAdapter(orderData, true)
+   //     bind.orderRV.adapter = OrderAdapter(orderData, true)
         bind.orderRV.layoutManager = LinearLayoutManager(activity)
     }
 

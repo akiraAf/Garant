@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.app.garant.R
+import com.app.garant.data.other.StaticValue
 import com.app.garant.data.response.category.Data
 import com.app.garant.databinding.ItemProductBinding
 import com.app.garant.utils.scope
@@ -63,6 +64,12 @@ class ProductsAdapter : ListAdapter<Data, ProductsAdapter.ProductVH>(MyDifUtils)
             bind.parent.setOnClickListener {
                 itemListener?.invoke(absoluteAdapterPosition)
             }
+
+            bind.productBtn.setOnCheckedChangeListener { buttonView, isChecked ->
+                if (isChecked)
+                    StaticValue.orderData.add(value)
+            }
+
         }
     }
 

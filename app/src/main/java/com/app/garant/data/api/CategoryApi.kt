@@ -16,6 +16,9 @@ interface CategoryApi {
     @GET("product")
     suspend fun getProductAll(@Query("filters[compilations.id]") id: Int): Response<AllProductsResponse>
 
+    @GET("product")
+    suspend fun getSearch(@Query("?filters[compilations.id]=2&search[name]") name: String): Response<AllProductsResponse>
+
     @GET("category")
     suspend fun getCategory(): Response<CategoryResponse>
 }

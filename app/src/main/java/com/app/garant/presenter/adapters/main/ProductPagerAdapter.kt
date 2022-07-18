@@ -15,7 +15,6 @@ class ProductPagerAdapter(
     override fun getItemCount(): Int = pagesCount
 
     override fun createFragment(position: Int): Fragment {
-        val frag = TopSellingPage()
-        return frag
+        return TopSellingPage()
     }
 }

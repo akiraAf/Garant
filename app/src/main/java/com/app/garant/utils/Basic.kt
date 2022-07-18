@@ -7,7 +7,11 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.navigation.NavController
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.fragment.findNavController
 import androidx.viewbinding.ViewBinding
+import com.app.garant.R
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
@@ -49,5 +53,11 @@ fun View.hideKeyboard(): Boolean {
 fun File.toFormData(partName: String = "file"): MultipartBody.Part {
     val request = asRequestBody("multipart/form-data".toMediaTypeOrNull())
     return MultipartBody.Part.createFormData(partName, name, request)
+}
+
+fun Fragment.findTopNavController(): NavController {
+    val topLevelHost =
+        requireActivity().supportFragmentManager.findFragmentById(R.id.containerActivity) as NavHostFragment?
+    return topLevelHost?.navController ?: findNavController()
 }
 

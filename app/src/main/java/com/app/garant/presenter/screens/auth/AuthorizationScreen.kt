@@ -44,7 +44,7 @@ class AuthorizationScreen : Fragment(R.layout.screen_authorization) {
             it.hideKeyboard()
         }
 
-        bind.inputPhoneNumber.setText("-")
+        bind.inputPhoneNumber.setText("")
 
         bind.next.setOnClickListener {
             val phoneNumber = bind.inputPhoneNumber.text?.toString()

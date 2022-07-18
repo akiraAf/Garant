@@ -4,23 +4,22 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/account_page_color"
-    tools:context=".presenter.screens.profile.AccountScreen">
+    android:background="@color/account_page_color">
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/header"
-        android:layout_marginTop="15sp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15sp">
 
         <TextView
             android:id="@+id/account_textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
             android:text="@string/account"
             android:textColor="@color/default_black"
-            android:layout_marginTop="20dp"
             android:textSize="20sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -30,8 +29,8 @@
             android:id="@+id/back"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="25dp"
             android:layout_marginTop="15dp"
+            android:padding="25dp"
             android:src="@drawable/ic_back_grey"
             app:layout_constraintBottom_toBottomOf="@+id/account_textView"
             app:layout_constraintEnd_toEndOf="parent"
@@ -202,8 +201,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="45dp"
-                    android:padding="10dp"
                     android:contentDescription="@string/selfie_passport"
+                    android:padding="10dp"
                     android:src="@drawable/passport_example"
                     app:layout_constraintBottom_toBottomOf="@id/border1"
                     app:layout_constraintEnd_toEndOf="@id/border1"
@@ -240,47 +239,43 @@
                     app:layout_constraintStart_toStartOf="@id/border2"
                     app:layout_constraintTop_toTopOf="@+id/border2" />
 
-                <com.google.android.material.textfield.TextInputLayout
+                <com.santalu.maskara.widget.MaskEditText
                     android:id="@+id/input_phone_number"
                     android:layout_width="match_parent"
                     android:layout_height="60dp"
                     android:layout_marginHorizontal="20dp"
                     android:layout_marginVertical="20dp"
                     android:background="@drawable/grey_bg"
+                    android:paddingHorizontal="10sp"
+                    android:textColor="@color/default_black"
+                    android:textSize="16sp"
                     app:layout_constraintBottom_toTopOf="@id/input_extra_phone_number"
                     app:layout_constraintEnd_toEndOf="@id/border2"
                     app:layout_constraintStart_toStartOf="@id/border2"
-                    app:layout_constraintTop_toBottomOf="@+id/contact_info_textView">
+                    app:layout_constraintTop_toBottomOf="@+id/contact_info_textView"
+                    app:mask="+998 (__) ___ - __ - __"
+                    app:maskCharacter="_"
+                    app:maskStyle="persistent" />
 
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:layout_margin="10dp"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:background="@drawable/grey_bg"
-                        android:hint="@string/telephone_number"
-                        android:textColorHint="@color/btn_hint_color" />
-                </com.google.android.material.textfield.TextInputLayout>
-
-                <com.google.android.material.textfield.TextInputLayout
+                <com.santalu.maskara.widget.MaskEditText
                     android:id="@+id/input_extra_phone_number"
                     android:layout_width="match_parent"
                     android:layout_height="60dp"
-                    android:background="@drawable/grey_bg"
                     android:layout_marginHorizontal="20dp"
                     android:layout_marginBottom="5dp"
+                    android:background="@drawable/grey_bg"
+                    android:hint="@string/extra_phone_number"
+                    android:inputType="phone"
+                    android:paddingHorizontal="10sp"
+                    android:textColorHint="@color/btn_hint_color"
+                    android:textSize="16sp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/input_phone_number">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_margin="10dp"
-                        android:background="@drawable/grey_bg"
-                        android:hint="@string/extra_phone_number"
-                        android:textColorHint="@color/btn_hint_color" />
-                </com.google.android.material.textfield.TextInputLayout>
+                    app:layout_constraintTop_toBottomOf="@+id/input_phone_number"
+                    app:mask="+998 (__) ___ - __ - __"
+                    app:maskCharacter="_"
+                    app:maskStyle="persistent" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -312,75 +307,105 @@
                     app:layout_constraintStart_toStartOf="@id/border3"
                     app:layout_constraintTop_toTopOf="@+id/border3" />
 
-                <com.google.android.material.textfield.TextInputLayout
+
+                <com.skydoves.powerspinner.PowerSpinnerView
                     android:id="@+id/input_region"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="60dp"
-                    android:layout_marginHorizontal="20dp"
-                    android:layout_marginVertical="20dp"
+                    android:layout_margin="20sp"
                     android:background="@drawable/grey_bg"
-                    app:layout_constraintEnd_toEndOf="@id/border3"
-                    app:layout_constraintStart_toStartOf="@id/border3"
-                    app:layout_constraintTop_toBottomOf="@+id/actual_address">
+                    android:gravity="start|center"
+                    android:hint="Область"
+                    android:paddingHorizontal="10sp"
+                    android:paddingVertical="15sp"
+                    android:textColor="@color/default_black"
+                    android:textColorHint="@color/grey"
+                    android:textSize="16sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/actual_address"
+                    app:spinner_arrow_animate="true"
+                    app:spinner_arrow_gravity="end"
+                    app:spinner_arrow_padding="30sp"
+                    app:spinner_arrow_show="true"
+                    app:spinner_arrow_tint="@color/default_black"
+                    app:spinner_divider_color="@color/default_black"
+                    app:spinner_divider_show="true"
+                    app:spinner_divider_size="0.4dp"
+                    app:spinner_item_array="@array/regions"
+                    app:spinner_popup_animation="dropdown"
+                    app:spinner_popup_background="@color/white"
+                    app:spinner_popup_elevation="14dp" />
 
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_margin="10dp"
-                        android:background="@drawable/grey_bg"
-                        android:hint="@string/region"
-                        android:textColorHint="@color/btn_hint_color" />
-                </com.google.android.material.textfield.TextInputLayout>
 
-                <com.google.android.material.textfield.TextInputLayout
+                <com.skydoves.powerspinner.PowerSpinnerView
                     android:id="@+id/input_city"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="60dp"
-                    android:layout_marginHorizontal="20dp"
-                    android:layout_marginVertical="20dp"
+                    android:layout_margin="20sp"
                     android:background="@drawable/grey_bg"
+                    android:gravity="start|center"
+                    android:hint="Город"
+                    android:paddingHorizontal="10sp"
+                    android:paddingVertical="15sp"
+                    android:textColor="@color/default_black"
+                    android:textColorHint="@color/grey"
+                    android:textSize="16sp"
                     app:layout_constraintEnd_toEndOf="@id/border3"
                     app:layout_constraintStart_toStartOf="@id/border3"
-                    app:layout_constraintTop_toBottomOf="@+id/input_region">
+                    app:layout_constraintTop_toBottomOf="@id/input_region"
+                    app:spinner_arrow_animate="true"
+                    app:spinner_arrow_gravity="end"
+                    app:spinner_arrow_padding="30sp"
+                    app:spinner_arrow_show="true"
+                    app:spinner_arrow_tint="@color/default_black"
+                    app:spinner_divider_color="@color/default_black"
+                    app:spinner_divider_show="true"
+                    app:spinner_divider_size="0.4dp"
+                    app:spinner_item_array="@array/regions"
+                    app:spinner_popup_animation="dropdown"
+                    app:spinner_popup_background="@color/white"
+                    app:spinner_popup_elevation="14dp" />
 
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_margin="10dp"
-                        android:background="@drawable/grey_bg"
-                        android:hint="@string/city"
-                        android:textColorHint="@color/btn_hint_color" />
 
-                </com.google.android.material.textfield.TextInputLayout>
-
-                <com.google.android.material.textfield.TextInputLayout
+                <com.skydoves.powerspinner.PowerSpinnerView
                     android:id="@+id/input_area"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="60dp"
-                    android:layout_marginHorizontal="20dp"
-                    android:layout_marginVertical="20dp"
+                    android:layout_margin="20sp"
                     android:background="@drawable/grey_bg"
+                    android:gravity="start|center"
+                    android:hint="Район"
+                    android:paddingHorizontal="10sp"
+                    android:paddingVertical="15sp"
+                    android:textColor="@color/default_black"
+                    android:textColorHint="@color/grey"
+                    android:textSize="16sp"
                     app:layout_constraintEnd_toEndOf="@id/border3"
                     app:layout_constraintStart_toStartOf="@id/border3"
-                    app:layout_constraintTop_toBottomOf="@+id/input_city">
+                    app:layout_constraintTop_toBottomOf="@+id/input_city"
+                    app:spinner_arrow_animate="true"
+                    app:spinner_arrow_gravity="end"
+                    app:spinner_arrow_padding="30sp"
+                    app:spinner_arrow_show="true"
+                    app:spinner_arrow_tint="@color/default_black"
+                    app:spinner_divider_color="@color/default_black"
+                    app:spinner_divider_show="true"
+                    app:spinner_divider_size="0.4dp"
+                    app:spinner_item_array="@array/regions"
+                    app:spinner_popup_animation="dropdown"
+                    app:spinner_popup_background="@color/white"
+                    app:spinner_popup_elevation="14dp" />
 
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_margin="10dp"
-                        android:background="@drawable/grey_bg"
-                        android:hint="@string/area"
-                        android:textColorHint="@color/btn_hint_color" />
-
-                </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/input_address"
                     android:layout_width="match_parent"
                     android:layout_height="60dp"
                     android:layout_marginHorizontal="20dp"
-                    android:background="@drawable/grey_bg"
                     android:layout_marginVertical="20dp"
+                    android:background="@drawable/grey_bg"
+                    app:hintEnabled="false"
                     app:layout_constraintBottom_toBottomOf="@id/border3"
                     app:layout_constraintEnd_toEndOf="@id/border3"
                     app:layout_constraintStart_toStartOf="@id/border3"
@@ -389,10 +414,11 @@
                     <com.google.android.material.textfield.TextInputEditText
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_margin="10dp"
                         android:background="@drawable/grey_bg"
                         android:hint="@string/address"
-                        android:textColorHint="@color/btn_hint_color" />
+                        android:paddingHorizontal="10sp"
+                        android:textColorHint="@color/btn_hint_color"
+                        android:textSize="16sp" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -425,45 +451,57 @@
                     app:layout_constraintStart_toStartOf="@id/border4"
                     app:layout_constraintTop_toTopOf="@+id/border4" />
 
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/input_work_place"
-                    android:layout_width="match_parent"
+                <com.skydoves.powerspinner.PowerSpinnerView
+                    android:id="@+id/profession"
+                    android:layout_width="0dp"
                     android:layout_height="60dp"
-                    android:layout_marginHorizontal="20dp"
+                    android:layout_margin="20sp"
                     android:background="@drawable/grey_bg"
-                    android:layout_marginVertical="20dp"
+                    android:gravity="start|center"
+                    android:hint="Место работы"
+                    android:paddingHorizontal="10sp"
+                    android:paddingVertical="15sp"
+                    android:textColor="@color/default_black"
+                    android:textColorHint="@color/grey"
+                    android:textSize="16sp"
                     app:layout_constraintBottom_toTopOf="@id/input_position_work"
                     app:layout_constraintEnd_toEndOf="@id/border4"
                     app:layout_constraintStart_toStartOf="@id/border4"
-                    app:layout_constraintTop_toBottomOf="@+id/work_info_textView">
+                    app:layout_constraintTop_toBottomOf="@+id/work_info_textView"
+                    app:spinner_arrow_animate="true"
+                    app:spinner_arrow_gravity="end"
+                    app:spinner_arrow_padding="30sp"
+                    app:spinner_arrow_show="true"
+                    app:spinner_arrow_tint="@color/default_black"
+                    app:spinner_divider_color="@color/default_black"
+                    app:spinner_divider_show="true"
+                    app:spinner_divider_size="0.4dp"
+                    app:spinner_item_array="@array/regions"
+                    app:spinner_popup_animation="dropdown"
+                    app:spinner_popup_background="@color/white"
+                    app:spinner_popup_elevation="14dp" />
 
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:layout_width="match_parent"
-                        android:layout_margin="10dp"
-                        android:layout_height="match_parent"
-                        android:background="@drawable/grey_bg"
-                        android:hint="@string/work_place"
-                        android:textColorHint="@color/btn_hint_color" />
-                </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/input_position_work"
                     android:layout_width="match_parent"
                     android:layout_height="60dp"
                     android:layout_marginHorizontal="20dp"
-                    app:layout_constraintBottom_toBottomOf="@id/border4"
                     android:background="@drawable/grey_bg"
+                    app:hintEnabled="false"
+                    app:layout_constraintBottom_toBottomOf="@id/border4"
                     app:layout_constraintEnd_toEndOf="@id/border4"
                     app:layout_constraintStart_toStartOf="@id/border4"
-                    app:layout_constraintTop_toBottomOf="@+id/input_work_place">
+                    app:layout_constraintTop_toBottomOf="@+id/profession">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_margin="10dp"
                         android:background="@drawable/grey_bg"
                         android:hint="@string/position_work"
-                        android:textColorHint="@color/btn_hint_color" />
+                        android:paddingHorizontal="10sp"
+                        android:textColorHint="@color/btn_hint_color"
+                        android:textSize="16sp" />
                 </com.google.android.material.textfield.TextInputLayout>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -472,20 +510,19 @@
                 android:id="@+id/save"
                 android:layout_width="0dp"
                 android:layout_height="?actionBarSize"
+                android:layout_marginTop="10dp"
                 android:background="@drawable/red_bg"
                 android:text="@string/save"
-                android:layout_marginTop="10dp"
                 android:textColor="@color/white"
                 android:textSize="14sp"
                 app:iconGravity="textStart"
-                app:layout_constraintTop_toBottomOf="@id/border4"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/border4" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
-
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

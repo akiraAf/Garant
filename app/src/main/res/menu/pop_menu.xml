@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/cheaper_products_filter"
+        android:title="Сначала подешевле"/>
+
+    <item
+        android:id="@+id/expensive_products_filter"
+        android:title="Сначала дорогие"/>
+
+    <item
+        android:id="@+id/new_products_filter"
+        android:title="Сначала новые"/>
+
+    <item
+        android:id="@+id/discount_products_filter"
+        android:title="Сначала со скидкой"/>
+</menu>

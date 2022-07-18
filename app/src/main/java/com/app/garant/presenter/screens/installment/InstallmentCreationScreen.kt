@@ -35,9 +35,9 @@ class InstallmentCreationScreen : Fragment(R.layout.page_installment_creation) {
         data.add(OrderData("Apple iPhone 12\n128GB", "10 700 000 сум", "3 шт."))
         data.add(OrderData("Apple iPhone 12\n128GB", "10 700 000 сум", "3 шт."))
 
-        val orderAdapter by lazy { OrderAdapter(data, true) }
+        //val orderAdapter by lazy { OrderAdapter(data, true) }
 
-        bind.recycler.adapter = orderAdapter
+      //  bind.recycler.adapter = orderAdapter
         bind.recycler.layoutManager = LinearLayoutManager(activity)
         month_btn()
     }

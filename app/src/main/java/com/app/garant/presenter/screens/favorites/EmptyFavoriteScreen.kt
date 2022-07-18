@@ -20,5 +20,9 @@ class EmptyFavoriteScreen : Fragment(R.layout.screen_empty_favorite) {
         bind.goToCatalog.setOnClickListener {
             findNavController().navigate(R.id.action_emptyFavoritePage_to_catalogPage)
         }
+
+        bind.back.setOnClickListener {
+            findNavController().popBackStack()
+        }
     }
 }

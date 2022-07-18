@@ -27,9 +27,6 @@ class LanguageScreen : Fragment(R.layout.screen_language) {
             openAuth()
         }
 
-        val mypref = MyPref(App.instance)
-        mypref.access_token = ""
-
         bind.uzbekLanguageBg.setOnClickListener {
             MyPref(App.instance).startScreen = false
             openAuth()

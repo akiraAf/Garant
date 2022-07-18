@@ -47,5 +47,13 @@
         <action
             android:id="@+id/action_productsScreen_to_nav_product_details"
             app:destination="@id/nav_product_details" />
+        <action
+            android:id="@+id/action_productsScreen_to_emptyFavoriteScreen"
+            app:destination="@id/emptyFavoriteScreen" />
     </fragment>
+    <fragment
+        android:id="@+id/emptyFavoriteScreen"
+        android:name="com.app.garant.presenter.screens.favorites.EmptyFavoriteScreen"
+        android:label="screen_empty_favorite"
+        tools:layout="@layout/screen_empty_favorite" />
 </navigation>

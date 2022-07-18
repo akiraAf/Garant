@@ -85,4 +85,15 @@ class CategoryRepositoryImpl @Inject constructor(
         emit(Result.failure(Throwable(it.message)))
     }.flowOn(Dispatchers.IO)
 
+    override fun getSearch(name: String): Flow<Result<AllProductsResponse>> = flow {
+        val response = api.getSearch(name)
+        if (response.isSuccessful) {
+            emit(Result.success(response.body()!!))
+        } else {
+            emit(Result.failure(Throwable(response.errorBody().toString())))
+        }
+    }.catch {
+        emit(Result.failure(Throwable(it.message)))
+    }.flowOn(Dispatchers.IO)
+
 }

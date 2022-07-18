@@ -81,29 +81,29 @@
         app:maskStyle="persistent"
         app:startIconDrawable="@drawable/ic_phone" />
 
-    <com.vicmikhailau.maskededittext.MaskedEditText
-        android:layout_width="0dp"
-        android:layout_height="60dp"
-        android:layout_marginHorizontal="30dp"
-        android:background="@drawable/dark_grey_bg"
-        android:drawableStart="@drawable/ic_phone_white"
-        android:drawablePadding="15dp"
-        android:freezesText="true"
-        android:hint="@string/number_phone"
-        android:inputType="phone"
-        android:paddingHorizontal="30dp"
-        android:textColor="@color/default_color"
-        android:textColorHint="#99F5F4F9"
-        android:textCursorDrawable="@null"
-        android:visibility="gone"
-        android:textSize="14sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.12"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.38"
-        app:mask="+998 (##) ###-##-##"/>
+<!--    <com.vicmikhailau.maskededittext.MaskedEditText-->
+<!--        android:layout_width="0dp"-->
+<!--        android:layout_height="60dp"-->
+<!--        android:layout_marginHorizontal="30dp"-->
+<!--        android:background="@drawable/dark_grey_bg"-->
+<!--        android:drawableStart="@drawable/ic_phone_white"-->
+<!--        android:drawablePadding="15dp"-->
+<!--        android:freezesText="true"-->
+<!--        android:hint="@string/number_phone"-->
+<!--        android:inputType="phone"-->
+<!--        android:paddingHorizontal="30dp"-->
+<!--        android:textColor="@color/default_color"-->
+<!--        android:textColorHint="#99F5F4F9"-->
+<!--        android:textCursorDrawable="@null"-->
+<!--        android:visibility="gone"-->
+<!--        android:textSize="14sp"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintHorizontal_bias="0.12"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="parent"-->
+<!--        app:layout_constraintVertical_bias="0.38"-->
+<!--        app:mask="+998 (##) ###-##-##"/>-->
 
     <LinearLayout
         android:layout_width="0dp"

@@ -28,13 +28,13 @@ class OrderScreen : Fragment(R.layout.page_order) {
             )
     }
     private val bind by viewBinding(PageOrderBinding::bind)
-    private  val orderAdapter by lazy {  OrderAdapter(orderData) }
+  //  private  val orderAdapter by lazy {  OrderAdapter(orderData) }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initData()
         bind.orderRV.layoutManager = LinearLayoutManager(activity)
-        bind.orderRV.adapter = orderAdapter
+     //   bind.orderRV.adapter = orderAdapter
 
         bind.back.setOnClickListener {
             findNavController().popBackStack()

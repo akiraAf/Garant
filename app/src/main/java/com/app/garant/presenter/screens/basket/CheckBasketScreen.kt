@@ -19,14 +19,14 @@ class CheckBasketScreen : Fragment(R.layout.screen_basket_check) {
 
     private val bind by viewBinding(ScreenBasketCheckBinding::bind)
     private val orderData = ArrayList<OrderData>()
-    private val orderAdapter by lazy { OrderAdapter(orderData, true) }
+//    private val orderAdapter by lazy { OrderAdapter(orderData, true) }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         initData()
-        bind.basketRV.layoutManager = LinearLayoutManager(activity)
-        bind.basketRV.adapter = orderAdapter
+    //    bind.basketRV.layoutManager = LinearLayoutManager(activity)
+  //      bind.basketRV.adapter = orderAdapter
 
         bind.back.setOnClickListener {
             findNavController().popBackStack()

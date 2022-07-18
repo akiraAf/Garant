@@ -6,6 +6,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import android.widget.LinearLayout
+import android.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -23,6 +24,7 @@ import com.app.garant.utils.scope
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.currentCoroutineContext
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 
@@ -35,6 +37,7 @@ class MainScreen : Fragment(R.layout.screen_main) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
 
         bind.salesPager.adapter = BannerSalesAdapter(childFragmentManager, lifecycle)
 
@@ -57,57 +60,28 @@ class MainScreen : Fragment(R.layout.screen_main) {
         }.launchIn(lifecycleScope)
 
 
-
         viewModel.progressFlow.onEach {
             bind.progress.visibility = View.VISIBLE
             bind.container.isEnabled = false
-        }.launchIn(lifecycleScope)  
+        }.launchIn(lifecycleScope)
 
         viewModel.tabСontentLoad.onEach {
             bind.productsPager.adapter =
                 ProductPagerAdapter(it.size, childFragmentManager, lifecycle)
-
+            val names = it.reversed()
             TabLayoutMediator(bind.tabLayout, bind.productsPager) { tab, position ->
-                tab.text = it[position]
+                tab.text = names[position]
             }.attach()
         }.launchIn(lifecycleScope)
+
 
         bind.bell.setOnClickListener {
             findNavController().navigate(R.id.action_mainPage_to_notificationScreen)
         }
 
 
-        bind.telegram.setOnClickListener {
-            bind.apply {
-                logoImage.visibility = View.INVISIBLE
-                bell.visibility = View.GONE
-                telegram.visibility = View.GONE
-                search.visibility = View.GONE
-                tgLink.visibility = View.VISIBLE
-                countNotification.visibility = View.GONE
-            }
-        }
-
-        bind.link.setOnClickListener {
-            val intent = Intent(
-                Intent.ACTION_VIEW,
-                Uri.parse("https://t.me/android_jobs_for_future_tashkent")
-            )
-            startActivity(intent)
-        }
-
-        bind.close.setOnClickListener {
-            bind.apply {
-                logoImage.visibility = View.VISIBLE
-                bell.visibility = View.VISIBLE
-                telegram.visibility = View.VISIBLE
-                search.visibility = View.VISIBLE
-                tgLink.visibility = View.GONE
-                countNotification.visibility = View.VISIBLE
-            }
-        }
         updateUI()
-
+        toolbar()
     }
 
     private fun updateUI() {
@@ -143,7 +117,6 @@ class MainScreen : Fragment(R.layout.screen_main) {
             false
         }
 
-
         bind.productsPager.isUserInputEnabled = false
 
         bind.tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
@@ -159,9 +132,49 @@ class MainScreen : Fragment(R.layout.screen_main) {
         })
     }
 
-    companion object {
-        const val NAME_CATEGORY = "NAME_CATEGORY"
-        const val ID_CATEGORY = "ID_CATEGORY"
+    private fun toolbar() {
+        bind.telegram.setOnClickListener {
+            bind.apply {
+                logoImage.visibility = View.INVISIBLE
+                bell.visibility = View.GONE
+                telegram.visibility = View.GONE
+                search.visibility = View.GONE
+                tgLink.visibility = View.VISIBLE
+                countNotification.visibility = View.GONE
+            }
+        }
+
+        bind.link.setOnClickListener {
+            val intent = Intent(
+                Intent.ACTION_VIEW,
+                Uri.parse("https://t.me/android_jobs_for_future_tashkent")
+            )
+            startActivity(intent)
+        }
+
+        bind.close.setOnClickListener {
+            bind.apply {
+                logoImage.visibility = View.VISIBLE
+                bell.visibility = View.VISIBLE
+                telegram.visibility = View.VISIBLE
+                search.visibility = View.VISIBLE
+                tgLink.visibility = View.GONE
+                countNotification.visibility = View.VISIBLE
+            }
+        }
+
+        bind.search.setOnQueryTextListener(object : SearchView.OnQueryTextListener,
+            androidx.appcompat.widget.SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                query?.let {
+                    val queryX = query.trim()
+                    viewModel.getSearch(queryX)
+                }
+                return true
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean = false
+        })
     }
 
 }

@@ -182,4 +182,21 @@
     <string name="enter_receive_code">Введите код подтверждения\n отправленный на ваш номер ***–42-22</string>
     <string name="discount">  <strike> 940 000 сум </strike>  </string>
 
+    <string-array name="regions">
+        <item>Андижанская область</item>
+        <item>Бухарская область</item>
+        <item>Джизакская область</item>
+        <item>Кашкадарьинская область</item>
+        <item>Наманганская область</item>
+        <item>Навоийская область</item>
+        <item>Самаркандская область</item>
+        <item>Сырдарьинская область</item>
+        <item>Сурхандарьинская область</item>
+        <item>Ташкентская область</item>
+        <item>Ферганская область</item>
+        <item>Хорезмская область</item>
+        <item>Хорезмская область</item>
+        <item>Республика Каракалпакстан</item>
+    </string-array>
+
 </resources>

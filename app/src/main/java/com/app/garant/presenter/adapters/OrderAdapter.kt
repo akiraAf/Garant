@@ -6,10 +6,12 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.app.garant.R
+import com.app.garant.data.response.category.Data
 import com.app.garant.databinding.ItemOrderBinding
 import com.app.garant.models.OrderData
 
-class OrderAdapter(val data: ArrayList<OrderData>, val flagEdit: Boolean = false) : RecyclerView.Adapter<OrderAdapter.VH>() {
+class OrderAdapter(val data: ArrayList<Data>, val flagEdit: Boolean = false) :
+    RecyclerView.Adapter<OrderAdapter.VH>() {
 
     private val flag: Boolean = this.flagEdit
 
@@ -21,18 +23,16 @@ class OrderAdapter(val data: ArrayList<OrderData>, val flagEdit: Boolean = false
         holder.load(position)
     }
 
-    override fun getItemCount()= data.size
+    override fun getItemCount() = data.size
 
     inner class VH(
         val view: View
     ) : RecyclerView.ViewHolder(view) {
         private val bind by viewBinding(ItemOrderBinding::bind)
-        fun load(i:Int){
+        fun load(i: Int) {
             bind.apply {
-
                 name.text = data[i].name
-                price.text = data[i].price
-                amount.text = data[i].amount
+                price.text = data[i].price.toString()
 
                 if (flagEdit) {
                     edit.visibility = View.GONE

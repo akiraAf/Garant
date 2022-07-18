@@ -34,7 +34,7 @@ class OrderingPaymentPage : Fragment(R.layout.page_ordering_payment) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initData()
-        bind.orderRV.adapter = OrderAdapter(orderData, true)
+     //   bind.orderRV.adapter = OrderAdapter(orderData, true)
         bind.orderRV.layoutManager = LinearLayoutManager(activity)
 
         bind.pay.setOnClickListener {

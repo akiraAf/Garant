@@ -140,11 +140,11 @@ class InstallmentPagerAdapter(
 
         return when(position){
             0->{
-                val frag = InstallmentRecyclerView(dataInstallment);
+                val frag = InstallmentRecyclerView();
                 frag
             }
             else->{
-                val frag = OrderRecyclerView(dataOrder);
+                val frag = OrderRecyclerView();
                 frag
             }
         }

@@ -14,6 +14,7 @@ import androidx.navigation.fragment.findNavController
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.app.garant.R
 import com.app.garant.app.App
+import com.app.garant.data.other.StaticValue
 import com.app.garant.data.pref.MyPref
 import com.app.garant.data.request.auth.VerifyRequest
 import com.app.garant.databinding.ScreenVerificationBinding
@@ -76,6 +77,7 @@ class VerificationScreen() : Fragment(R.layout.screen_verification) {
                             verifyCode.trim().toInt()
                         )
                     )
+                MyPref(App.instance).startScreen = true
             } else {
                 showToast("Введите код подтверждения")
             }
@@ -94,7 +96,7 @@ class VerificationScreen() : Fragment(R.layout.screen_verification) {
         }.launchIn(lifecycleScope)
 
         viewModel.successFlow.onEach {
-            findNavController().navigate(R.id.action_verificationScreen_to_navigationScreen)
+            findNavController().navigate(R.id.navigationScreen)
         }.launchIn(lifecycleScope)
 
     }

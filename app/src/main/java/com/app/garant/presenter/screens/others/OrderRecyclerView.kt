@@ -14,21 +14,22 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 
-class OrderRecyclerView(val data:ArrayList<InstallmentHistoryData>)
+class OrderRecyclerView()
     : Fragment(R.layout.page_popular) {
 
+  //  val data:ArrayList<InstallmentHistoryData> =
     private val bind by viewBinding(PagePopularBinding::bind)
-    private val installmentAdapter by lazy {  InstallmentAdapter(data) }
+ //   private val installmentAdapter by lazy {  InstallmentAdapter(data) }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
-        bind.recycler.layoutManager = LinearLayoutManager(activity)
-
-        bind.recycler.adapter =  installmentAdapter
-
-        installmentAdapter.setListenerClick {
-            findNavController().navigate(R.id.action_installmentHistoryScreen2_to_orderPage)
-        }
+//        bind.recycler.layoutManager = LinearLayoutManager(activity)
+//
+//        bind.recycler.adapter =  installmentAdapter
+//
+//        installmentAdapter.setListenerClick {
+//            findNavController().navigate(R.id.action_installmentHistoryScreen2_to_orderPage)
+//        }
 
 
     }

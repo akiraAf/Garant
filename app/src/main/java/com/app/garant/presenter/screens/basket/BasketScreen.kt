@@ -8,6 +8,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.app.garant.R
+import com.app.garant.data.other.StaticValue
 import com.app.garant.presenter.adapters.OrderAdapter
 import com.app.garant.databinding.ScreenBasketBinding
 import com.app.garant.presenter.dialogs.DialogCleanBasket
@@ -19,23 +20,17 @@ import dagger.hilt.android.AndroidEntryPoint
 class BasketScreen : Fragment(R.layout.screen_basket) {
 
     private val bind by viewBinding(ScreenBasketBinding::bind)
-    private val orderData = ArrayList<OrderData>()
+    private val orderData = StaticValue.orderData
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        initData()
+
         val orderAdapter = OrderAdapter(orderData)
         val layoutManager = LinearLayoutManager(requireActivity())
-
-        val orderAdapterUn = OrderAdapter(orderData)
-        val layoutManagerUn = LinearLayoutManager(requireActivity())
 
 
         bind.basketRV.adapter = orderAdapter
         bind.basketRV.layoutManager = layoutManager
-
-        bind.unavailableRV.adapter = orderAdapterUn
-        bind.unavailableRV.layoutManager = layoutManagerUn
 
 
         bind.cleanBasket.setOnClickListener {
@@ -51,17 +46,6 @@ class BasketScreen : Fragment(R.layout.screen_basket) {
             findNavController().navigate(R.id.action_basketPage_to_checkBasketPage)
         }
         month_btn()
-    }
-
-    private fun initData() {
-        for (i in 1..2)
-            orderData.add(
-                OrderData(
-                    "Apple iPhone 12\n128GB",
-                    "10 700 000 сум",
-                    "3 шт."
-                )
-            )
     }
 
 

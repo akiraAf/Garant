@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.app.garant.R
 import com.app.garant.data.other.StaticValue
+import com.app.garant.data.response.category.Data
 import com.app.garant.databinding.PageTopsellingBinding
 import com.app.garant.presenter.adapters.ProductsAdapter
 import com.app.garant.presenter.viewModel.main.TopSellingPageViewModel
@@ -25,27 +26,28 @@ class TopSellingPage : Fragment(R.layout.page_topselling) {
 
     private val bind by viewBinding(PageTopsellingBinding::bind)
     private val viewModel: TopSellingPageViewModel by viewModels<TopSellingPageViewModelImpl>()
-    private val adapterProduct = ProductsAdapter()
-    private val bundle = Bundle()
+    private val adapterProduct by lazy { ProductsAdapter() }
+    private var productData: List<Data>? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
-        viewModel.getProducts()
+        if (productData == null)
+            viewModel.getProducts()
 
         viewModel.successFlowProduct.onEach {
             for (products in it) {
-                if (products.name == StaticValue.nameCategory)
-                    adapterProduct.submitList(products.products)
+                if (products.name == StaticValue.nameCategory) {
+                    productData = products.products
+                    adapterProduct.submitList(productData)
+
+                }
             }
             bind.recycler.adapter = adapterProduct
+            bind.recycler.layoutManager =
+                GridLayoutManager(requireContext(), 2, GridLayoutManager.VERTICAL, false)
+
         }.launchIn(lifecycleScope)
-
-
-
-        bind.recycler.layoutManager =
-            GridLayoutManager(requireContext(), 2, GridLayoutManager.VERTICAL, false)
 
 
         adapterProduct.setListenerClick {

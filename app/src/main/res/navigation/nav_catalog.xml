@@ -16,6 +16,9 @@
         <action
             android:id="@+id/action_catalogPage_to_subcategoryPage"
             app:destination="@id/subcategoryPage" />
+        <action
+            android:id="@+id/action_catalogPage_to_emptyFavoritePage"
+            app:destination="@id/emptyFavoritePage" />
     </fragment>
     <fragment
         android:id="@+id/favoritesPage2"

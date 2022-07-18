@@ -27,21 +27,20 @@ class CategoryScreen : Fragment(R.layout.screen_category) {
 
     private val bind by viewBinding(ScreenCategoryBinding::bind)
     private val viewModel: CategoryViewModel by viewModels<CategoryViewModelImpl>()
-    private val bundle = Bundle()
+    var temp = 0;
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val adapterCategory = CategoryAdapter()
-        val productLayoutManager = GridLayoutManager(requireContext(), 2)
-
 
         viewModel.getCategory()
+
 
         viewModel.progressFlow.onEach {
             bind.progress.bringToFront()
             bind.catalogRV.visibility = View.GONE
             bind.progress.visibility = View.VISIBLE
-        }
+        }.launchIn(lifecycleScope)
 
         viewModel.successFlow.onEach {
             bind.progress.visibility = View.GONE
@@ -53,7 +52,7 @@ class CategoryScreen : Fragment(R.layout.screen_category) {
             showToast(it)
         }.launchIn(lifecycleScope)
 
-        bind.catalogRV.layoutManager = productLayoutManager
+        bind.catalogRV.layoutManager = GridLayoutManager(requireContext(), 2)
         bind.catalogRV.adapter = adapterCategory
 
         adapterCategory.setListenerClick { sub, name ->
@@ -64,11 +63,8 @@ class CategoryScreen : Fragment(R.layout.screen_category) {
         }
 
         bind.favorites.setOnClickListener {
-            findNavController().navigate(R.id.action_catalogPage_to_favoritesPage2)
+            findNavController().navigate(R.id.action_catalogPage_to_emptyFavoritePage)
         }
     }
 
-    companion object {
-        const val SUB_CATEGORY = "SUB_CATEGORY"
-    }
 }

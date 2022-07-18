@@ -18,11 +18,11 @@ class PaymentPassedScreen : Fragment(R.layout.page_payment_passed) {
         super.onViewCreated(view, savedInstanceState)
 
         bind.toMainBnt.setOnClickListener {
-           findNavController().navigate(R.id.action_paymentPassedPage_to_mainPage2)
+            findNavController().navigate(R.id.mainPage)
         }
 
         bind.goAgreementBnt.setOnClickListener {
-            findNavController().navigate(R.id.action_paymentPassedPage_to_nav_doc2)
+            findNavController().navigate(R.id.nav_doc)
         }
 
     }

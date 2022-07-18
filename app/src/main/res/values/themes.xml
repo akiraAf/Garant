@@ -10,12 +10,16 @@
         <item name="colorSecondaryVariant">@color/default_black</item>
         <item name="colorOnSecondary">@color/black</item>
         <!-- Status bar color. -->
-        <item name="android:statusBarColor" >#111010</item>
+        <item name="android:statusBarColor">#111010</item>
         <!-- Customize your theme here. -->
         <item name="android:fontFamily">@font/ruberoid_medium</item>
+
+
+        <!-- PopupMenu -->
+        <item name="popupMenuStyle">@style/Widget.App.PopupMenu</item>
+
+
     </style>
-
-
 
     <!-- My Custom -->
 
@@ -36,7 +40,12 @@
         <item name="android:textSize">16sp</item>
     </style>
 
+    <!--PopupMenu -->
 
+    <style name="Widget.App.PopupMenu" parent="Widget.MaterialComponents.PopupMenu">
+        <item name="android:popupBackground">@drawable/custom_popupmenu_background</item>
+        <item name="android:textColor">@drawable/sort_text_color</item>
+    </style>
 
 
 </resources>

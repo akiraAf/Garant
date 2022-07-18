@@ -24,9 +24,6 @@
         <action
             android:id="@+id/action_profileScreen_to_installmentHistoryScreen"
             app:destination="@id/installmentHistoryScreen" />
-        <action
-            android:id="@+id/action_profileScreen_to_nav_graph"
-            app:destination="@id/nav_graph" />
     </fragment>
     <fragment
         android:id="@+id/accountPage"
@@ -84,5 +81,4 @@
         android:label="screen_installment_history"
         tools:layout="@layout/screen_installment_history" />
     <include app:graph="@navigation/nav_product_details" />
-    <include app:graph="@navigation/nav_start" />
 </navigation>

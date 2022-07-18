@@ -14,21 +14,21 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 
-class InstallmentRecyclerView(val data:ArrayList<InstallmentHistoryData>)
+class InstallmentRecyclerView()
     : Fragment(R.layout.page_popular) {
 
     private val bind by viewBinding(PagePopularBinding::bind)
-    private val installmentAdapter by lazy {  InstallmentAdapter(data) }
+ //   private val installmentAdapter by lazy {  InstallmentAdapter(data) }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
-        bind.recycler.layoutManager = LinearLayoutManager(activity)
-
-        bind.recycler.adapter =  installmentAdapter
-
-        installmentAdapter.setListenerClick {
-            findNavController().navigate(R.id.action_installmentHistoryScreen2_to_installmentPage)
-        }
+//        bind.recycler.layoutManager = LinearLayoutManager(activity)
+//
+//        bind.recycler.adapter =  installmentAdapter
+//
+//        installmentAdapter.setListenerClick {
+//            findNavController().navigate(R.id.action_installmentHistoryScreen2_to_installmentPage)
+//        }
 
 
     }

@@ -2,6 +2,7 @@ package com.app.garant.presenter.screens.profile
 
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.View
 import androidx.fragment.app.viewModels
@@ -17,6 +18,7 @@ import com.app.garant.presenter.dialogs.DialogLogout
 import com.app.garant.presenter.dialogs.DialogLanguage
 import com.app.garant.presenter.viewModel.profile.ProfileViewModel
 import com.app.garant.presenter.viewModel.viewModelimpl.profile.ProfileViewModelImpl
+import com.app.garant.utils.findTopNavController
 import com.app.garant.utils.showToast
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.launchIn
@@ -46,7 +48,7 @@ class ProfileScreen : Fragment(R.layout.screen_profile) {
         }
 
         bind.orderHistory.setOnClickListener {
-            findNavController().navigate(R.id.action_profileScreen_to_emptyHistory)
+            //findNavController().navigate(R.id.action_profileScreen_to_emptyHistory)
         }
 
 
@@ -65,11 +67,14 @@ class ProfileScreen : Fragment(R.layout.screen_profile) {
                 viewModel.getLogout()
                 dialog.dismiss()
                 viewModel.successFlow.onEach {
-                    MyPref(App.instance).startScreen = true
+                    StaticValue.screenLogoutLiveData.value = Unit
+                    MyPref(App.instance).startScreen = false
                 }.launchIn(lifecycleScope)
-                StaticValue.screenNavigateLiveData.value = Unit
+                MyPref(App.instance).startScreen = false
+                Log.i("LOL", MyPref(App.instance).startScreen.toString())
             }
         }
+
 
         bind.language.setOnClickListener {
             val language = DialogLanguage()
