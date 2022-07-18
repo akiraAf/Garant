@@ -5,6 +5,7 @@ import com.app.garant.data.response.category.allProducts.AllProductsResponse
 import com.app.garant.data.response.category.categories.CategoryResponse
 import com.app.garant.data.response.category.product.ProductResponse
 import com.app.garant.data.response.category.product.ProductResponseItem
+import com.app.garant.data.response.category.search.SearchResponse
 import com.app.garant.domain.repository.CategoryRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -85,7 +86,7 @@ class CategoryRepositoryImpl @Inject constructor(
         emit(Result.failure(Throwable(it.message)))
     }.flowOn(Dispatchers.IO)
 
-    override fun getSearch(name: String): Flow<Result<AllProductsResponse>> = flow {
+    override fun getSearch(name: String): Flow<Result<SearchResponse>> = flow {
         val response = api.getSearch(name)
         if (response.isSuccessful) {
             emit(Result.success(response.body()!!))

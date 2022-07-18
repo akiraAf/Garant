@@ -3,6 +3,7 @@ package com.app.garant.data.api
 import com.app.garant.data.response.category.allProducts.AllProductsResponse
 import com.app.garant.data.response.category.categories.CategoryResponse
 import com.app.garant.data.response.category.product.ProductResponse
+import com.app.garant.data.response.category.search.SearchResponse
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Path
@@ -17,7 +18,7 @@ interface CategoryApi {
     suspend fun getProductAll(@Query("filters[compilations.id]") id: Int): Response<AllProductsResponse>
 
     @GET("product")
-    suspend fun getSearch(@Query("?filters[compilations.id]=2&search[name]") name: String): Response<AllProductsResponse>
+    suspend fun getSearch(@Query("?filters[compilations.id]=9&search[name]") name: String): Response<SearchResponse>
 
     @GET("category")
     suspend fun getCategory(): Response<CategoryResponse>

@@ -71,6 +71,7 @@ class ProfileScreen : Fragment(R.layout.screen_profile) {
                     MyPref(App.instance).startScreen = false
                 }.launchIn(lifecycleScope)
                 MyPref(App.instance).startScreen = false
+                MyPref(App.instance).account = false
                 Log.i("LOL", MyPref(App.instance).startScreen.toString())
             }
         }
@@ -92,3 +93,4 @@ class ProfileScreen : Fragment(R.layout.screen_profile) {
 
 
 }
+

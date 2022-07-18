@@ -13,11 +13,14 @@ import com.app.garant.data.response.profile.account.regions.RegionResponse
 import com.app.garant.data.response.profile.account.regions_names.RegionsNameResponse
 import com.app.garant.data.response.profile.profession.ProfessionResponse
 import com.app.garant.domain.repository.UserRepository
+import com.app.garant.utils.toRequestData
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.RequestBody.Companion.toRequestBody
 import javax.inject.Inject
 
 class UserRepositoryImpl @Inject constructor(private val api: UserApi, private val pref: MyPref) :
@@ -25,10 +28,10 @@ class UserRepositoryImpl @Inject constructor(private val api: UserApi, private v
 
     private var regionResponse: RegionResponse? = null
 
+
     override fun changePhone(changePhoneRequest: ChangePhoneRequest): Flow<Result<ChangePhoneResponse>> =
         flow {
             val response = api.changePhone(changePhoneRequest)
-
             if (response.isSuccessful) {
                 emit(Result.success(response.body()!!))
             } else {
@@ -42,7 +45,6 @@ class UserRepositoryImpl @Inject constructor(private val api: UserApi, private v
     override fun updatePhone(updatePhoneRequest: UpdatePhoneRequest): Flow<Result<UpdatePhoneResponce>> =
         flow {
             val response = api.updatePhone(updatePhoneRequest)
-
             if (response.isSuccessful) {
                 emit(Result.success(response.body()!!))
             } else {
@@ -51,6 +53,7 @@ class UserRepositoryImpl @Inject constructor(private val api: UserApi, private v
         }.catch {
             emit(Result.failure(Throwable(it.message)))
         }.flowOn(Dispatchers.IO)
+
 
     override fun getRegion(): Flow<Result<RegionResponse>> = flow<Result<RegionResponse>> {
         val response = api.getRegion()
@@ -76,6 +79,7 @@ class UserRepositoryImpl @Inject constructor(private val api: UserApi, private v
         emit(Result.failure(Throwable(it.message)))
     }.flowOn(Dispatchers.IO)
 
+
     override fun getProfession(): Flow<Result<ProfessionResponse>> = flow {
         val response = api.getProfession()
         if (response.isSuccessful) {
@@ -87,9 +91,13 @@ class UserRepositoryImpl @Inject constructor(private val api: UserApi, private v
         emit(Result.failure(Throwable(it.message)))
     }.flowOn(Dispatchers.IO)
 
+
     override fun sendDocuments(documentRequest: DocumentRequest): Flow<Result<DocumentResponse>> =
         flow {
-            val response = api.sendPassport(documentRequest)
+            val response = api.sendPassport(
+                documentRequest.type.toRequestBody("text/plain".toMediaTypeOrNull()),
+                documentRequest.file.toRequestData("image")
+            )
             if (response.isSuccessful) {
                 emit(Result.success(response.body()!!))
             } else {

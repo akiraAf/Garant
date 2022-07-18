@@ -15,6 +15,12 @@ class MyPref @Inject constructor(private val context: Context) {
         }
         get() = pref.getString("phone", "")!!
 
+    var account: Boolean
+        set(value) {
+            pref.edit().putBoolean("account", value).apply()
+        }
+        get() = pref.getBoolean("account", false)
+
     var authControll: Boolean
         set(value) {
             pref.edit().putBoolean("authControll", value).apply()

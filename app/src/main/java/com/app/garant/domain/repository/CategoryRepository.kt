@@ -3,6 +3,7 @@ package com.app.garant.domain.repository
 import com.app.garant.data.response.category.allProducts.AllProductsResponse
 import com.app.garant.data.response.category.categories.CategoryResponse
 import com.app.garant.data.response.category.product.ProductResponse
+import com.app.garant.data.response.category.search.SearchResponse
 import kotlinx.coroutines.flow.Flow
 
 interface CategoryRepository {
@@ -17,6 +18,6 @@ interface CategoryRepository {
 
     fun getCategory(): Flow<Result<CategoryResponse>>
 
-    fun getSearch(name: String): Flow<Result<AllProductsResponse>>
+    fun getSearch(name: String): Flow<Result<SearchResponse>>
 
 }

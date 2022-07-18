@@ -12,12 +12,12 @@ import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 import android.provider.OpenableColumns;
 import android.text.TextUtils;
-import android.util.Log;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 
+import timber.log.Timber;
 
 public class FileUtils {
 
@@ -213,9 +213,13 @@ public class FileUtils {
             while ((read = inputStream.read(buffers)) != -1) {
                 outputStream.write(buffers, 0, read);
             }
+            Timber.e("Size %s", file.length());
             inputStream.close();
             outputStream.close();
+            Timber.e("Path %s", file.getPath());
+            Timber.e("Size %s", file.length());
         } catch (Exception e) {
+            Timber.e(e);
         }
         return file.getPath();
     }
@@ -243,9 +247,13 @@ public class FileUtils {
             while ((read = inputStream.read(buffers)) != -1) {
                 outputStream.write(buffers, 0, read);
             }
+            Timber.e("Size %s", file.length());
             inputStream.close();
             outputStream.close();
+            Timber.e("Path %s", file.getPath());
+            Timber.e("Size %s", file.length());
         } catch (Exception e) {
+            Timber.e(e);
         }
         return file.getPath();
     }

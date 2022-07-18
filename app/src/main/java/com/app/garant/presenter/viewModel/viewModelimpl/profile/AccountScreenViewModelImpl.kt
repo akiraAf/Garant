@@ -3,6 +3,8 @@ package com.app.garant.presenter.viewModel.viewModelimpl.profile
 import android.net.Uri
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.app.garant.app.App
+import com.app.garant.data.pref.MyPref
 import com.app.garant.data.request.auth.DocumentRequest
 import com.app.garant.data.response.profile.account.DocumentResponse
 import com.app.garant.data.response.profile.account.regions.RegionResponse
@@ -99,7 +101,7 @@ class AccountScreenViewModelImpl @Inject constructor(private val userRepository:
 
             it.onFailure {
                 progressFlow.emit(false)
-                errorFlow.emit(it.message.toString())
+                //errorFlow.emit(it.message.toString())
             }
         }.launchIn(viewModelScope)
     }

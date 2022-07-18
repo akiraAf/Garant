@@ -30,9 +30,13 @@
         tools:layout="@layout/screen_notification" />
     <fragment
         android:id="@+id/searchProductsPage"
-        android:name="com.app.garant.presenter.screens.search.SearchProductsPage"
+        android:name="com.app.garant.presenter.screens.search.SearchProductsScreen"
         android:label="page_search_products"
-        tools:layout="@layout/screen_search_products" />
+        tools:layout="@layout/screen_search_products" >
+        <argument
+            android:name="query"
+            app:argType="string" />
+    </fragment>
     <include app:graph="@navigation/nav_product_details" />
     <fragment
         android:id="@+id/productsScreen"

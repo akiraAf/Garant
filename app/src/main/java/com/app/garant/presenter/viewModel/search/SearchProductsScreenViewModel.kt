@@ -1,14 +1,15 @@
-package com.app.garant.presenter.viewModel.main
+package com.app.garant.presenter.viewModel.search
 
 import com.app.garant.data.response.category.allProducts.AllProductsResponse
 import com.app.garant.data.response.category.product.ProductResponse
+import com.app.garant.data.response.category.search.SearchResponse
 import kotlinx.coroutines.flow.Flow
 
-interface MainScreenViewModel {
+interface SearchProductsScreenViewModel {
+
+    val successFlowSearch: Flow<SearchResponse>
     val errorFlow: Flow<String>
-    val successFlow: Flow<ProductResponse>
-    val tabСontentLoad: Flow<ArrayList<String>>
     val progressFlow: Flow<Boolean>
-    fun getProducts()
-    fun getNames()
+
+    fun getSearch(name: String)
 }

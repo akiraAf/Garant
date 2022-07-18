@@ -121,7 +121,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="60dp"
                         android:background="?android:selectableItemBackground"
-                        android:paddingHorizontal="0dp"
+                        android:paddingHorizontal="5dp"
                         android:paddingVertical="6dp"
                         android:src="@drawable/ic_search"
                         app:closeIcon="@drawable/ic_close"

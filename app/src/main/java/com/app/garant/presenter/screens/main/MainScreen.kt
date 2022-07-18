@@ -168,7 +168,9 @@ class MainScreen : Fragment(R.layout.screen_main) {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 query?.let {
                     val queryX = query.trim()
-                    viewModel.getSearch(queryX)
+                    val action =
+                        MainScreenDirections.actionMainPageToSearchProductsPage(queryX)
+                    findNavController().navigate(action)
                 }
                 return true
             }
