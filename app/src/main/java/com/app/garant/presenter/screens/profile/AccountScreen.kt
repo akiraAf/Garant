@@ -14,6 +14,7 @@ import com.app.garant.R
 import com.app.garant.app.App
 import com.app.garant.data.pref.MyPref
 import com.app.garant.data.request.auth.DocumentRequest
+import com.app.garant.data.request.profile.request.UserRequest
 import com.app.garant.databinding.ScreenAccountBinding
 import com.app.garant.presenter.viewModel.profile.AccountScreenViewModel
 import com.app.garant.presenter.viewModel.viewModelimpl.profile.AccountScreenViewModelImpl
@@ -38,20 +39,10 @@ class AccountScreen : Fragment(R.layout.screen_account) {
     private var regionX: String? = null
     private var city: String? = null
     private var district: String? = null
+    private var districtId: Int? = null
+    private var workplace: String? = null
+    private var workplaceId: Int? = null
 
-
-    private val startForProfileImageResult =
-        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
-            val resultCode = result.resultCode
-            val data = result.data
-            when (resultCode) {
-                Activity.RESULT_OK -> {
-                    val fileUri = data?.data!!
-                    bind.selfiePassportExample.setImageURI(fileUri)
-                    file = File(FileUtils.getPath(requireContext(), fileUri))
-                }
-            }
-        }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -90,33 +81,16 @@ class AccountScreen : Fragment(R.layout.screen_account) {
             showToast(it)
         }.launchIn(lifecycleScope)
 
-        bind.save.setOnClickListener {
-            if (bind.inputExtraPhoneNumber.text!!.isNotEmpty() && regionX!!.isNotEmpty() && city!!.isNotEmpty()
-                && district!!.isNotEmpty() && bind.address.text!!.isNotEmpty() && bind.work.text!!.isNotEmpty()
-            ) {
-                if (file != null) {
-                    viewModel.sendDocuments(
-                        DocumentRequest(
-                            file!!,
-                            "passport"
-                        )
-                    )
 
-                    MyPref(App.instance).account = true
-                    findNavController().navigate(R.id.action_accountPage_to_profileScreen)
-                } else
-                    showToast("Загрузите фото или скан паспорта")
-            } else showToast("Заполните все поля")
-
-        }
 
         view.setOnClickListener {
             it.hideKeyboard()
         }
 
-        // viewModel success flow regions and profession
+        // viewModel success flow regions, profession and save
         getAddress()
         getProfession()
+        save()
     }
 
     private fun getAddress() {
@@ -144,6 +118,8 @@ class AccountScreen : Fragment(R.layout.screen_account) {
                 viewModel.getRegionCity(newItem, newItemX)
                 districtSpinnerPreference.setOnSpinnerItemSelectedListener<String> { oldIndexY, oldItemY, newIndexY, newItemY ->
                     district = newItemY
+                    viewModel.successFlowDistrictId.onEach { districtId = it[newIndexY] }
+                        .launchIn(lifecycleScope)
                 }
             }
         }
@@ -173,8 +149,59 @@ class AccountScreen : Fragment(R.layout.screen_account) {
             bind.profession.setItems(it)
         }.launchIn(lifecycleScope)
 
+        val workplaceSpinnerPreference = bind.profession
+        workplaceSpinnerPreference.setOnSpinnerItemSelectedListener<String> { oldIndex, oldItem, newIndex, newItem ->
+            workplace = newItem
+            viewModel.successFlowProfessionId.onEach { workplaceId = it[newIndex] }
+                .launchIn(lifecycleScope)
+        }
+
     }
 
+    private fun save() {
+        bind.save.setOnClickListener {
+            if (bind.inputExtraPhoneNumber.text!!.isNotEmpty() && regionX!!.isNotEmpty() && city!!.isNotEmpty()
+                && district!!.isNotEmpty() && bind.address.text!!.isNotEmpty() && bind.work.text!!.isNotEmpty()
+                && workplace!!.isNotEmpty()
+            ) {
+                viewModel.sendUserInfo(
+                    UserRequest(
+                        bind.address.text!!.toString(),
+                        workplace!!,
+                        districtId!!,
+                        "998${bind.inputExtraPhoneNumber.unMasked}".toLong(),
+                        workplaceId!!
+                    )
+                )
+                if (file != null) {
+                    viewModel.sendDocuments(
+                        DocumentRequest(
+                            file!!,
+                            "passport"
+                        )
+                    )
+
+                    MyPref(App.instance).account = true
+                    findNavController().navigate(R.id.action_accountPage_to_profileScreen)
+                } else
+                    showToast("Загрузите фото или скан паспорта")
+            } else showToast("Заполните все поля")
+
+        }
+    }
+
+    private val startForProfileImageResult =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
+            val resultCode = result.resultCode
+            val data = result.data
+            when (resultCode) {
+                Activity.RESULT_OK -> {
+                    val fileUri = data?.data!!
+                    bind.selfiePassportExample.setImageURI(fileUri)
+                    file = File(FileUtils.getPath(requireContext(), fileUri))
+                }
+            }
+        }
 
 }
 
