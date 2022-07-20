@@ -7,8 +7,10 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.app.garant.data.response.category.allProducts.AllProductsResponse
+import com.app.garant.data.response.category.categories.CategoryResponse
 import com.app.garant.domain.repository.CategoryRepository
-import com.app.garant.presenter.viewModel.catolog.ProductsScreenViewModel
+import com.app.garant.presenter.viewModel.catolog.CategoryViewModel
+import com.app.garant.presenter.viewModel.catolog.SubCategoryViewModel
 import com.app.garant.utils.eventValueFlow
 import com.app.garant.utils.isConnected
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -19,61 +21,17 @@ import java.util.*
 import javax.inject.Inject
 
 @HiltViewModel
-class ProductsScreenViewModelImpl @Inject constructor(private val categoryRepository: CategoryRepository) :
-    ViewModel(), ProductsScreenViewModel {
+class SubCategoryViewModelImpl @Inject constructor(private val categoryRepository: CategoryRepository) :
+    ViewModel(), SubCategoryViewModel {
 
 
-    override val successFlow = eventValueFlow<AllProductsResponse>()
     override val errorFlow = eventValueFlow<String>()
     override val progressFlow = eventValueFlow<Boolean>()
-
     override val successSearch = eventValueFlow<ArrayList<String>>()
     private lateinit var textToSpeechEngine: TextToSpeech
     private lateinit var startForResult: ActivityResultLauncher<Intent>
     private val search: ArrayList<String> = ArrayList()
 
-    override fun getAllProducts(id: Int) {
-
-        if (!isConnected()) {
-            return
-        }
-
-        viewModelScope.launch {
-            progressFlow.emit(true)
-        }
-
-        categoryRepository.getAllProducts(id).onEach {
-            it.onSuccess { data ->
-                progressFlow.emit(false)
-                successFlow.emit(data)
-            }
-            it.onFailure { throwable ->
-                progressFlow.emit(false)
-                errorFlow.emit(throwable.message.toString())
-            }
-        }.launchIn(viewModelScope)
-    }
-
-    override fun search(query: String) {
-        search.clear()
-        if (!isConnected()) {
-            return
-        }
-        viewModelScope.launch {
-            progressFlow.emit(true)
-        }
-        categoryRepository.getSearch(query).onEach {
-            it.onSuccess { products ->
-                progressFlow.emit(false)
-                products.data.map { search.add(it.name) }
-                successSearch.emit(search)
-            }
-            it.onFailure { throwable ->
-                progressFlow.emit(false)
-                errorFlow.emit(throwable.message.toString())
-            }
-        }.launchIn(viewModelScope)
-    }
 
     override fun initial(
         engine: TextToSpeech, launcher: ActivityResultLauncher<Intent>
@@ -95,6 +53,27 @@ class ProductsScreenViewModelImpl @Inject constructor(private val categoryReposi
 
     override fun speak(text: String) = viewModelScope.launch {
         textToSpeechEngine.speak(text, TextToSpeech.QUEUE_FLUSH, null, "")
+    }
+
+    override fun search(query: String) {
+        search.clear()
+        if (!isConnected()) {
+            return
+        }
+        viewModelScope.launch {
+            progressFlow.emit(true)
+        }
+        categoryRepository.getSearch(query).onEach {
+            it.onSuccess { products ->
+                progressFlow.emit(false)
+                products.data.map { search.add(it.name) }
+                successSearch.emit(search)
+            }
+            it.onFailure { throwable ->
+                progressFlow.emit(false)
+                errorFlow.emit(throwable.message.toString())
+            }
+        }.launchIn(viewModelScope)
     }
 
 }

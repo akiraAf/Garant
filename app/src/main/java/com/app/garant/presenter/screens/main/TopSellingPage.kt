@@ -26,11 +26,11 @@ class TopSellingPage : Fragment(R.layout.page_topselling) {
 
     private val bind by viewBinding(PageTopsellingBinding::bind)
     private val viewModel: TopSellingPageViewModel by viewModels<TopSellingPageViewModelImpl>()
-    private val adapterProduct by lazy { ProductsAdapter() }
     private var productData: List<Data>? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val adapterProduct = ProductsAdapter()
 
         if (productData == null)
             viewModel.getProducts()
@@ -47,12 +47,13 @@ class TopSellingPage : Fragment(R.layout.page_topselling) {
             bind.recycler.layoutManager =
                 GridLayoutManager(requireContext(), 2, GridLayoutManager.VERTICAL, false)
 
+            adapterProduct.setListenerClick {
+                findNavController().navigate(R.id.action_mainPage_to_nav_product_details)
+            }
+
         }.launchIn(lifecycleScope)
 
 
-        adapterProduct.setListenerClick {
-            findNavController().navigate(R.id.action_mainPage_to_nav_product_details)
-        }
     }
 
 

@@ -2,8 +2,8 @@
 <androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
     android:id="@+id/containerMainScreen"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/default_color">
 
@@ -12,6 +12,18 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="20dp">
+
+        <ListView
+            android:id="@+id/listSearch"
+            android:layout_width="match_parent"
+            android:layout_height="260dp"
+            android:layout_marginTop="35sp"
+            android:background="@color/white"
+            android:translationZ="10dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tg_link" />
+
 
         <LinearLayout
             android:id="@+id/tg_link"
@@ -124,12 +136,12 @@
                         android:paddingHorizontal="5dp"
                         android:paddingVertical="6dp"
                         android:src="@drawable/ic_search"
+                        android:translationZ="100dp"
                         app:closeIcon="@drawable/ic_close"
                         app:commitIcon="@drawable/white_bg"
                         app:queryBackground="@drawable/white_bg"
                         app:searchHintIcon="@null"
                         app:searchIcon="@drawable/ic_search" />
-
                 </LinearLayout>
 
                 <androidx.constraintlayout.widget.ConstraintLayout

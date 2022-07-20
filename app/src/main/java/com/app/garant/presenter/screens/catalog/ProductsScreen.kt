@@ -2,9 +2,14 @@ package com.app.garant.presenter.screens.catalog
 
 import android.content.Context
 import android.os.Bundle
+import android.speech.RecognizerIntent
+import android.speech.tts.TextToSpeech
 import android.view.MenuItem
 import android.view.View
+import android.view.inputmethod.EditorInfo
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.MenuRes
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.view.ContextThemeWrapper
 import androidx.appcompat.widget.PopupMenu
 import androidx.fragment.app.Fragment
@@ -23,9 +28,12 @@ import com.app.garant.presenter.dialogs.DialogFilter
 import com.app.garant.presenter.viewModel.catolog.ProductsScreenViewModel
 import com.app.garant.presenter.viewModel.viewModelimpl.catalog.ProductsScreenViewModelImpl
 import com.app.garant.utils.hideKeyboard
+import com.mindorks.editdrawabletext.DrawablePosition
+import com.mindorks.editdrawabletext.onDrawableClickListener
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import java.util.*
 
 
 @AndroidEntryPoint
@@ -109,7 +117,7 @@ class ProductsScreen : Fragment(R.layout.screen_products) {
         view.setOnClickListener {
             it.hideKeyboard()
         }
-
+        voiceSearch()
     }
 
     companion object {
@@ -117,5 +125,57 @@ class ProductsScreen : Fragment(R.layout.screen_products) {
         const val ID_CATEGORY = "ID_CATEGORY"
     }
 
+    private fun voiceSearch() {
+        viewModel.initial(textToSpeechEngine, startForResult)
+        with(bind) {
+            searchBar.setDrawableClickListener(object : onDrawableClickListener {
+                override fun onClick(target: DrawablePosition) {
+                    when (target) {
+                        DrawablePosition.RIGHT -> {
+                            viewModel.displaySpeechRecognizer()
+                        }
+                        DrawablePosition.LEFT -> {
+                            if (bind.searchBar.text!!.isNotEmpty()) {
+                                val action =
+                                    ProductsScreenDirections.actionProductsScreenToSearchProductsPage(
+                                        bind.searchBar.text!!.toString()
+                                    )
+                                findNavController().navigate(action)
+                            }
+                        }
+                    }
+                }
+            })
+        }
+
+        bind.searchBar.setOnEditorActionListener { v, actionId, event ->
+            if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                val action =
+                    ProductsScreenDirections.actionProductsScreenToSearchProductsPage(v.text!!.toString())
+                findNavController().navigate(action)
+                true
+            } else {
+                false
+            }
+        }
+    }
+
+    private val startForResult = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ) { result ->
+        if (result.resultCode == AppCompatActivity.RESULT_OK) {
+            val spokenText: String? =
+                result.data?.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS)
+                    .let { text -> text?.get(0) }
+            bind.searchBar.setText(spokenText)
+        }
+    }
+
+
+    private val textToSpeechEngine: TextToSpeech by lazy {
+        TextToSpeech(requireContext()) {
+            if (it == TextToSpeech.SUCCESS) textToSpeechEngine.language = Locale("in_ID")
+        }
+    }
 
 }

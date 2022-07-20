@@ -1,6 +1,8 @@
 package com.app.garant.presenter.screens.profile
 
 import android.app.Activity
+import android.content.res.ColorStateList
+import android.graphics.Color
 import android.os.Bundle
 import android.view.View
 import androidx.activity.result.ActivityResult
@@ -197,7 +199,8 @@ class AccountScreen : Fragment(R.layout.screen_account) {
             when (resultCode) {
                 Activity.RESULT_OK -> {
                     val fileUri = data?.data!!
-                    bind.selfiePassportExample.setImageURI(fileUri)
+                    bind.expectationPassportTextView.setText(R.string.awaiting_confirmation)
+                    bind.expectationPassportTextView.setTextColor(Color.parseColor("#E7B901"))
                     file = File(FileUtils.getPath(requireContext(), fileUri))
                 }
             }

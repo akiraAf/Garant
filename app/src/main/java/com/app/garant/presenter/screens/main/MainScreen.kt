@@ -4,7 +4,10 @@ import android.app.ActionBar
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.text.InputType
+import android.util.Log
 import android.view.View
+import android.widget.ArrayAdapter
 import android.widget.LinearLayout
 import android.widget.SearchView
 import androidx.fragment.app.Fragment
@@ -21,6 +24,7 @@ import com.app.garant.presenter.viewModel.main.MainScreenViewModel
 import com.app.garant.presenter.viewModel.viewModelimpl.main.MainScreenViewModelImpl
 import com.app.garant.utils.hideKeyboard
 import com.app.garant.utils.scope
+import com.app.garant.utils.showToast
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
@@ -32,12 +36,12 @@ import kotlinx.coroutines.flow.onEach
 class MainScreen : Fragment(R.layout.screen_main) {
     private val bind by viewBinding(ScreenMainBinding::bind)
     private val viewModel: MainScreenViewModel by viewModels<MainScreenViewModelImpl>()
-    var nameCategory = ""
-    var idCategory = 1
+    private var nameCategory = ""
+    private var idCategory = 1
+    var listAdapter: ArrayAdapter<String>? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
 
         bind.salesPager.adapter = BannerSalesAdapter(childFragmentManager, lifecycle)
 
@@ -79,9 +83,9 @@ class MainScreen : Fragment(R.layout.screen_main) {
             findNavController().navigate(R.id.action_mainPage_to_notificationScreen)
         }
 
-
         updateUI()
         toolbar()
+        search()
     }
 
     private fun updateUI() {
@@ -113,6 +117,7 @@ class MainScreen : Fragment(R.layout.screen_main) {
                 telegram.visibility = View.VISIBLE
                 countNotification.visibility = View.VISIBLE
                 bell.visibility = View.VISIBLE
+                listSearch.visibility = View.GONE
             }
             false
         }
@@ -162,21 +167,51 @@ class MainScreen : Fragment(R.layout.screen_main) {
                 countNotification.visibility = View.VISIBLE
             }
         }
+    }
+
+    private fun search() {
+        bind.listSearch.bringToFront()
+
+        bind.listSearch.visibility = View.GONE
 
         bind.search.setOnQueryTextListener(object : SearchView.OnQueryTextListener,
             androidx.appcompat.widget.SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 query?.let {
                     val queryX = query.trim()
-                    val action =
-                        MainScreenDirections.actionMainPageToSearchProductsPage(queryX)
-                    findNavController().navigate(action)
+                    viewModel.successSearch.onEach {
+                        val action =
+                            MainScreenDirections.actionMainPageToSearchProductsPage(queryX)
+                        findNavController().navigate(action)
+                    }.launchIn(lifecycleScope)
                 }
                 return true
             }
 
-            override fun onQueryTextChange(newText: String?): Boolean = false
+            override fun onQueryTextChange(newText: String?): Boolean {
+
+                if (newText!!.isEmpty()) {
+                    bind.listSearch.visibility = View.GONE
+                } else {
+                    viewModel.getSearch(newText)
+                    viewModel.successSearch.onEach {
+                        listAdapter = ArrayAdapter<String>(
+                            requireContext(),
+                            android.R.layout.simple_list_item_1,
+                            it
+                        )
+                        bind.listSearch.adapter = listAdapter
+                        listAdapter!!.filter.filter(newText)
+                        bind.listSearch.setOnItemClickListener { parent, view, position, id ->
+                            val action =
+                                MainScreenDirections.actionMainPageToSearchProductsPage(newText)
+                            findNavController().navigate(action)
+                        }
+                    }.launchIn(lifecycleScope)
+                    bind.listSearch.visibility = View.VISIBLE
+                }
+                return false
+            }
         })
     }
-
 }

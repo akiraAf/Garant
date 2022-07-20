@@ -21,7 +21,9 @@ class MainScreenViewModelImpl @Inject constructor(private val categoryRepository
     override val errorFlow = eventValueFlow<String>()
     override val successFlow = eventValueFlow<ProductResponse>()
     override val tabСontentLoad = eventValueFlow<ArrayList<String>>()
+    override val successSearch = eventValueFlow<ArrayList<String>>()
     override val progressFlow = eventValueFlow<Boolean>()
+    private val search: ArrayList<String> = ArrayList()
 
 
     override fun getProducts() {
@@ -35,6 +37,27 @@ class MainScreenViewModelImpl @Inject constructor(private val categoryRepository
             it.onSuccess { products ->
                 progressFlow.emit(false)
                 successFlow.emit(products)
+            }
+            it.onFailure { throwable ->
+                progressFlow.emit(false)
+                errorFlow.emit(throwable.message.toString())
+            }
+        }.launchIn(viewModelScope)
+    }
+
+    override fun getSearch(query: String) {
+        search.clear()
+        if (!isConnected()) {
+            return
+        }
+        viewModelScope.launch {
+            progressFlow.emit(true)
+        }
+        categoryRepository.getSearch(query).onEach {
+            it.onSuccess { products ->
+                progressFlow.emit(false)
+                products.data.map { search.add(it.name) }
+                successSearch.emit(search)
             }
             it.onFailure { throwable ->
                 progressFlow.emit(false)

@@ -95,8 +95,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="20dp"
                     android:layout_marginTop="5dp"
-                    android:text="@string/awaiting_confirmation"
-                    android:textColor="@color/waiting_color"
+                    android:text="@string/not_uploaded"
+                    android:textColor="@color/not_confirmation_color"
                     android:textSize="14sp"
                     app:layout_constraintStart_toStartOf="@id/border1"
                     app:layout_constraintTop_toBottomOf="@+id/scan_passport_textView" />
@@ -135,8 +135,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="20dp"
                     android:layout_marginTop="5dp"
-                    android:text="@string/confirmed"
-                    android:textColor="@color/confirmation_color"
+                    android:text="@string/not_uploaded"
+                    android:textColor="@color/not_confirmation_color"
                     android:textSize="14sp"
                     app:layout_constraintStart_toStartOf="@id/border1"
                     app:layout_constraintTop_toBottomOf="@+id/phone_registration_textView" />
@@ -332,7 +332,6 @@
                     app:spinner_divider_color="@color/default_black"
                     app:spinner_divider_show="true"
                     app:spinner_divider_size="0.4dp"
-                    app:spinner_item_array="@array/regions"
                     app:spinner_popup_animation="dropdown"
                     app:spinner_popup_background="@color/white"
                     app:spinner_popup_elevation="14dp" />
@@ -362,7 +361,6 @@
                     app:spinner_divider_color="@color/default_black"
                     app:spinner_divider_show="true"
                     app:spinner_divider_size="0.4dp"
-                    app:spinner_item_array="@array/regions"
                     app:spinner_popup_animation="dropdown"
                     app:spinner_popup_background="@color/white"
                     app:spinner_popup_elevation="14dp" />
@@ -392,7 +390,6 @@
                     app:spinner_divider_color="@color/default_black"
                     app:spinner_divider_show="true"
                     app:spinner_divider_size="0.4dp"
-                    app:spinner_item_array="@array/regions"
                     app:spinner_popup_animation="dropdown"
                     app:spinner_popup_background="@color/white"
                     app:spinner_popup_elevation="14dp" />
@@ -477,7 +474,6 @@
                     app:spinner_divider_color="@color/default_black"
                     app:spinner_divider_show="true"
                     app:spinner_divider_size="0.4dp"
-                    app:spinner_item_array="@array/regions"
                     app:spinner_popup_animation="dropdown"
                     app:spinner_popup_background="@color/white"
                     app:spinner_popup_elevation="14dp" />

@@ -9,6 +9,8 @@ interface MainScreenViewModel {
     val successFlow: Flow<ProductResponse>
     val tabСontentLoad: Flow<ArrayList<String>>
     val progressFlow: Flow<Boolean>
+    val successSearch: Flow<ArrayList<String>>
     fun getProducts()
+    fun getSearch(query: String)
     fun getNames()
 }
