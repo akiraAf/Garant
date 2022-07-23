@@ -16,10 +16,7 @@ import com.app.garant.databinding.ScreenNavigationBinding
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-
 class NavigationScreen : Fragment(R.layout.screen_navigation) {
-
-
     private val bind by viewBinding(ScreenNavigationBinding::bind)
 
 

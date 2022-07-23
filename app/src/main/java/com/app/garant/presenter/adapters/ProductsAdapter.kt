@@ -21,6 +21,8 @@ import java.util.*
 class ProductsAdapter : ListAdapter<Data, ProductsAdapter.ProductVH>(MyDifUtils) {
 
     private var itemListener: ((Int) -> Unit)? = null
+    private var itemCartListener: ((Int, Int, Boolean) -> Unit)? = null
+    private var itemFavoriteListener: ((Int, Int, Boolean) -> Unit)? = null
     private val numberFormat = NumberFormat.getNumberInstance(Locale.CANADA)
 
     object MyDifUtils : DiffUtil.ItemCallback<Data>() {
@@ -61,13 +63,18 @@ class ProductsAdapter : ListAdapter<Data, ProductsAdapter.ProductVH>(MyDifUtils)
             price.text = price_converter(value.price.toLong())
             monthlyPrice.text = price_converter(value.monthly_price.toLong())
             Glide.with(productImageView.context).load(value.image).into(productImageView)
+            bind.productBtn.isChecked = value.is_cart == 1
+            bind.favorite.isChecked = value.is_favorite == 1
             bind.parent.setOnClickListener {
                 itemListener?.invoke(absoluteAdapterPosition)
             }
 
             bind.productBtn.setOnCheckedChangeListener { buttonView, isChecked ->
-                if (isChecked)
-                    StaticValue.orderData.add(value)
+                itemCartListener?.invoke(value.id, absoluteAdapterPosition, isChecked)
+            }
+
+            bind.favorite.setOnCheckedChangeListener { buttonView, isChecked ->
+                itemFavoriteListener?.invoke(value.id, absoluteAdapterPosition, isChecked)
             }
 
         }
@@ -86,5 +93,14 @@ class ProductsAdapter : ListAdapter<Data, ProductsAdapter.ProductVH>(MyDifUtils)
     fun setListenerClick(function: (Int) -> Unit) {
         itemListener = function
     }
+
+    fun setCartListenerClick(function: (Int, Int, Boolean) -> Unit) {
+        itemCartListener = function
+    }
+
+    fun setFavoriteListenerClick(function: (Int, Int, Boolean) -> Unit) {
+        itemFavoriteListener = function
+    }
+
 
 }

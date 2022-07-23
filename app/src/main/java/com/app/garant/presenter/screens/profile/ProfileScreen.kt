@@ -69,10 +69,10 @@ class ProfileScreen : Fragment(R.layout.screen_profile) {
                 viewModel.successFlow.onEach {
                     StaticValue.screenLogoutLiveData.value = Unit
                     MyPref(App.instance).startScreen = false
+                    MyPref(App.instance).access_token = ""
                 }.launchIn(lifecycleScope)
                 MyPref(App.instance).startScreen = false
                 MyPref(App.instance).account = false
-                Log.i("LOL", MyPref(App.instance).startScreen.toString())
             }
         }
 

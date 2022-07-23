@@ -2,8 +2,17 @@ package com.app.garant.presenter.screens.search
 
 import android.content.Context
 import android.os.Bundle
+import android.speech.RecognizerIntent
+import android.speech.tts.TextToSpeech
+import android.text.Editable
+import android.text.InputType
+import android.text.TextWatcher
 import androidx.fragment.app.Fragment
 import android.view.View
+import android.view.inputmethod.EditorInfo
+import android.widget.ArrayAdapter
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.view.ContextThemeWrapper
 import androidx.appcompat.widget.PopupMenu
 import androidx.fragment.app.viewModels
@@ -14,14 +23,22 @@ import androidx.recyclerview.widget.GridLayoutManager
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.app.garant.R
 import com.app.garant.data.other.StaticValue
+import com.app.garant.data.request.cart.CartDeleteRequest
+import com.app.garant.data.request.cart.CartRequest
 import com.app.garant.databinding.ScreenSearchProductsBinding
 import com.app.garant.presenter.adapters.ProductsAdapter
 import com.app.garant.presenter.dialogs.DialogFilter
+import com.app.garant.presenter.screens.catalog.CategoryScreenDirections
+import com.app.garant.presenter.screens.catalog.ProductsScreenDirections
 import com.app.garant.presenter.viewModel.search.SearchProductsScreenViewModel
 import com.app.garant.presenter.viewModel.viewModelimpl.search.SearchProductsScreenViewModelImpl
+import com.mindorks.editdrawabletext.DrawablePosition
+import com.mindorks.editdrawabletext.onDrawableClickListener
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import java.util.*
 
 @AndroidEntryPoint
 
@@ -30,10 +47,12 @@ class SearchProductsScreen : Fragment(R.layout.screen_search_products) {
     private val viewModel: SearchProductsScreenViewModel by viewModels<SearchProductsScreenViewModelImpl>()
     private val bind by viewBinding(ScreenSearchProductsBinding::bind)
     private val args = navArgs<SearchProductsScreenArgs>()
+    var listAdapter: ArrayAdapter<String>? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        bind.listSearch.visibility = View.GONE
         val query = args.value.query
         viewModel.getSearch(query)
 
@@ -73,6 +92,20 @@ class SearchProductsScreen : Fragment(R.layout.screen_search_products) {
                 popUpMenu.show()
             }
 
+            adapter.setCartListenerClick { idProduct, index, isChecked ->
+                if (isChecked) {
+                    viewModel.addCart(CartRequest(1, idProduct))
+                    viewModel.successFlowCartRemove.onEach {
+                        adapter.notifyItemChanged(idProduct)
+                    }.launchIn(viewLifecycleOwner.lifecycleScope)
+                } else {
+                    viewModel.removeCart(CartDeleteRequest(idProduct))
+                    viewModel.successFlowCartAdd.onEach {
+                        adapter.notifyItemChanged(idProduct)
+                    }.launchIn(viewLifecycleOwner.lifecycleScope)
+                }
+            }
+
             bind.filter.setOnClickListener {
                 val dialog = DialogFilter()
                 dialog.show(childFragmentManager, "DIALOG_FILTER")
@@ -83,8 +116,11 @@ class SearchProductsScreen : Fragment(R.layout.screen_search_products) {
                     dialog.dismiss()
                 }
             }
-
-        }.launchIn(lifecycleScope)
+            voiceSearch()
+            searchList()
+            delay(500)
+            bind.searchBar.inputType = InputType.TYPE_CLASS_TEXT
+        }.launchIn(viewLifecycleOwner.lifecycleScope)
 
         bind.backBtn.setOnClickListener {
             findNavController().popBackStack()
@@ -92,4 +128,113 @@ class SearchProductsScreen : Fragment(R.layout.screen_search_products) {
 
     }
 
+    private fun voiceSearch() {
+        viewModel.initial(textToSpeechEngine, startForResult)
+        with(bind) {
+            searchBar.setDrawableClickListener(object : onDrawableClickListener {
+                override fun onClick(target: DrawablePosition) {
+                    when (target) {
+                        DrawablePosition.RIGHT -> {
+                            viewModel.displaySpeechRecognizer()
+                        }
+                        DrawablePosition.LEFT -> {
+                            if (bind.searchBar.text!!.isNotEmpty()) {
+                                val action =
+                                    ProductsScreenDirections.actionProductsScreenToSearchProductsPage(
+                                        bind.searchBar.text!!.toString()
+                                    )
+                                findNavController().navigate(action)
+                            }
+                        }
+                    }
+                }
+            })
+        }
+
+        bind.searchBar.setOnEditorActionListener { v, actionId, event ->
+            if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                val action =
+                    ProductsScreenDirections.actionProductsScreenToSearchProductsPage(v.text!!.toString())
+                findNavController().navigate(action)
+                true
+            } else {
+                false
+            }
+        }
+    }
+
+    private val startForResult = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ) { result ->
+        if (result.resultCode == AppCompatActivity.RESULT_OK) {
+            val spokenText: String? =
+                result.data?.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS)
+                    .let { text -> text?.get(0) }
+            bind.searchBar.setText(spokenText)
+        }
+    }
+
+
+    private val textToSpeechEngine: TextToSpeech by lazy {
+        TextToSpeech(requireContext()) {
+            if (it == TextToSpeech.SUCCESS) textToSpeechEngine.language = Locale("in_ID")
+        }
+    }
+
+    private fun searchList() {
+        bind.searchBar.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+                if (s!!.isEmpty())
+                    bind.listSearch.visibility = View.GONE
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+                if (s!!.isEmpty())
+                    bind.listSearch.visibility = View.GONE
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                val query = s.toString()
+                if (s!!.isEmpty())
+                    bind.listSearch.visibility = View.GONE
+                if (count == 0) {
+                    bind.listSearch.visibility = View.GONE
+                } else {
+                    viewModel.search(query)
+                    viewModel.successSearch.onEach {
+                        if (bind.searchBar.text.isEmpty())
+                            bind.listSearch.visibility = View.GONE
+
+                        bind.listSearch.visibility = View.VISIBLE
+                        listAdapter = ArrayAdapter<String>(
+                            requireContext(),
+                            android.R.layout.simple_list_item_1,
+                            it
+                        )
+                        bind.listSearch.adapter = listAdapter
+                        listAdapter!!.filter.filter(query)
+                        bind.listSearch.setOnItemClickListener { parent, view, position, id ->
+                            val action =
+                                CategoryScreenDirections.actionCatalogPageToSearchProductsScreen(
+                                    query
+                                )
+                            findNavController().navigate(action)
+                        }
+                    }.launchIn(lifecycleScope)
+                }
+            }
+        })
+    }
+
+    override fun onResume() {
+        super.onResume()
+        bind.searchBar.setText("")
+        bind.listSearch.visibility = View.GONE
+    }
+
+    override fun onStart() {
+        super.onStart()
+
+        bind.listSearch.visibility = View.GONE
+    }
 }

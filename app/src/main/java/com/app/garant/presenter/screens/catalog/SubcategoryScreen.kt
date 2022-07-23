@@ -3,12 +3,16 @@ package com.app.garant.presenter.screens.catalog
 import android.os.Bundle
 import android.speech.RecognizerIntent
 import android.speech.tts.TextToSpeech
+import android.text.Editable
+import android.text.TextWatcher
 import androidx.fragment.app.Fragment
 import android.view.View
 import android.view.inputmethod.EditorInfo
+import android.widget.ArrayAdapter
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -19,9 +23,12 @@ import com.app.garant.presenter.adapters.category.SubcategoryAdapter
 import com.app.garant.databinding.ScreenSubcategoryBinding
 import com.app.garant.presenter.viewModel.catolog.SubCategoryViewModel
 import com.app.garant.presenter.viewModel.viewModelimpl.catalog.SubCategoryViewModelImpl
+import com.app.garant.utils.hideKeyboard
 import com.mindorks.editdrawabletext.DrawablePosition
 import com.mindorks.editdrawabletext.onDrawableClickListener
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import java.util.*
 
 @AndroidEntryPoint
@@ -33,6 +40,7 @@ class SubcategoryScreen : Fragment(R.layout.screen_subcategory) {
     private val viewModel: SubCategoryViewModel by viewModels<SubCategoryViewModelImpl>()
     private val args by navArgs<SubcategoryScreenArgs>()
 
+    var listAdapter: ArrayAdapter<String>? = null
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -41,10 +49,14 @@ class SubcategoryScreen : Fragment(R.layout.screen_subcategory) {
 
         bind.nameCategory.text = name
 
-        if (category!!.isNotEmpty())
+        if (category.isNotEmpty())
             subcategoryAdapter.submitList(category)
         else {
             bind.subcategoryRecycler.visibility = View.GONE
+        }
+
+        view.setOnClickListener {
+            it.hideKeyboard()
         }
 
 
@@ -56,7 +68,7 @@ class SubcategoryScreen : Fragment(R.layout.screen_subcategory) {
             findNavController().navigate(action)
         }
         bind.favorites.setOnClickListener {
-            findNavController().navigate(R.id.action_subcategoryPage_to_emptyFavoritePage)
+            findNavController().navigate(R.id.favoritesPage2)
         }
 
         bind.back.setOnClickListener {
@@ -64,22 +76,23 @@ class SubcategoryScreen : Fragment(R.layout.screen_subcategory) {
         }
 
         voiceSearch()
+        searchList()
     }
 
     private fun voiceSearch() {
         viewModel.initial(textToSpeechEngine, startForResult)
         with(bind) {
-            searchBar.setDrawableClickListener(object : onDrawableClickListener {
+            search.setDrawableClickListener(object : onDrawableClickListener {
                 override fun onClick(target: DrawablePosition) {
                     when (target) {
                         DrawablePosition.RIGHT -> {
                             viewModel.displaySpeechRecognizer()
                         }
                         DrawablePosition.LEFT -> {
-                            if(bind.searchBar.text!!.isNotEmpty()){
+                            if (bind.search.text!!.isNotEmpty()) {
                                 val action =
                                     SubcategoryScreenDirections.actionSubcategoryPageToSearchProductsScreen(
-                                        bind.searchBar.text!!.toString()
+                                        bind.search.text!!.toString()
                                     )
                                 findNavController().navigate(action)
                             }
@@ -89,7 +102,7 @@ class SubcategoryScreen : Fragment(R.layout.screen_subcategory) {
             })
         }
 
-        bind.searchBar.setOnEditorActionListener { v, actionId, event ->
+        bind.search.setOnEditorActionListener { v, actionId, event ->
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                 val action =
                     SubcategoryScreenDirections.actionSubcategoryPageToSearchProductsScreen(v.text!!.toString())
@@ -108,7 +121,7 @@ class SubcategoryScreen : Fragment(R.layout.screen_subcategory) {
             val spokenText: String? =
                 result.data?.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS)
                     .let { text -> text?.get(0) }
-            bind.searchBar.setText(spokenText)
+            bind.search.setText(spokenText)
         }
     }
 
@@ -117,6 +130,52 @@ class SubcategoryScreen : Fragment(R.layout.screen_subcategory) {
         TextToSpeech(requireContext()) {
             if (it == TextToSpeech.SUCCESS) textToSpeechEngine.language = Locale("in_ID")
         }
+    }
+
+    private fun searchList() {
+        bind.search.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+                if (s!!.isEmpty())
+                    bind.listSearch.visibility = View.GONE
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+                if (s!!.isEmpty())
+                    bind.listSearch.visibility = View.GONE
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                val query = s.toString()
+                if (count == 0) {
+                    bind.listSearch.visibility = View.GONE
+                } else {
+                    viewModel.search(query)
+                    viewModel.successSearch.onEach {
+                        bind.listSearch.visibility = View.VISIBLE
+                        listAdapter = ArrayAdapter<String>(
+                            requireContext(),
+                            android.R.layout.simple_list_item_1,
+                            it
+                        )
+                        bind.listSearch.adapter = listAdapter
+                        listAdapter!!.filter.filter(query)
+                        bind.listSearch.setOnItemClickListener { parent, view, position, id ->
+                            val action =
+                                CategoryScreenDirections.actionCatalogPageToSearchProductsScreen(
+                                    query
+                                )
+                            findNavController().navigate(action)
+                        }
+                    }.launchIn(lifecycleScope)
+                }
+            }
+        })
+    }
+
+    override fun onResume() {
+        super.onResume()
+        bind.search.setText("")
+        bind.listSearch.visibility = View.GONE
     }
 
 }

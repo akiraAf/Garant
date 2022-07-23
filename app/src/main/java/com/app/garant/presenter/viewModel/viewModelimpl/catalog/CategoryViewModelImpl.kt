@@ -13,6 +13,7 @@ import com.app.garant.presenter.viewModel.catolog.CategoryViewModel
 import com.app.garant.utils.eventValueFlow
 import com.app.garant.utils.isConnected
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
@@ -30,9 +31,14 @@ class CategoryViewModelImpl @Inject constructor(private val categoryRepository: 
     private lateinit var textToSpeechEngine: TextToSpeech
     private lateinit var startForResult: ActivityResultLauncher<Intent>
     private val search: ArrayList<String> = ArrayList()
+    private var dataTemp = CategoryResponse()
 
     override fun getCategory() {
         if (!isConnected()) {
+            return
+        }
+
+        if (dataTemp.isNotEmpty()) {
             return
         }
         viewModelScope.launch {
@@ -42,7 +48,8 @@ class CategoryViewModelImpl @Inject constructor(private val categoryRepository: 
         categoryRepository.getCategory().onEach {
             it.onSuccess { data ->
                 progressFlow.emit(false)
-                successFlow.emit(data)
+                dataTemp = data
+                successFlow.emit(dataTemp)
             }
             it.onFailure { throwable ->
                 progressFlow.emit(false)
@@ -65,8 +72,8 @@ class CategoryViewModelImpl @Inject constructor(private val categoryRepository: 
                 RecognizerIntent.EXTRA_LANGUAGE_MODEL,
                 RecognizerIntent.LANGUAGE_MODEL_FREE_FORM
             )
-            putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale("in_ID"))
-            putExtra(RecognizerIntent.EXTRA_PROMPT, Locale("Камила милашка"))
+            putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale(Locale.ENGLISH.language))
+            putExtra(RecognizerIntent.EXTRA_PROMPT, Locale(Locale.ENGLISH.language))
         })
     }
 

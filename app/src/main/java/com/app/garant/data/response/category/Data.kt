@@ -2,6 +2,8 @@ package com.app.garant.data.response.category
 
 data class Data(
     val available: Int,
+    val is_favorite: Int,
+    val is_cart: Int,
     val discount_percentage: Int,
     val discount_price: Any,
     val id: Int,

@@ -1,9 +1,12 @@
 package com.app.garant.data.api
 
-import com.app.garant.data.request.auth.DocumentRequest
+import com.app.garant.data.request.cart.CartDeleteRequest
+import com.app.garant.data.request.cart.CartRequest
 import com.app.garant.data.request.profile.ChangePhoneRequest
 import com.app.garant.data.request.profile.UpdatePhoneRequest
 import com.app.garant.data.request.profile.request.UserRequest
+import com.app.garant.data.response.cart.CartDeleteResponse
+import com.app.garant.data.response.cart.CartResponse
 import com.app.garant.data.response.profile.ChangePhoneResponse
 import com.app.garant.data.response.profile.UpdatePhoneResponce
 import com.app.garant.data.response.profile.account.DocumentResponse
@@ -15,7 +18,6 @@ import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.Response
 import retrofit2.http.*
-import java.io.File
 
 interface UserApi {
 
@@ -43,5 +45,6 @@ interface UserApi {
 
     @POST("request")
     suspend fun sendUserInfo(@Body data: UserRequest): Response<UserResponse>
+
 
 }

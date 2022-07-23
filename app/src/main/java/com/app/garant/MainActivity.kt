@@ -33,8 +33,14 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
             navHost.navController.graph = navController
             navController.setStartDestination(R.id.navigationScreen)
             navHost.navController.navigate(R.id.navigationScreen)
+        } else {
+            val navHost =
+                supportFragmentManager.findFragmentById(R.id.containerActivity) as NavHostFragment
+            val navController = navHost.navController.navInflater.inflate(R.navigation.nav_start)
+            navHost.navController.graph = navController
+            navController.setStartDestination(R.id.languageScreen)
+            navHost.navController.navigate(R.id.languageScreen)
         }
-
         StaticValue.screenLogoutLiveData.observe(this, observer)
 
     }

@@ -7,9 +7,8 @@ import androidx.recyclerview.widget.RecyclerView
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.app.garant.R
 import com.app.garant.databinding.ItemHistoryPaymentBinding
-import com.app.garant.models.PaymentInfo
 
-class HistoryPaymentAdapter(val data: ArrayList<PaymentInfo>) :
+class HistoryPaymentAdapter() :
     RecyclerView.Adapter<HistoryPaymentAdapter.VH>() {
 
 
@@ -21,7 +20,7 @@ class HistoryPaymentAdapter(val data: ArrayList<PaymentInfo>) :
         holder.load(position)
     }
 
-    override fun getItemCount(): Int  = data.size
+    override fun getItemCount(): Int  = 3
 
 
     inner class VH(view: View) : RecyclerView.ViewHolder(view) {
@@ -29,10 +28,7 @@ class HistoryPaymentAdapter(val data: ArrayList<PaymentInfo>) :
         private val bind by viewBinding(ItemHistoryPaymentBinding::bind)
         fun load(i: Int) {
 
-            bind.apply {
-                date.text = data[i].date
-                cost.text = data[i].cost
-            }
+
 
         }
 

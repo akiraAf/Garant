@@ -42,6 +42,8 @@
         <entry key="..\:/Users/Lenovo/AndroidStudioProjects/Garant/app/src/main/res/drawable/ic_red_line.xml" value="0.1775" />
         <entry key="..\:/Users/Lenovo/AndroidStudioProjects/Garant/app/src/main/res/drawable/ic_red_logo.xml" value="0.163" />
         <entry key="..\:/Users/Lenovo/AndroidStudioProjects/Garant/app/src/main/res/drawable/ic_redheart.xml" value="0.119" />
+        <entry key="..\:/Users/Lenovo/AndroidStudioProjects/Garant/app/src/main/res/drawable/ic_reset_black.xml" value="0.131" />
+        <entry key="..\:/Users/Lenovo/AndroidStudioProjects/Garant/app/src/main/res/drawable/ic_reset_white.xml" value="0.131" />
         <entry key="..\:/Users/Lenovo/AndroidStudioProjects/Garant/app/src/main/res/drawable/ic_right_white.xml" value="0.1775" />
         <entry key="..\:/Users/Lenovo/AndroidStudioProjects/Garant/app/src/main/res/drawable/ic_shopping_cart_white.xml" value="0.1775" />
         <entry key="..\:/Users/Lenovo/AndroidStudioProjects/Garant/app/src/main/res/drawable/ic_smartphone.xml" value="0.1775" />
@@ -127,7 +129,7 @@
         <entry key="..\:/Users/Lenovo/AndroidStudioProjects/Garant/app/src/main/res/layout/item_history_payment.xml" value="0.20863616930312098" />
         <entry key="..\:/Users/Lenovo/AndroidStudioProjects/Garant/app/src/main/res/layout/item_installment.xml" value="0.4" />
         <entry key="..\:/Users/Lenovo/AndroidStudioProjects/Garant/app/src/main/res/layout/item_notification.xml" value="0.264" />
-        <entry key="..\:/Users/Lenovo/AndroidStudioProjects/Garant/app/src/main/res/layout/item_order.xml" value="0.536" />
+        <entry key="..\:/Users/Lenovo/AndroidStudioProjects/Garant/app/src/main/res/layout/item_order.xml" value="0.264" />
         <entry key="..\:/Users/Lenovo/AndroidStudioProjects/Garant/app/src/main/res/layout/item_payment.xml" value="0.264" />
         <entry key="..\:/Users/Lenovo/AndroidStudioProjects/Garant/app/src/main/res/layout/item_pickup_delivery.xml" value="0.20863616930312098" />
         <entry key="..\:/Users/Lenovo/AndroidStudioProjects/Garant/app/src/main/res/layout/item_product.xml" value="0.4" />
@@ -179,6 +181,7 @@
         <entry key="..\:/Users/Lenovo/AndroidStudioProjects/Garant/app/src/main/res/layout/screen_authorization.xml" value="0.264" />
         <entry key="..\:/Users/Lenovo/AndroidStudioProjects/Garant/app/src/main/res/layout/screen_basket.xml" value="0.20863616930312098" />
         <entry key="..\:/Users/Lenovo/AndroidStudioProjects/Garant/app/src/main/res/layout/screen_basket_check.xml" value="0.20863616930312098" />
+        <entry key="..\:/Users/Lenovo/AndroidStudioProjects/Garant/app/src/main/res/layout/screen_basket_empty.xml" value="0.20863616930312098" />
         <entry key="..\:/Users/Lenovo/AndroidStudioProjects/Garant/app/src/main/res/layout/screen_branch_selection.xml" value="0.20863616930312098" />
         <entry key="..\:/Users/Lenovo/AndroidStudioProjects/Garant/app/src/main/res/layout/screen_category.xml" value="0.20863616930312098" />
         <entry key="..\:/Users/Lenovo/AndroidStudioProjects/Garant/app/src/main/res/layout/screen_change_number.xml" value="0.20863616930312098" />

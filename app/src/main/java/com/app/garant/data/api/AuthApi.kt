@@ -25,4 +25,5 @@ interface AuthApi {
     @POST("auth/logout")
     suspend fun logout(): Response<LogoutResponse>
 
+
 }

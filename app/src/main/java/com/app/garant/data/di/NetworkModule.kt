@@ -25,7 +25,6 @@ class NetworkModule {
         Retrofit.Builder()
             .addConverterFactory(GsonConverterFactory.create())
             .client(client)
-//            .baseUrl(BASE_URL)
             .baseUrl("https://garant-mobile.usoftdev.uz/")
             .build()
 

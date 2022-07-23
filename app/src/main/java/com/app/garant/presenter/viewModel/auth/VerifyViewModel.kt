@@ -8,7 +8,10 @@ import kotlinx.coroutines.flow.Flow
 
 interface VerifyViewModel {
     val errorFlow: Flow<String>
+    val errorFlowLog: Flow<String>
     val successFlow: Flow<VerifyResponse>
+    val successFlowLog: Flow<LoginResponse>
     val progressFlow: Flow<Boolean>
     fun sendVerify(request: VerifyRequest)
+    fun login(request: LoginRequest)
 }

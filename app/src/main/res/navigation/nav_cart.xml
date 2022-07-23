@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_cart"
-    app:startDestination="@id/cartEmptyPage">
+    app:startDestination="@id/basketPage">
 
     <fragment
         android:id="@+id/cartEmptyPage"
@@ -16,7 +16,7 @@
     </fragment>
     <fragment
         android:id="@+id/basketPage"
-        android:name="com.app.garant.presenter.screens.basket.BasketScreen"
+        android:name="com.app.garant.presenter.screens.basket.CartScreen"
         android:label="page_basket"
         tools:layout="@layout/screen_basket" >
         <action
@@ -25,6 +25,9 @@
         <action
             android:id="@+id/action_basketPage_to_checkBasketPage"
             app:destination="@id/checkBasketPage" />
+        <action
+            android:id="@+id/action_basketPage_to_cartEmptyPage"
+            app:destination="@id/cartEmptyPage" />
     </fragment>
     <include app:graph="@navigation/nav_installment" />
     <include app:graph="@navigation/nav_ordering" />

@@ -1,13 +1,14 @@
 package com.app.garant.presenter.screens.main
 
 import android.app.ActionBar
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.text.InputType
 import android.util.Log
 import android.view.View
 import android.widget.ArrayAdapter
+import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.SearchView
 import androidx.fragment.app.Fragment
@@ -28,9 +29,11 @@ import com.app.garant.utils.showToast
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.currentCoroutineContext
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.onStart
 
 @AndroidEntryPoint
 class MainScreen : Fragment(R.layout.screen_main) {
@@ -38,11 +41,11 @@ class MainScreen : Fragment(R.layout.screen_main) {
     private val viewModel: MainScreenViewModel by viewModels<MainScreenViewModelImpl>()
     private var nameCategory = ""
     private var idCategory = 1
+    private var tabArray: ArrayList<String>? = null
     var listAdapter: ArrayAdapter<String>? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         bind.salesPager.adapter = BannerSalesAdapter(childFragmentManager, lifecycle)
 
         view.setOnClickListener {
@@ -53,30 +56,38 @@ class MainScreen : Fragment(R.layout.screen_main) {
 
         viewModel.successFlow.onEach {
             viewModel.getNames()
+            StaticValue.mainScreenProduct = it
             bind.all.setOnClickListener {
                 val action =
-                    MainScreenDirections.actionMainPageToProductsScreen(nameCategory, idCategory)
+                    MainScreenDirections.actionMainPageToProductsScreen(
+                        nameCategory,
+                        idCategory
+                    )
                 findNavController().navigate(action)
             }
-
-            bind.container.isClickable = true
             bind.progress.visibility = View.GONE
-        }.launchIn(lifecycleScope)
+        }.launchIn(viewLifecycleOwner.lifecycleScope)
 
-
-        viewModel.progressFlow.onEach {
-            bind.progress.visibility = View.VISIBLE
-            bind.container.isEnabled = false
-        }.launchIn(lifecycleScope)
-
-        viewModel.tabСontentLoad.onEach {
+        if (tabArray == null)
+            viewModel.tabСontentLoad.onEach {
+                tabArray = it
+                bind.productsPager.adapter =
+                    ProductPagerAdapter(tabArray!!.size, childFragmentManager, lifecycle)
+                val names = tabArray!!.reversed()
+                TabLayoutMediator(bind.tabLayout, bind.productsPager) { tab, position ->
+                    tab.text = names[position]
+                }.attach()
+            }.launchIn(viewLifecycleOwner.lifecycleScope)
+        else {
             bind.productsPager.adapter =
-                ProductPagerAdapter(it.size, childFragmentManager, lifecycle)
-            val names = it.reversed()
+                ProductPagerAdapter(tabArray!!.size, childFragmentManager, lifecycle)
+            val names = tabArray!!.reversed()
             TabLayoutMediator(bind.tabLayout, bind.productsPager) { tab, position ->
                 tab.text = names[position]
             }.attach()
-        }.launchIn(lifecycleScope)
+        }
+
+
 
 
         bind.bell.setOnClickListener {
@@ -171,25 +182,13 @@ class MainScreen : Fragment(R.layout.screen_main) {
 
     private fun search() {
         bind.listSearch.bringToFront()
-
         bind.listSearch.visibility = View.GONE
 
         bind.search.setOnQueryTextListener(object : SearchView.OnQueryTextListener,
             androidx.appcompat.widget.SearchView.OnQueryTextListener {
-            override fun onQueryTextSubmit(query: String?): Boolean {
-                query?.let {
-                    val queryX = query.trim()
-                    viewModel.successSearch.onEach {
-                        val action =
-                            MainScreenDirections.actionMainPageToSearchProductsPage(queryX)
-                        findNavController().navigate(action)
-                    }.launchIn(lifecycleScope)
-                }
-                return true
-            }
+            override fun onQueryTextSubmit(query: String?): Boolean = false
 
             override fun onQueryTextChange(newText: String?): Boolean {
-
                 if (newText!!.isEmpty()) {
                     bind.listSearch.visibility = View.GONE
                 } else {
@@ -209,9 +208,37 @@ class MainScreen : Fragment(R.layout.screen_main) {
                         }
                     }.launchIn(lifecycleScope)
                     bind.listSearch.visibility = View.VISIBLE
+                    bind.progress.visibility = View.GONE
                 }
                 return false
             }
         })
     }
+
+    private fun closeSearch() {
+        bind.search.setQuery("", false)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        bind.search.clearAnimation()
+        bind.search.onActionViewCollapsed();
+        bind.search.onCancelPendingInputEvents()
+        closeSearch()
+        bind.progress.visibility = View.GONE
+        Log.d("Fragment", "onResume")
+    }
+
+    override fun onStart() {
+        super.onStart()
+        bind.progress.visibility = View.GONE
+    }
+
+
+    override fun onStop() {
+        super.onStop()
+        bind.progress.visibility = View.GONE
+    }
+
+
 }

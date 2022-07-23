@@ -4,7 +4,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Lifecycle
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import com.app.garant.presenter.screens.main.TopSellingPage
+import com.app.garant.presenter.screens.main.ProductsPage
 
 class ProductPagerAdapter(
     private val pagesCount: Int,
@@ -15,6 +15,6 @@ class ProductPagerAdapter(
     override fun getItemCount(): Int = pagesCount
 
     override fun createFragment(position: Int): Fragment {
-        return TopSellingPage()
+        return ProductsPage()
     }
 }

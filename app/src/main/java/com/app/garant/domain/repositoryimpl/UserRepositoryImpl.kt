@@ -2,11 +2,16 @@ package com.app.garant.domain.repositoryimpl
 
 
 import com.app.garant.data.api.UserApi
+import com.app.garant.data.other.StaticValue
 import com.app.garant.data.pref.MyPref
 import com.app.garant.data.request.auth.DocumentRequest
+import com.app.garant.data.request.cart.CartDeleteRequest
+import com.app.garant.data.request.cart.CartRequest
 import com.app.garant.data.request.profile.ChangePhoneRequest
 import com.app.garant.data.request.profile.UpdatePhoneRequest
 import com.app.garant.data.request.profile.request.UserRequest
+import com.app.garant.data.response.cart.CartDeleteResponse
+import com.app.garant.data.response.cart.CartResponse
 import com.app.garant.data.response.profile.ChangePhoneResponse
 import com.app.garant.data.response.profile.UpdatePhoneResponce
 import com.app.garant.data.response.profile.account.DocumentResponse
@@ -27,9 +32,7 @@ import javax.inject.Inject
 
 class UserRepositoryImpl @Inject constructor(private val api: UserApi, private val pref: MyPref) :
     UserRepository {
-
     private var regionResponse: RegionResponse? = null
-
 
     override fun changePhone(changePhoneRequest: ChangePhoneRequest): Flow<Result<ChangePhoneResponse>> =
         flow {
@@ -109,6 +112,7 @@ class UserRepositoryImpl @Inject constructor(private val api: UserApi, private v
             emit(Result.failure(Throwable(it.message)))
         }.flowOn(Dispatchers.IO)
 
+
     override fun sendUserInfo(userInfo: UserRequest): Flow<Result<UserResponse>> =
         flow {
             val response = api.sendUserInfo(userInfo)
@@ -120,6 +124,8 @@ class UserRepositoryImpl @Inject constructor(private val api: UserApi, private v
         }.catch {
             emit(Result.failure(Throwable(it.message)))
         }.flowOn(Dispatchers.IO)
+
+
 
 
 }

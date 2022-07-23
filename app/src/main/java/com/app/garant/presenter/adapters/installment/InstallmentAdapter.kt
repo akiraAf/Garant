@@ -8,9 +8,8 @@ import androidx.recyclerview.widget.RecyclerView
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.app.garant.R
 import com.app.garant.databinding.ItemInstallmentBinding
-import com.app.garant.models.InstallmentHistoryData
 
-class InstallmentAdapter(val data: ArrayList<InstallmentHistoryData>) :
+class InstallmentAdapter() :
     RecyclerView.Adapter<InstallmentAdapter.VH>() {
 
     private var itemListener: ((String) -> Unit)? = null
@@ -24,24 +23,13 @@ class InstallmentAdapter(val data: ArrayList<InstallmentHistoryData>) :
         holder.load(position)
     }
 
-    override fun getItemCount() = data.size
+    override fun getItemCount() = 3
 
     inner class VH(view: View) : RecyclerView.ViewHolder(view) {
 
         private val bind by viewBinding(ItemInstallmentBinding::bind)
         fun load(i: Int) {
-            bind.apply {
-                name.text = data[i].name
-                type.text = data[i].type
-                type.setTextColor(Color.parseColor(setColorType(type.text.toString())))
-                date.text = data[i].date
 
-            }
-
-            bind.parent.setOnClickListener {
-                itemListener?.invoke(data.toString())
-
-            }
         }
 
     }

@@ -4,12 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".presenter.dialogs.DialogCleanBasket"
     app:cardCornerRadius="20dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="360dp"
-        android:layout_height="220dp"
+        android:layout_height="190dp"
         android:layout_gravity="center">
 
         <TextView

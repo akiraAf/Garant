@@ -7,10 +7,9 @@ import androidx.recyclerview.widget.RecyclerView
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.app.garant.R
 import com.app.garant.databinding.ItemPaymentBinding
-import com.app.garant.models.PaymentInfo
 
 
-class InstallmentPaymentAdapter(val data: ArrayList<PaymentInfo>, ) :
+class InstallmentPaymentAdapter( ) :
     RecyclerView.Adapter<InstallmentPaymentAdapter.VH>() {
 
 
@@ -22,21 +21,14 @@ class InstallmentPaymentAdapter(val data: ArrayList<PaymentInfo>, ) :
         holder.load(position)
     }
 
-    override fun getItemCount(): Int  = data.size
+    override fun getItemCount(): Int  =3
 
 
     inner class VH(view: View) : RecyclerView.ViewHolder(view) {
         private val bind by viewBinding(ItemPaymentBinding::bind)
         fun load(i: Int) {
 
-            bind.apply {
-                name.text = data[i].number
-                date.text = data[i].date
-                cost.text = data[i].cost
-                remainder.text = data[i].remainder
-                status.setImageResource(data[i].status)
 
-            }
 
         }
 

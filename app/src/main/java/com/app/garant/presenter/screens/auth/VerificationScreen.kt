@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.os.CountDownTimer
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.View
 import android.widget.EditText
 import androidx.fragment.app.Fragment
@@ -16,6 +17,7 @@ import com.app.garant.R
 import com.app.garant.app.App
 import com.app.garant.data.other.StaticValue
 import com.app.garant.data.pref.MyPref
+import com.app.garant.data.request.auth.LoginRequest
 import com.app.garant.data.request.auth.VerifyRequest
 import com.app.garant.databinding.ScreenVerificationBinding
 import com.app.garant.presenter.viewModel.auth.VerifyViewModel
@@ -53,6 +55,11 @@ class VerificationScreen() : Fragment(R.layout.screen_verification) {
 
         bind.reset.setOnClickListener {
             bind.reset.visibility = View.GONE
+            viewModel.login(
+                LoginRequest(
+                    "998${MyPref(App.instance).phoneNumber}".trim().toLong()
+                )
+            )
             timerX.start()
         }
 
@@ -84,7 +91,6 @@ class VerificationScreen() : Fragment(R.layout.screen_verification) {
         }
 
 
-
         view.setOnClickListener {
             it.hideKeyboard()
         }
@@ -110,19 +116,14 @@ class VerificationScreen() : Fragment(R.layout.screen_verification) {
 
     private fun textWatcher(editText: EditText): TextWatcher {
         return object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-
-            }
-
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 if (count == 1) {
                     editText.requestFocus()
                 }
             }
 
-            override fun afterTextChanged(s: Editable?) {
-
-            }
+            override fun afterTextChanged(s: Editable?) {}
         }
     }
 
@@ -138,12 +139,16 @@ class VerificationScreen() : Fragment(R.layout.screen_verification) {
             bind.timer.text = "Отправить код повторно"
             bind.reset.visibility = View.VISIBLE
         }
+    }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        timerX.cancel()
     }
 
     override fun onStop() {
         super.onStop()
-        timerX.cancel()
+     //   timerX.cancel()
     }
 
 

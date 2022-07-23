@@ -2,7 +2,9 @@ package com.app.garant.presenter.viewModel.viewModelimpl.auth
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.app.garant.data.request.auth.LoginRequest
 import com.app.garant.data.request.auth.VerifyRequest
+import com.app.garant.data.response.auth.LoginResponse
 import com.app.garant.data.response.auth.VerifyResponse
 import com.app.garant.domain.repository.AuthRepository
 import com.app.garant.presenter.viewModel.auth.VerifyViewModel
@@ -20,7 +22,9 @@ class VerifyViewModelImpl @Inject constructor(private val authRepository: AuthRe
     ViewModel() {
 
     override val errorFlow = eventValueFlow<String>()
+    override val errorFlowLog = eventValueFlow<String>()
     override val successFlow = eventValueFlow<VerifyResponse>()
+    override val successFlowLog = eventValueFlow<LoginResponse>()
     override val progressFlow = eventValueFlow<Boolean>()
 
 
@@ -43,5 +47,26 @@ class VerifyViewModelImpl @Inject constructor(private val authRepository: AuthRe
             }
         }.launchIn(viewModelScope)
     }
+
+    override fun login(request: LoginRequest) {
+        if (!isConnected()) {
+            return
+        }
+        viewModelScope.launch {
+            progressFlow.emit(true)
+        }
+        authRepository.login(request).onEach {
+            it.onSuccess {
+                progressFlow.emit(false)
+                successFlowLog.emit(it)
+            }
+            it.onFailure { throwable ->
+                progressFlow.emit(false)
+                errorFlowLog.emit(throwable.message.toString())
+            }
+        }.launchIn(viewModelScope)
+
+    }
+
 
 }

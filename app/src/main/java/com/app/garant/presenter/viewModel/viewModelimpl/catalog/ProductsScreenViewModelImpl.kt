@@ -6,7 +6,12 @@ import android.speech.tts.TextToSpeech
 import androidx.activity.result.ActivityResultLauncher
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.app.garant.data.request.cart.CartDeleteRequest
+import com.app.garant.data.request.cart.CartRequest
+import com.app.garant.data.request.favorite.FavoriteRequest
+import com.app.garant.data.response.cart.CartResponse
 import com.app.garant.data.response.category.allProducts.AllProductsResponse
+import com.app.garant.data.response.favorite.FavoriteResponse
 import com.app.garant.domain.repository.CategoryRepository
 import com.app.garant.presenter.viewModel.catolog.ProductsScreenViewModel
 import com.app.garant.utils.eventValueFlow
@@ -26,6 +31,11 @@ class ProductsScreenViewModelImpl @Inject constructor(private val categoryReposi
     override val successFlow = eventValueFlow<AllProductsResponse>()
     override val errorFlow = eventValueFlow<String>()
     override val progressFlow = eventValueFlow<Boolean>()
+    override val successFlowCartAdd = eventValueFlow<CartResponse>()
+    override val successFlowCartRemove = eventValueFlow<Unit>()
+
+    override val successFlowFavoriteAdd = eventValueFlow<Unit>()
+    override val successFlowFavoriteRemove = eventValueFlow<Unit>()
 
     override val successSearch = eventValueFlow<ArrayList<String>>()
     private lateinit var textToSpeechEngine: TextToSpeech
@@ -96,5 +106,75 @@ class ProductsScreenViewModelImpl @Inject constructor(private val categoryReposi
     override fun speak(text: String) = viewModelScope.launch {
         textToSpeechEngine.speak(text, TextToSpeech.QUEUE_FLUSH, null, "")
     }
+
+
+    override fun addCart(request: CartRequest) {
+        if (!isConnected()) {
+            return
+        }
+
+        categoryRepository.addCart(request).onEach {
+            it.onSuccess {
+                progressFlow.emit(false)
+                successFlowCartAdd.emit(it)
+            }
+            it.onFailure { throwable ->
+                progressFlow.emit(false)
+                errorFlow.emit(throwable.message.toString())
+            }
+        }.launchIn(viewModelScope)
+    }
+
+    override fun removeCart(request: CartDeleteRequest) {
+        if (!isConnected()) {
+            return
+        }
+
+        categoryRepository.deleteCart(request).onEach {
+            it.onSuccess {
+                progressFlow.emit(false)
+                successFlowCartRemove.emit(Unit)
+            }
+            it.onFailure { throwable ->
+                progressFlow.emit(false)
+                errorFlow.emit(throwable.message.toString())
+            }
+        }.launchIn(viewModelScope)
+    }
+
+    override fun addFavorite(request: FavoriteRequest) {
+        if (!isConnected()) {
+            return
+        }
+
+        categoryRepository.addFavorite(request).onEach {
+            it.onSuccess {
+                progressFlow.emit(false)
+                successFlowFavoriteAdd.emit(Unit)
+            }
+            it.onFailure { throwable ->
+                progressFlow.emit(false)
+                errorFlow.emit(throwable.message.toString())
+            }
+        }.launchIn(viewModelScope)
+    }
+
+    override fun removeFavorite(request: FavoriteRequest) {
+        if (!isConnected()) {
+            return
+        }
+
+        categoryRepository.deleteFavorite(request).onEach {
+            it.onSuccess {
+                progressFlow.emit(false)
+                successFlowFavoriteAdd.emit(Unit)
+            }
+            it.onFailure { throwable ->
+                progressFlow.emit(false)
+                errorFlow.emit(throwable.message.toString())
+            }
+        }.launchIn(viewModelScope)
+    }
+
 
 }

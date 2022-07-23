@@ -8,9 +8,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.app.garant.R
-import com.app.garant.presenter.adapters.OrderAdapter
 import com.app.garant.databinding.PageInstallmentCreationBinding
-import com.app.garant.models.OrderData
 import dagger.hilt.android.AndroidEntryPoint
 
 
@@ -29,11 +27,6 @@ class InstallmentCreationScreen : Fragment(R.layout.page_installment_creation) {
         bind.next.setOnClickListener {
             findNavController().navigate(R.id.action_installmentCreationPage_to_installmentDeliveryPage)
         }
-        val data = ArrayList<OrderData>()
-        data.add(OrderData("Apple iPhone 12\n128GB", "10 700 000 сум", "3 шт."))
-        data.add(OrderData("Apple iPhone 12\n128GB", "10 700 000 сум", "3 шт."))
-        data.add(OrderData("Apple iPhone 12\n128GB", "10 700 000 сум", "3 шт."))
-        data.add(OrderData("Apple iPhone 12\n128GB", "10 700 000 сум", "3 шт."))
 
         //val orderAdapter by lazy { OrderAdapter(data, true) }
 

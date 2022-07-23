@@ -29,7 +29,6 @@ class AuthorizationScreen : Fragment(R.layout.screen_authorization) {
 
     private val bind by viewBinding(ScreenAuthorizationBinding::bind)
     private val viewModel: AuthorizationViewModel by viewModels<AuthorizationViewModelImpl>()
-    private var phoneSend = ""
     private val bundle = Bundle()
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

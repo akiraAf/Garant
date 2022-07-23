@@ -9,7 +9,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="343dp"
-        android:layout_height="218dp"
+        android:layout_height="190dp"
         android:layout_gravity="center">
 
         <TextView
