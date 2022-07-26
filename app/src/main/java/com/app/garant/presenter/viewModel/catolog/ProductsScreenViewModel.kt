@@ -18,6 +18,9 @@ interface ProductsScreenViewModel {
     val errorFlow: Flow<String>
     val successFlow: Flow<AllProductsResponse>
     val progressFlow: Flow<Boolean>
+    val progressFlowCart: Flow<Boolean>
+    val progressFlowFavorite: Flow<Boolean>
+    val progressFlowSearch: Flow<Boolean>
     val successSearch: Flow<ArrayList<String>>
 
     val successFlowCartAdd: Flow<CartResponse>

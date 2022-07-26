@@ -5,6 +5,7 @@ import android.speech.tts.TextToSpeech
 import androidx.activity.result.ActivityResultLauncher
 import com.app.garant.data.request.cart.CartDeleteRequest
 import com.app.garant.data.request.cart.CartRequest
+import com.app.garant.data.request.favorite.FavoriteRequest
 import com.app.garant.data.response.cart.CartResponse
 import com.app.garant.data.response.category.allProducts.AllProductsResponse
 import com.app.garant.data.response.category.product.ProductResponse
@@ -20,6 +21,9 @@ interface SearchProductsScreenViewModel {
     val progressFlow: Flow<Boolean>
     val successSearch: Flow<ArrayList<String>>
 
+    val successFlowFavoriteAdd: Flow<Unit>
+    val successFlowFavoriteRemove: Flow<Unit>
+    val progressFlowFavorite: Flow<Boolean>
 
     val successFlowCartAdd: Flow<CartResponse>
     val successFlowCartRemove: Flow<Unit>
@@ -33,6 +37,6 @@ interface SearchProductsScreenViewModel {
     fun addCart(request: CartRequest)
     fun removeCart(request: CartDeleteRequest)
 
-    fun addFavorite()
-    fun removerFavorite()
+    fun addFavorite(request: FavoriteRequest)
+    fun removeFavorite(request: FavoriteRequest)
 }

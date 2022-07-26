@@ -1,9 +1,11 @@
 package com.app.garant.domain.repository
 
 import com.app.garant.data.request.cart.CartDeleteRequest
+import com.app.garant.data.request.cart.CartMonthRequest
 import com.app.garant.data.request.cart.CartRequest
 import com.app.garant.data.request.favorite.FavoriteRequest
 import com.app.garant.data.response.cart.CartDeleteResponse
+import com.app.garant.data.response.cart.CartParchRequest
 import com.app.garant.data.response.cart.CartResponse
 import com.app.garant.data.response.category.allProducts.AllProductsResponse
 import com.app.garant.data.response.category.categories.CategoryResponse
@@ -11,6 +13,8 @@ import com.app.garant.data.response.category.product.ProductResponse
 import com.app.garant.data.response.category.search.SearchResponse
 import com.app.garant.data.response.favorite.FavoriteResponse
 import kotlinx.coroutines.flow.Flow
+import retrofit2.Response
+import retrofit2.http.Body
 
 interface CategoryRepository {
 
@@ -29,6 +33,10 @@ interface CategoryRepository {
     fun addCart(request: CartRequest): Flow<Result<CartResponse>>
 
     fun getCart(): Flow<Result<CartResponse>>
+
+    fun putCartMonth(request: CartMonthRequest): Flow<Result<Unit>>
+
+    fun patchCart(request: CartParchRequest): Flow<Result<Unit>>
 
     fun deleteCart(request: CartDeleteRequest): Flow<Result<CartDeleteResponse>>
 

@@ -148,7 +148,7 @@ class VerificationScreen() : Fragment(R.layout.screen_verification) {
 
     override fun onStop() {
         super.onStop()
-     //   timerX.cancel()
+        //   timerX.cancel()
     }
 
 

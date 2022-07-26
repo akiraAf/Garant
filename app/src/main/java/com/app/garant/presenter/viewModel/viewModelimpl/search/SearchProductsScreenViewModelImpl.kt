@@ -8,6 +8,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.app.garant.data.request.cart.CartDeleteRequest
 import com.app.garant.data.request.cart.CartRequest
+import com.app.garant.data.request.favorite.FavoriteRequest
 import com.app.garant.data.response.cart.CartResponse
 import com.app.garant.data.response.category.allProducts.AllProductsResponse
 import com.app.garant.data.response.category.product.ProductResponse
@@ -17,6 +18,8 @@ import com.app.garant.presenter.viewModel.search.SearchProductsScreenViewModel
 import com.app.garant.utils.eventValueFlow
 import com.app.garant.utils.isConnected
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -31,10 +34,14 @@ class SearchProductsScreenViewModelImpl @Inject constructor(private val category
     override val errorFlow = eventValueFlow<String>()
     override val successFlowSearch = eventValueFlow<SearchResponse>()
     override val progressFlow = eventValueFlow<Boolean>()
+    override val progressFlowFavorite = eventValueFlow<Boolean>()
 
 
     override val successFlowCartAdd = eventValueFlow<CartResponse>()
     override val successFlowCartRemove = eventValueFlow<Unit>()
+
+    override val successFlowFavoriteAdd = eventValueFlow<Unit>()
+    override val successFlowFavoriteRemove = eventValueFlow<Unit>()
 
     override val successSearch = eventValueFlow<ArrayList<String>>()
     private lateinit var textToSpeechEngine: TextToSpeech
@@ -42,17 +49,22 @@ class SearchProductsScreenViewModelImpl @Inject constructor(private val category
     private val search: ArrayList<String> = ArrayList()
 
 
-    override fun getSearch(name: String) {
+    var searchJob: Job? = null
+    override fun getSearch(query: String) {
+        search.clear()
         if (!isConnected()) {
             return
         }
         viewModelScope.launch {
             progressFlow.emit(true)
         }
-        categoryRepository.getSearch(name).onEach {
-            it.onSuccess {
+        searchJob?.cancel()
+        searchJob = categoryRepository.getSearch(query).onEach {
+            delay(500)
+            it.onSuccess { products ->
                 progressFlow.emit(false)
-                successFlowSearch.emit(it)
+                products.data.map { search.add(it.name) }
+                successSearch.emit(search)
             }
             it.onFailure { throwable ->
                 progressFlow.emit(false)
@@ -73,7 +85,7 @@ class SearchProductsScreenViewModelImpl @Inject constructor(private val category
             it.onSuccess { products ->
                 progressFlow.emit(false)
                 products.data.map { search.add(it.name) }
-                successSearch.emit(search)
+                successFlowSearch.emit(products)
             }
             it.onFailure { throwable ->
                 progressFlow.emit(false)
@@ -137,12 +149,37 @@ class SearchProductsScreenViewModelImpl @Inject constructor(private val category
         }.launchIn(viewModelScope)
     }
 
-    override fun addFavorite() {
-        TODO("Not yet implemented")
+    override fun addFavorite(request: FavoriteRequest) {
+        if (!isConnected()) {
+            return
+        }
+
+        categoryRepository.addFavorite(request).onEach {
+            it.onSuccess {
+                progressFlowFavorite.emit(false)
+                successFlowFavoriteAdd.emit(Unit)
+            }
+            it.onFailure { throwable ->
+                progressFlowFavorite.emit(false)
+                errorFlow.emit(throwable.message.toString())
+            }
+        }.launchIn(viewModelScope)
     }
 
-    override fun removerFavorite() {
-        TODO("Not yet implemented")
-    }
+    override fun removeFavorite(request: FavoriteRequest) {
+        if (!isConnected()) {
+            return
+        }
 
+        categoryRepository.deleteFavorite(request).onEach {
+            it.onSuccess {
+                progressFlowFavorite.emit(false)
+                successFlowFavoriteAdd.emit(Unit)
+            }
+            it.onFailure { throwable ->
+                progressFlowFavorite.emit(false)
+                errorFlow.emit(throwable.message.toString())
+            }
+        }.launchIn(viewModelScope)
+    }
 }

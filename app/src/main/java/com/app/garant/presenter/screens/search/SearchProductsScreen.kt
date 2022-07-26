@@ -15,6 +15,8 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.view.ContextThemeWrapper
 import androidx.appcompat.widget.PopupMenu
+import androidx.core.view.isVisible
+import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -25,6 +27,7 @@ import com.app.garant.R
 import com.app.garant.data.other.StaticValue
 import com.app.garant.data.request.cart.CartDeleteRequest
 import com.app.garant.data.request.cart.CartRequest
+import com.app.garant.data.request.favorite.FavoriteRequest
 import com.app.garant.databinding.ScreenSearchProductsBinding
 import com.app.garant.presenter.adapters.ProductsAdapter
 import com.app.garant.presenter.dialogs.DialogFilter
@@ -32,6 +35,7 @@ import com.app.garant.presenter.screens.catalog.CategoryScreenDirections
 import com.app.garant.presenter.screens.catalog.ProductsScreenDirections
 import com.app.garant.presenter.viewModel.search.SearchProductsScreenViewModel
 import com.app.garant.presenter.viewModel.viewModelimpl.search.SearchProductsScreenViewModelImpl
+import com.app.garant.utils.showToast
 import com.mindorks.editdrawabletext.DrawablePosition
 import com.mindorks.editdrawabletext.onDrawableClickListener
 import dagger.hilt.android.AndroidEntryPoint
@@ -47,16 +51,16 @@ class SearchProductsScreen : Fragment(R.layout.screen_search_products) {
     private val viewModel: SearchProductsScreenViewModel by viewModels<SearchProductsScreenViewModelImpl>()
     private val bind by viewBinding(ScreenSearchProductsBinding::bind)
     private val args = navArgs<SearchProductsScreenArgs>()
+    val adapter by lazy { ProductsAdapter() }
     var listAdapter: ArrayAdapter<String>? = null
+    var listArray: ArrayList<String>? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         bind.listSearch.visibility = View.GONE
         val query = args.value.query
-        viewModel.getSearch(query)
-
-        val adapter = ProductsAdapter()
+        viewModel.search(query)
 
         viewModel.successFlowSearch.onEach {
             adapter.submitList(it.data)
@@ -161,6 +165,23 @@ class SearchProductsScreen : Fragment(R.layout.screen_search_products) {
                 false
             }
         }
+
+
+        adapter.setFavoriteListenerClick { idProduct, index, isChecked ->
+            if (isChecked) {
+                StaticValue.cartAmount.value = Unit
+                viewModel.addFavorite(FavoriteRequest(idProduct))
+                viewModel.successFlowCartRemove.onEach {
+                    adapter.notifyItemChanged(index)
+                }.launchIn(viewLifecycleOwner.lifecycleScope)
+            } else {
+                StaticValue.cartAmount.value = Unit
+                viewModel.removeFavorite(FavoriteRequest(idProduct))
+                viewModel.successFlowCartAdd.onEach {
+                    adapter.notifyItemChanged(index)
+                }.launchIn(viewLifecycleOwner.lifecycleScope)
+            }
+        }
     }
 
     private val startForResult = registerForActivityResult(
@@ -181,60 +202,47 @@ class SearchProductsScreen : Fragment(R.layout.screen_search_products) {
         }
     }
 
-    private fun searchList() {
-        bind.searchBar.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-                if (s!!.isEmpty())
-                    bind.listSearch.visibility = View.GONE
-            }
 
-            override fun afterTextChanged(s: Editable?) {
-                if (s!!.isEmpty())
-                    bind.listSearch.visibility = View.GONE
-            }
+    private fun searchList() {
+        bind.searchBar.doAfterTextChanged {
+            bind.listSearch.isVisible = bind.searchBar.text.toString().isNotBlank()
+        }
+        bind.searchBar.addTextChangedListener(object : TextWatcher {
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+
+            override fun afterTextChanged(s: Editable?) {}
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 val query = s.toString()
-                if (s!!.isEmpty())
-                    bind.listSearch.visibility = View.GONE
-                if (count == 0) {
-                    bind.listSearch.visibility = View.GONE
-                } else {
+                if (query.isBlank())
                     viewModel.search(query)
-                    viewModel.successSearch.onEach {
-                        if (bind.searchBar.text.isEmpty())
-                            bind.listSearch.visibility = View.GONE
-
-                        bind.listSearch.visibility = View.VISIBLE
-                        listAdapter = ArrayAdapter<String>(
-                            requireContext(),
-                            android.R.layout.simple_list_item_1,
-                            it
-                        )
-                        bind.listSearch.adapter = listAdapter
-                        listAdapter!!.filter.filter(query)
-                        bind.listSearch.setOnItemClickListener { parent, view, position, id ->
-                            val action =
-                                CategoryScreenDirections.actionCatalogPageToSearchProductsScreen(
-                                    query
-                                )
-                            findNavController().navigate(action)
-                        }
-                    }.launchIn(lifecycleScope)
-                }
+                viewModel.successSearch.onEach {
+                    listArray = it
+                    bind.listSearch.visibility = View.VISIBLE
+                    listAdapter = ArrayAdapter<String>(
+                        requireContext(),
+                        android.R.layout.simple_list_item_1,
+                        listArray!!
+                    )
+                    bind.listSearch.adapter = listAdapter
+                    listAdapter!!.filter.filter(query)
+                    bind.listSearch.setOnItemClickListener { parent, view, position, id ->
+                        val action =
+                            CategoryScreenDirections.actionCatalogPageToSearchProductsScreen(
+                                query
+                            )
+                        findNavController().navigate(action)
+                    }
+                }.launchIn(viewLifecycleOwner.lifecycleScope)
             }
         })
     }
 
-    override fun onResume() {
-        super.onResume()
+    override fun onStop() {
+        super.onStop()
         bind.searchBar.setText("")
         bind.listSearch.visibility = View.GONE
     }
 
-    override fun onStart() {
-        super.onStart()
-
-        bind.listSearch.visibility = View.GONE
-    }
 }

@@ -9,30 +9,50 @@
         android:id="@+id/mainPage"
         android:name="com.app.garant.presenter.screens.main.MainScreen"
         android:label="page_main"
-        tools:layout="@layout/screen_main" >
+        tools:layout="@layout/screen_main">
         <action
             android:id="@+id/action_mainPage_to_notificationScreen"
-            app:destination="@id/notificationScreen" />
+            app:destination="@id/notificationScreen"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@android:anim/fade_in"
+            app:popExitAnim="@android:anim/fade_out" />
         <action
             android:id="@+id/action_mainPage_to_searchProductsPage"
-            app:destination="@id/searchProductsPage" />
+            app:destination="@id/searchProductsScreen"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@android:anim/fade_in"
+            app:popExitAnim="@android:anim/fade_out" />
         <action
             android:id="@+id/action_mainPage_to_nav_product_details"
-            app:destination="@id/nav_product_details" />
+            app:destination="@id/nav_product_details"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@android:anim/fade_in"
+            app:popExitAnim="@android:anim/fade_out" />
         <action
             android:id="@+id/action_mainPage_to_productsScreen"
-            app:destination="@id/productsScreen" />
+            app:destination="@id/productsScreen"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@android:anim/fade_in"
+            app:popExitAnim="@android:anim/fade_out" />
     </fragment>
     <fragment
         android:id="@+id/notificationScreen"
         android:name="com.app.garant.presenter.screens.notification.NotificationScreen"
         android:label="screen_notification"
+        app:enterAnim="@android:anim/fade_in"
+        app:exitAnim="@android:anim/fade_out"
+        app:popEnterAnim="@android:anim/fade_in"
+        app:popExitAnim="@android:anim/fade_out"
         tools:layout="@layout/screen_notification" />
     <fragment
-        android:id="@+id/searchProductsPage"
+        android:id="@+id/searchProductsScreen"
         android:name="com.app.garant.presenter.screens.search.SearchProductsScreen"
         android:label="page_search_products"
-        tools:layout="@layout/screen_search_products" >
+        tools:layout="@layout/screen_search_products">
         <argument
             android:name="query"
             app:argType="string" />
@@ -40,27 +60,40 @@
     <include app:graph="@navigation/nav_product_details" />
     <fragment
         android:id="@+id/productsScreen"
-        tools:layout="@layout/screen_products"
         android:name="com.app.garant.presenter.screens.catalog.ProductsScreen"
-        android:label="ProductsScreen" >
+        android:label="ProductsScreen"
+        tools:layout="@layout/screen_products">
         <argument
             android:name="name"
             app:argType="string" />
-        <argument android:name="id"
+        <argument
+            android:name="id"
             app:argType="integer" />
         <action
             android:id="@+id/action_productsScreen_to_nav_product_details"
-            app:destination="@id/nav_product_details" />
-        <action
-            android:id="@+id/action_productsScreen_to_emptyFavoriteScreen"
-            app:destination="@id/emptyFavoriteScreen" />
+            app:destination="@id/nav_product_details"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@android:anim/fade_in"
+            app:popExitAnim="@android:anim/fade_out" />
         <action
             android:id="@+id/action_productsScreen_to_searchProductsPage"
-            app:destination="@id/searchProductsPage" />
+            app:destination="@id/searchProductsScreen"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@android:anim/fade_in"
+            app:popExitAnim="@android:anim/fade_out" />
+        <action
+            android:id="@+id/action_productsScreen_to_favoritesScreen"
+            app:destination="@id/favoritesScreen"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@android:anim/fade_in"
+            app:popExitAnim="@android:anim/fade_out" />
     </fragment>
     <fragment
-        android:id="@+id/emptyFavoriteScreen"
-        android:name="com.app.garant.presenter.screens.favorites.EmptyFavoriteScreen"
-        android:label="screen_empty_favorite"
-        tools:layout="@layout/screen_empty_favorite" />
+        android:id="@+id/favoritesScreen"
+        android:name="com.app.garant.presenter.screens.favorites.FavoritesScreen"
+        android:label="screen_favorites"
+        tools:layout="@layout/screen_favorites" />
 </navigation>

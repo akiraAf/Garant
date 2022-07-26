@@ -11,9 +11,18 @@ interface ProdutsPageViewModel {
 
     val errorFlowProduct: Flow<String>
     val successFlowProduct: Flow<ArrayList<ProductResponseItem>>
-    val successFlowCartAdd: Flow<CartResponse>
-    val successFlowCartRemove: Flow<Unit>
+    val successFlowCartAdd: Flow<String>
+    val successFlowCartRemove: Flow<String>
     val progressFlowProduct: Flow<Boolean>
+
+    val errorFlowS: Flow<String>
+    val successFlowS: Flow<Unit>
+    val progressFlowS: Flow<Boolean>
+
+    val errorFlowR: Flow<String>
+    val successFlowR: Flow<Unit>
+    val progressFlowR: Flow<Boolean>
+
 
     fun getProducts()
 

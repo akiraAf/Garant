@@ -14,6 +14,8 @@ import com.app.garant.presenter.viewModel.catolog.SubCategoryViewModel
 import com.app.garant.utils.eventValueFlow
 import com.app.garant.utils.isConnected
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
@@ -55,6 +57,7 @@ class SubCategoryViewModelImpl @Inject constructor(private val categoryRepositor
         textToSpeechEngine.speak(text, TextToSpeech.QUEUE_FLUSH, null, "")
     }
 
+    var searchJob: Job? = null
     override fun search(query: String) {
         search.clear()
         if (!isConnected()) {
@@ -63,7 +66,9 @@ class SubCategoryViewModelImpl @Inject constructor(private val categoryRepositor
         viewModelScope.launch {
             progressFlow.emit(true)
         }
-        categoryRepository.getSearch(query).onEach {
+        searchJob?.cancel()
+        searchJob = categoryRepository.getSearch(query).onEach {
+            delay(500)
             it.onSuccess { products ->
                 progressFlow.emit(false)
                 products.data.map { search.add(it.name) }

@@ -3,9 +3,11 @@ package com.app.garant.domain.repositoryimpl
 import com.app.garant.data.api.CategoryApi
 import com.app.garant.data.other.StaticValue
 import com.app.garant.data.request.cart.CartDeleteRequest
+import com.app.garant.data.request.cart.CartMonthRequest
 import com.app.garant.data.request.cart.CartRequest
 import com.app.garant.data.request.favorite.FavoriteRequest
 import com.app.garant.data.response.cart.CartDeleteResponse
+import com.app.garant.data.response.cart.CartParchRequest
 import com.app.garant.data.response.cart.CartResponse
 import com.app.garant.data.response.category.allProducts.AllProductsResponse
 import com.app.garant.data.response.category.categories.CategoryResponse
@@ -121,6 +123,30 @@ class CategoryRepositoryImpl @Inject constructor(
     override fun getCart(): Flow<Result<CartResponse>> =
         flow {
             val response = api.getCart()
+            if (response.isSuccessful) {
+                emit(Result.success(response.body()!!))
+            } else {
+                emit(Result.failure(Throwable(response.errorBody().toString())))
+            }
+        }.catch {
+            emit(Result.failure(Throwable(it.message)))
+        }.flowOn(Dispatchers.IO)
+
+    override fun putCartMonth(request: CartMonthRequest): Flow<Result<Unit>> =
+        flow {
+            val response = api.putCartMonth(request)
+            if (response.isSuccessful) {
+                emit(Result.success(response.body()!!))
+            } else {
+                emit(Result.failure(Throwable(response.errorBody().toString())))
+            }
+        }.catch {
+            emit(Result.failure(Throwable(it.message)))
+        }.flowOn(Dispatchers.IO)
+
+    override fun patchCart(request: CartParchRequest): Flow<Result<Unit>> =
+        flow {
+            val response = api.patchCart(request)
             if (response.isSuccessful) {
                 emit(Result.success(response.body()!!))
             } else {

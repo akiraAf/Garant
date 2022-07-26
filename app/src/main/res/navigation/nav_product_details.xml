@@ -9,22 +9,42 @@
         android:id="@+id/productDetailsPage3"
         android:name="com.app.garant.presenter.screens.catalog.ProductDetailsScreen"
         android:label="page_product_details"
-        tools:layout="@layout/screen_product_details" >
+        tools:layout="@layout/screen_product_details">
         <action
             android:id="@+id/action_productDetailsPage3_to_fullDetails3"
-            app:destination="@id/fullDetails3" />
+            app:destination="@id/fullDetails3"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@android:anim/fade_in"
+            app:popExitAnim="@android:anim/fade_out" />
         <action
             android:id="@+id/action_productDetailsPage3_self"
-            app:destination="@id/productDetailsPage3" />
+            app:destination="@id/productDetailsPage3"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@android:anim/fade_in"
+            app:popExitAnim="@android:anim/fade_out" />
         <action
             android:id="@+id/action_productDetailsPage3_to_nav_installment"
-            app:destination="@id/nav_installment" />
+            app:destination="@id/nav_installment"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@android:anim/fade_in"
+            app:popExitAnim="@android:anim/fade_out" />
         <action
             android:id="@+id/action_productDetailsPage3_self2"
-            app:destination="@id/productDetailsPage3" />
+            app:destination="@id/productDetailsPage3"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@android:anim/fade_in"
+            app:popExitAnim="@android:anim/fade_out" />
         <action
             android:id="@+id/action_productDetailsPage3_to_nav_ordering"
-            app:destination="@id/nav_ordering" />
+            app:destination="@id/nav_ordering"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@android:anim/fade_in"
+            app:popExitAnim="@android:anim/fade_out" />
     </fragment>
     <fragment
         android:id="@+id/fullDetails3"

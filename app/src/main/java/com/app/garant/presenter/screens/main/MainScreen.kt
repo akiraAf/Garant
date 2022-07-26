@@ -13,8 +13,10 @@ import android.widget.LinearLayout
 import android.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.app.garant.R
 import com.app.garant.data.other.StaticValue
@@ -47,6 +49,7 @@ class MainScreen : Fragment(R.layout.screen_main) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         bind.salesPager.adapter = BannerSalesAdapter(childFragmentManager, lifecycle)
+        StaticValue.mainRequest.observe(viewLifecycleOwner, observer)
 
         view.setOnClickListener {
             it.hideKeyboard()
@@ -240,5 +243,8 @@ class MainScreen : Fragment(R.layout.screen_main) {
         bind.progress.visibility = View.GONE
     }
 
+    private val observer = Observer<Unit> {
+        viewModel.getProducts()
+    }
 
 }

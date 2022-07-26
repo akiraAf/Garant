@@ -17,9 +17,6 @@ class EmptyFavoriteScreen : Fragment(R.layout.screen_empty_favorite) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        bind.goToCatalog.setOnClickListener {
-            findNavController().navigate(R.id.action_emptyFavoritePage_to_catalogPage)
-        }
 
         bind.back.setOnClickListener {
             findNavController().popBackStack()

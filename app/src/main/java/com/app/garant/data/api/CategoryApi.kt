@@ -1,9 +1,11 @@
 package com.app.garant.data.api
 
 import com.app.garant.data.request.cart.CartDeleteRequest
+import com.app.garant.data.request.cart.CartMonthRequest
 import com.app.garant.data.request.cart.CartRequest
 import com.app.garant.data.request.favorite.FavoriteRequest
 import com.app.garant.data.response.cart.CartDeleteResponse
+import com.app.garant.data.response.cart.CartParchRequest
 import com.app.garant.data.response.cart.CartResponse
 import com.app.garant.data.response.category.allProducts.AllProductsResponse
 import com.app.garant.data.response.category.categories.CategoryResponse
@@ -39,6 +41,11 @@ interface CategoryApi {
     @HTTP(method = "DELETE", path = "cart/drop", hasBody = true)
     suspend fun deleteAllCart(): Response<CartDeleteResponse>
 
+    @PUT("cart")
+    suspend fun putCartMonth(@Body request: CartMonthRequest): Response<Unit>
+
+    @PATCH("cart/")
+    suspend fun patchCart(@Body request: CartParchRequest): Response<Unit>
 
     @POST("favorite")
     suspend fun addFavorite(@Body data: FavoriteRequest): Response<FavoriteResponse>

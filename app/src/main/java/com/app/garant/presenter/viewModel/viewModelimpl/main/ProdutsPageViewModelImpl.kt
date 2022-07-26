@@ -1,5 +1,6 @@
 package com.app.garant.presenter.viewModel.viewModelimpl.main
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.app.garant.data.other.StaticValue
@@ -23,11 +24,18 @@ class ProdutsPageViewModelImpl @Inject constructor(
 ) : ViewModel(), ProdutsPageViewModel {
 
     override val successFlowProduct = eventValueFlow<ArrayList<ProductResponseItem>>()
-    override val successFlowCartAdd = eventValueFlow<CartResponse>()
-    override val successFlowCartRemove = eventValueFlow<Unit>()
+    override val successFlowCartAdd = eventValueFlow<String>()
+    override val successFlowCartRemove = eventValueFlow<String>()
     override val progressFlowProduct = eventValueFlow<Boolean>()
     override val errorFlowProduct = eventValueFlow<String>()
-    private var dataTemp = ArrayList<ProductResponseItem>()
+
+    override val successFlowS = eventValueFlow<Unit>()
+    override val progressFlowS = eventValueFlow<Boolean>()
+    override val errorFlowS = eventValueFlow<String>()
+
+    override val successFlowR = eventValueFlow<Unit>()
+    override val progressFlowR = eventValueFlow<Boolean>()
+    override val errorFlowR = eventValueFlow<String>()
 
     override fun getProducts() {
         if (!isConnected()) {
@@ -37,8 +45,7 @@ class ProdutsPageViewModelImpl @Inject constructor(
         categoryRepository.getProductByCompanion(StaticValue.nameCategory).onEach {
             it.onSuccess {
                 progressFlowProduct.emit(false)
-                dataTemp = it
-                successFlowProduct.emit(dataTemp)
+                successFlowProduct.emit(it)
             }
             it.onFailure { throwable ->
                 progressFlowProduct.emit(false)
@@ -51,15 +58,14 @@ class ProdutsPageViewModelImpl @Inject constructor(
         if (!isConnected()) {
             return
         }
-
         categoryRepository.addCart(request).onEach {
             it.onSuccess {
-                progressFlowProduct.emit(false)
-                successFlowCartAdd.emit(it)
+                progressFlowS.emit(false)
+                successFlowS.emit(Unit)
             }
             it.onFailure { throwable ->
-                progressFlowProduct.emit(false)
-                errorFlowProduct.emit(throwable.message.toString())
+                progressFlowS.emit(false)
+                errorFlowS.emit(throwable.message.toString())
             }
         }.launchIn(viewModelScope)
     }
@@ -71,12 +77,12 @@ class ProdutsPageViewModelImpl @Inject constructor(
 
         categoryRepository.deleteCart(request).onEach {
             it.onSuccess {
-                progressFlowProduct.emit(false)
-                successFlowCartRemove.emit(Unit)
+                progressFlowR.emit(false)
+                successFlowR.emit(Unit)
             }
             it.onFailure { throwable ->
-                progressFlowProduct.emit(false)
-                errorFlowProduct.emit(throwable.message.toString())
+                progressFlowR.emit(false)
+                errorFlowR.emit(throwable.message.toString())
             }
         }.launchIn(viewModelScope)
     }
@@ -88,8 +94,9 @@ class ProdutsPageViewModelImpl @Inject constructor(
 
         categoryRepository.addFavorite(request).onEach {
             it.onSuccess {
+                Log.i("LOL", it.toString())
                 progressFlowProduct.emit(false)
-                successFlowCartRemove.emit(Unit)
+                successFlowCartAdd.emit(it.toString())
             }
             it.onFailure { throwable ->
                 progressFlowProduct.emit(false)
@@ -106,7 +113,7 @@ class ProdutsPageViewModelImpl @Inject constructor(
         categoryRepository.deleteFavorite(request).onEach {
             it.onSuccess {
                 progressFlowProduct.emit(false)
-                successFlowCartRemove.emit(Unit)
+                successFlowCartRemove.emit(it.toString())
             }
             it.onFailure { throwable ->
                 progressFlowProduct.emit(false)

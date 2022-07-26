@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.NavDirections
 import androidx.navigation.fragment.findNavController
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.app.garant.R
@@ -36,7 +37,10 @@ class ProfileScreen : Fragment(R.layout.screen_profile) {
 
 
         bind.account.setOnClickListener {
-            findNavController().navigate(R.id.action_profileScreen_to_accountPage)
+            val action: NavDirections = ProfileScreenDirections.actionProfileScreenToAccountScreen(
+                false
+            )
+            findNavController().navigate(action)
         }
 
         bind.favorite.setOnClickListener {

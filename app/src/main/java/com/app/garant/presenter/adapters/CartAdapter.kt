@@ -2,6 +2,7 @@ package com.app.garant.presenter.adapters
 
 import android.annotation.SuppressLint
 import android.icu.text.NumberFormat
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -20,6 +21,9 @@ class CartAdapter : ListAdapter<Product, CartAdapter.CartVH>(MyDifUtils) {
 
     private var itemListener: ((Int) -> Unit)? = null
     private var itemDeleteListener: ((Int, Int) -> Unit)? = null
+    private var itemAddListener: ((Int, Int, Int) -> Unit)? = null
+    private var itemRemoveListener: ((Int, Int, Int) -> Unit)? = null
+    var countX: Int = 0
     private val numberFormat = NumberFormat.getNumberInstance(Locale.CANADA)
 
     object MyDifUtils : DiffUtil.ItemCallback<Product>() {
@@ -60,8 +64,18 @@ class CartAdapter : ListAdapter<Product, CartAdapter.CartVH>(MyDifUtils) {
             price.text = price_converter(value.price.toLong())
             Glide.with(image.context).load(value.image).into(image)
             count.text = value.count.toString() + " шт"
+            countX = value.count
             bind.close.setOnClickListener {
                 itemDeleteListener?.invoke(value.id, absoluteAdapterPosition)
+            }
+            bind.plus.setOnClickListener {
+                bind.count.text = (++countX).toString() + " шт"
+                itemAddListener?.invoke(countX, value.id, absoluteAdapterPosition)
+            }
+            bind.minus.setOnClickListener {
+                if (countX > 1)
+                    bind.count.text = (--countX).toString() + " шт"
+                itemRemoveListener?.invoke(countX, value.id, absoluteAdapterPosition)
             }
         }
     }
@@ -78,6 +92,14 @@ class CartAdapter : ListAdapter<Product, CartAdapter.CartVH>(MyDifUtils) {
 
     fun setDeleteListenerClick(function: (Int, Int) -> Unit) {
         itemDeleteListener = function
+    }
+
+    fun setAddListenerClick(function: (Int, Int, Int) -> Unit) {
+        itemAddListener = function
+    }
+
+    fun setRemoveListenerClick(function: (Int, Int, Int) -> Unit) {
+        itemRemoveListener = function
     }
 
     override fun onBindViewHolder(holder: CartVH, position: Int) {

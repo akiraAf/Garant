@@ -9,31 +9,47 @@
         android:id="@+id/orderingDeliveryPage"
         android:name="com.app.garant.presenter.screens.order.OrderingDeliveryPage"
         android:label="page_ordering_delivery"
-        tools:layout="@layout/page_ordering_delivery" >
+        tools:layout="@layout/page_ordering_delivery">
         <action
             android:id="@+id/action_orderingDeliveryPage_to_orderingPaymentPage"
-            app:destination="@id/orderingPaymentPage" />
+            app:destination="@id/orderingPaymentPage"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@android:anim/fade_in"
+            app:popExitAnim="@android:anim/fade_out" />
         <action
             android:id="@+id/action_orderingDeliveryPage_to_branchSelectionPage"
-            app:destination="@id/branchSelectionPage" />
+            app:destination="@id/branchSelectionPage"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@android:anim/fade_in"
+            app:popExitAnim="@android:anim/fade_out" />
     </fragment>
     <fragment
         android:id="@+id/orderingPaymentPage"
         android:name="com.app.garant.presenter.screens.order.OrderingPaymentPage"
         android:label="page_ordering_payment"
-        tools:layout="@layout/page_ordering_payment" >
+        tools:layout="@layout/page_ordering_payment">
         <action
             android:id="@+id/action_orderingPaymentPage_to_orderProcessingPage"
-            app:destination="@id/orderProcessingPage" />
+            app:destination="@id/orderProcessingPage"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@android:anim/fade_in"
+            app:popExitAnim="@android:anim/fade_out" />
     </fragment>
     <fragment
         android:id="@+id/orderProcessingPage"
         android:name="com.app.garant.presenter.screens.order.OrderProcessingPage"
         android:label="page_order_processing"
-        tools:layout="@layout/page_order_processing" >
+        tools:layout="@layout/page_order_processing">
         <action
             android:id="@+id/action_orderProcessingPage_to_mainPage3"
-            app:destination="@id/mainPage3" />
+            app:destination="@id/mainPage3"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@android:anim/fade_in"
+            app:popExitAnim="@android:anim/fade_out" />
     </fragment>
     <fragment
         android:id="@+id/branchSelectionPage"

@@ -13,6 +13,7 @@ import com.app.garant.presenter.viewModel.catolog.CategoryViewModel
 import com.app.garant.utils.eventValueFlow
 import com.app.garant.utils.isConnected
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -36,13 +37,6 @@ class CategoryViewModelImpl @Inject constructor(private val categoryRepository: 
     override fun getCategory() {
         if (!isConnected()) {
             return
-        }
-
-        if (dataTemp.isNotEmpty()) {
-            return
-        }
-        viewModelScope.launch {
-            progressFlow.emit(true)
         }
 
         categoryRepository.getCategory().onEach {
@@ -81,6 +75,7 @@ class CategoryViewModelImpl @Inject constructor(private val categoryRepository: 
         textToSpeechEngine.speak(text, TextToSpeech.QUEUE_FLUSH, null, "")
     }
 
+    var searchJob: Job? = null
     override fun search(query: String) {
         search.clear()
         if (!isConnected()) {
@@ -89,17 +84,20 @@ class CategoryViewModelImpl @Inject constructor(private val categoryRepository: 
         viewModelScope.launch {
             progressFlow.emit(true)
         }
-        categoryRepository.getSearch(query).onEach {
-            it.onSuccess { products ->
-                progressFlow.emit(false)
-                products.data.map { search.add(it.name) }
-                successSearch.emit(search)
-            }
-            it.onFailure { throwable ->
-                progressFlow.emit(false)
-                errorFlow.emit(throwable.message.toString())
-            }
-        }.launchIn(viewModelScope)
+        searchJob?.cancel()
+        if (query.isNotBlank())
+            searchJob = categoryRepository.getSearch(query).onEach {
+                delay(500)
+                it.onSuccess { products ->
+                    progressFlow.emit(false)
+                    products.data.map { search.add(it.name) }
+                    successSearch.emit(search)
+                }
+                it.onFailure { throwable ->
+                    progressFlow.emit(false)
+                    errorFlow.emit(throwable.message.toString())
+                }
+            }.launchIn(viewModelScope)
     }
 
 }

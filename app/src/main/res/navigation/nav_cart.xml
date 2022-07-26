@@ -6,38 +6,73 @@
     app:startDestination="@id/basketPage">
 
     <fragment
-        android:id="@+id/cartEmptyPage"
-        android:name="com.app.garant.presenter.screens.basket.BasketEmptyScreen"
-        android:label="page_cart_empty"
-        tools:layout="@layout/screen_basket_empty" >
-        <action
-            android:id="@+id/action_cartEmptyPage_to_basketPage"
-            app:destination="@id/basketPage" />
-    </fragment>
-    <fragment
         android:id="@+id/basketPage"
         android:name="com.app.garant.presenter.screens.basket.CartScreen"
         android:label="page_basket"
-        tools:layout="@layout/screen_basket" >
+        tools:layout="@layout/screen_basket">
         <action
             android:id="@+id/action_basketPage_to_nav_ordering"
-            app:destination="@id/nav_ordering" />
+            app:destination="@id/nav_ordering"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@android:anim/fade_in"
+            app:popExitAnim="@android:anim/fade_out" />
         <action
             android:id="@+id/action_basketPage_to_checkBasketPage"
-            app:destination="@id/checkBasketPage" />
-        <action
-            android:id="@+id/action_basketPage_to_cartEmptyPage"
-            app:destination="@id/cartEmptyPage" />
+            app:destination="@id/checkBasketPage"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@android:anim/fade_in"
+            app:popExitAnim="@android:anim/fade_out" />
+        <argument
+            android:name="gotomain"
+            app:argType="boolean"
+            android:defaultValue="false" />
     </fragment>
-    <include app:graph="@navigation/nav_installment" />
     <include app:graph="@navigation/nav_ordering" />
     <fragment
         android:id="@+id/checkBasketPage"
         android:name="com.app.garant.presenter.screens.basket.CheckBasketScreen"
         android:label="page_basket_check"
-        tools:layout="@layout/screen_basket_check" >
+        tools:layout="@layout/screen_basket_check">
         <action
-            android:id="@+id/action_checkBasketPage_to_nav_installment"
-            app:destination="@id/nav_installment" />
+            android:id="@+id/action_checkBasketPage_to_accountScreen"
+            app:destination="@id/accountScreen"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@android:anim/fade_in"
+            app:popExitAnim="@android:anim/fade_out" />
+        <argument
+            android:name="cartProducts"
+            app:argType="com.app.garant.data.response.cart.Product[]" />
+        <action
+            android:id="@+id/action_checkBasketPage_to_installmentSentModerationScreen"
+            app:destination="@id/installmentSentModerationScreen" />
+    </fragment>
+    <fragment
+        android:id="@+id/accountScreen"
+        android:name="com.app.garant.presenter.screens.profile.AccountScreen"
+        android:label="AccountScreen"
+        tools:layout="@layout/screen_account">
+        <action
+            android:id="@+id/action_accountScreen_to_installmentSentModerationScreen"
+            app:destination="@id/installmentSentModerationScreen"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@android:anim/fade_in"
+            app:popExitAnim="@android:anim/fade_out" />
+        <argument
+            android:name="entryFlag"
+            app:argType="boolean"
+            android:defaultValue="false" />
+    </fragment>
+    <fragment
+        android:id="@+id/installmentSentModerationScreen"
+        android:name="com.app.garant.presenter.screens.installment.InstallmentSentModerationScreen"
+        android:label="InstallmentSentModerationScreen"
+        tools:layout="@layout/page_installment_sent_moderation" >
+        <action
+            android:id="@+id/action_installmentSentModerationScreen_to_basketPage"
+            app:destination="@id/basketPage" />
     </fragment>
 </navigation>

@@ -12,19 +12,28 @@
         tools:layout="@layout/screen_category">
         <action
             android:id="@+id/action_catalogPage_to_favoritesPage2"
-            app:destination="@id/favoritesPage2" />
+            app:destination="@id/favoritesScreen"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@android:anim/fade_in"
+            app:popExitAnim="@android:anim/fade_out" />
         <action
             android:id="@+id/action_catalogPage_to_subcategoryPage"
-            app:destination="@id/subcategoryPage" />
-        <action
-            android:id="@+id/action_catalogPage_to_emptyFavoritePage"
-            app:destination="@id/emptyFavoritePage" />
+            app:destination="@id/subcategoryPage"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@android:anim/fade_in"
+            app:popExitAnim="@android:anim/fade_out" />
         <action
             android:id="@+id/action_catalogPage_to_searchProductsScreen"
-            app:destination="@id/searchProductsScreen" />
+            app:destination="@id/searchProductsScreen"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@android:anim/fade_in"
+            app:popExitAnim="@android:anim/fade_out" />
     </fragment>
     <fragment
-        android:id="@+id/favoritesPage2"
+        android:id="@+id/favoritesScreen"
         android:name="com.app.garant.presenter.screens.favorites.FavoritesScreen"
         android:label="page_favorites"
         tools:layout="@layout/screen_favorites" />
@@ -35,10 +44,11 @@
         tools:layout="@layout/screen_subcategory">
         <action
             android:id="@+id/action_subcategoryPage_to_productsPage"
-            app:destination="@id/productsScreen" />
-        <action
-            android:id="@+id/action_subcategoryPage_to_emptyFavoritePage"
-            app:destination="@id/emptyFavoritePage" />
+            app:destination="@id/productsScreen"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@android:anim/fade_in"
+            app:popExitAnim="@android:anim/fade_out" />
         <argument
             android:name="subCategory"
             app:argType="com.app.garant.data.response.category.categories.Category[]" />
@@ -48,7 +58,11 @@
             app:nullable="true" />
         <action
             android:id="@+id/action_subcategoryPage_to_searchProductsScreen"
-            app:destination="@id/searchProductsScreen" />
+            app:destination="@id/searchProductsScreen"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@android:anim/fade_in"
+            app:popExitAnim="@android:anim/fade_out" />
     </fragment>
     <fragment
         android:id="@+id/productsScreen"
@@ -57,31 +71,34 @@
         tools:layout="@layout/screen_products">
         <action
             android:id="@+id/action_productsScreen_to_searchProductsScreen"
-            app:destination="@id/searchProductsScreen" />
+            app:destination="@id/searchProductsScreen"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@android:anim/fade_in"
+            app:popExitAnim="@android:anim/fade_out" />
         <action
             android:id="@+id/action_productsPage_to_nav_product_details"
-            app:destination="@id/nav_product_details" />
-        <action
-            android:id="@+id/action_productsPage_to_emptyFavoritePage"
-            app:destination="@id/emptyFavoritePage" />
+            app:destination="@id/nav_product_details"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@android:anim/fade_in"
+            app:popExitAnim="@android:anim/fade_out" />
         <argument
             android:name="name"
             app:argType="string" />
         <argument
             android:name="id"
             app:argType="integer" />
+        <action
+            android:id="@+id/action_productsScreen_to_favoritesPage22"
+            app:destination="@id/favoritesScreen"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@android:anim/fade_in"
+            app:popExitAnim="@android:anim/fade_out" />
 
     </fragment>
     <include app:graph="@navigation/nav_product_details" />
-    <fragment
-        android:id="@+id/emptyFavoritePage"
-        android:name="com.app.garant.presenter.screens.favorites.EmptyFavoriteScreen"
-        android:label="EmptyFavoritePage"
-        tools:layout="@layout/screen_empty_favorite">
-        <action
-            android:id="@+id/action_emptyFavoritePage_to_catalogPage"
-            app:destination="@id/catalogPage" />
-    </fragment>
     <fragment
         android:id="@+id/searchProductsScreen"
         android:name="com.app.garant.presenter.screens.search.SearchProductsScreen"

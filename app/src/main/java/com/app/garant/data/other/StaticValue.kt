@@ -10,9 +10,11 @@ object StaticValue {
 
     var subCategory: List<Category>? = null
     val screenLogoutLiveData = MutableLiveData<Unit>()
+    val cartAmount = MutableLiveData<Unit>()
+    val mainRequest = MutableLiveData<Unit>()
+    val goToMain = MutableLiveData<Unit>()
     var mainScreenProduct = ProductResponse()
     val filter = MutableLiveData<Unit>()
     var cartCheck: Boolean = true
-
 
 }

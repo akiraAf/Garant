@@ -1,303 +1,402 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/default_color">
 
+    <TextView
+        android:id="@+id/basket_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="30dp"
+        android:text="@string/cart"
+        android:textColor="@color/default_black"
+        android:textSize="20sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/basket_tv">
 
-        <TextView
-            android:id="@+id/basket_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="30dp"
-            android:text="@string/cart"
-            android:textColor="@color/default_black"
-            android:textSize="20sp"
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/progress"
+            android:layout_width="0dp"
+            android:layout_height="400dp"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent">
 
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/clean_basket"
-            android:layout_width="0dp"
-            android:layout_height="40dp"
-            android:layout_marginHorizontal="15dp"
-            android:layout_marginTop="30dp"
-            android:background="@drawable/grey_stroke_bg"
-            android:drawableStart="@drawable/ic_delete"
-            android:paddingHorizontal="85dp"
-            android:text="@string/clean_basket"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/basket_tv" />
+            <com.github.ybq.android.spinkit.SpinKitView
+                style="@style/SpinKitView.FadingCircle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                app:SpinKit_Color="@color/grey"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/basketRV"
-            android:layout_width="0dp"
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/emptyCart"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_margin="15dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/clean_basket" />
-
-        <TextView
-            android:id="@+id/unavailable_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="15dp"
-            android:layout_marginTop="25dp"
-            android:text="Недоступны для заказа"
-            android:textColor="@color/default_red"
-            android:textFontWeight="@integer/material_motion_duration_medium_1"
-            android:textSize="18dp"
             android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/basketRV" />
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/unavailableRV"
-            android:layout_width="0dp"
+            <TextView
+                android:id="@+id/emptyCart_textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="20dp"
+                android:text="@string/empty_cart"
+                android:textColor="@color/default_black"
+                android:textSize="22sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.1" />
+
+            <ImageView
+                android:id="@+id/emptyCart_imgView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:src="@drawable/cart_img"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/go_to_catalog"
+                android:layout_width="0dp"
+                android:layout_height="?actionBarSize"
+                android:layout_margin="20dp"
+                android:background="@drawable/red_bg"
+                android:text="@string/go_to_catalog"
+                android:textColor="@color/white"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.core.widget.NestedScrollView
+            android:id="@+id/NestedScrollView"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginHorizontal="15dp"
-            android:layout_marginTop="20dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/unavailable_tv" />
-
-
-        <TextView
-            android:id="@+id/product_cost_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="15dp"
-            android:layout_marginTop="25dp"
-            android:text="Стоимость товаров"
-            android:textColor="@color/default_black"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/unavailableRV" />
-
-        <TextView
-            android:id="@+id/cost_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="25dp"
-            android:layout_marginEnd="15dp"
-            android:text="64 200 000 сум"
-            android:textColor="@color/default_black"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/unavailableRV" />
-
-        <TextView
-            android:id="@+id/installment_duration"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="15dp"
-            android:layout_marginTop="30sp"
-            android:text="@string/installment_duration"
-            android:textColor="@color/default_black"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/product_cost_tv" />
-
-        <HorizontalScrollView
-            android:id="@+id/installment_duration_btns"
-            android:layout_width="0dp"
-            android:layout_height="70dp"
-            android:layout_marginHorizontal="15dp"
-            android:layout_marginTop="15dp"
-            android:orientation="horizontal"
-            android:scrollbars="none"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/installment_duration">
-
-            <RadioGroup
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal">
-
-                <androidx.appcompat.widget.AppCompatRadioButton
-                    android:id="@+id/button1Month"
-                    style="@null"
-                    android:layout_width="70dp"
-                    android:layout_height="match_parent"
-                    android:layout_margin="5dp"
-                    android:background="@drawable/month_installment_selector"
-                    android:button="@null"
-                    android:gravity="center"
-                    android:hint="@string/one_month"
-                    android:padding="5dp"
-                    android:stateListAnimator="@anim/month_installment"
-                    android:text="@string/one_month"
-                    android:textColor="@drawable/installment_month_text_color"
-                    android:textSize="18sp" />
-
-                <androidx.appcompat.widget.AppCompatRadioButton
-                    android:id="@+id/button3Month"
-                    style="@null"
-                    android:layout_width="70dp"
-                    android:layout_height="match_parent"
-                    android:layout_margin="5dp"
-                    android:background="@drawable/month_installment_selector"
-                    android:button="@null"
-                    android:gravity="center"
-                    android:hint="@string/one_month"
-                    android:padding="5dp"
-                    android:stateListAnimator="@anim/month_installment"
-                    android:text="@string/three_month"
-                    android:textColor="@drawable/installment_month_text_color"
-                    android:textSize="18sp" />
-
-                <androidx.appcompat.widget.AppCompatRadioButton
-                    android:id="@+id/button6Month"
-                    style="@null"
-                    android:layout_width="70dp"
-                    android:layout_height="match_parent"
-                    android:layout_margin="5dp"
-                    android:background="@drawable/month_installment_selector"
-                    android:button="@null"
-                    android:gravity="center"
-                    android:padding="5dp"
-                    android:stateListAnimator="@anim/month_installment"
-                    android:text="@string/six_month"
-                    android:textColor="@drawable/installment_month_text_color"
-                    android:textSize="18sp" />
-
-                <androidx.appcompat.widget.AppCompatRadioButton
-                    android:id="@+id/button9Month"
-                    style="@null"
-                    android:layout_width="70dp"
-                    android:layout_height="match_parent"
-                    android:layout_margin="5dp"
-                    android:background="@drawable/month_installment_selector"
-                    android:button="@null"
-                    android:gravity="center"
-                    android:padding="5dp"
-                    android:stateListAnimator="@anim/month_installment"
-                    android:text="@string/nine_month"
-                    android:textColor="@drawable/installment_month_text_color"
-                    android:textSize="18sp" />
-
-                <androidx.appcompat.widget.AppCompatRadioButton
-                    android:id="@+id/button12Month"
-                    style="@null"
-                    android:layout_width="70dp"
-                    android:layout_height="match_parent"
-                    android:layout_margin="5dp"
-                    android:background="@drawable/month_installment_selector"
-                    android:button="@null"
-                    android:gravity="center"
-                    android:padding="5dp"
-                    android:stateListAnimator="@anim/month_installment"
-                    android:text="@string/twelve_month"
-                    android:textColor="@drawable/installment_month_text_color"
-                    android:textSize="18sp" />
-            </RadioGroup>
-        </HorizontalScrollView>
-
-        <TextView
-            android:id="@+id/month_pay_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="15dp"
-            android:layout_marginTop="40dp"
-            android:text="@string/month_payment"
-            android:textColor="@color/default_black"
-            android:textSize="14sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/installment_duration_btns" />
-
-        <TextView
-            android:id="@+id/amount_products_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="15dp"
-            android:text="@string/amount_products"
-            android:textColor="@color/default_black"
-            android:textSize="14dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/month_pay_tv" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="15dp"
-            android:text="@string/full_payment"
-            android:textColor="@color/default_black"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/amount_products_tv" />
-
-        <TextView
-            android:id="@+id/month_pay"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="40dp"
-            android:layout_marginEnd="15dp"
-            android:text="7 490 000 сум"
-            android:textColor="@color/default_black"
-            android:textSize="14sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/installment_duration_btns" />
-
-        <TextView
-            android:id="@+id/amount_products"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="15dp"
-            android:text="6 штук"
-            android:textColor="@color/default_black"
-            android:textSize="14sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/month_pay" />
-
-        <TextView
-            android:id="@+id/full_payment"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="15dp"
-            android:text="89 880 000 сум"
-            android:textColor="@color/default_black"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/amount_products" />
-
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/book_installment"
-            android:layout_width="0dp"
-            android:layout_height="60dp"
-            android:layout_marginHorizontal="15dp"
-            android:layout_marginTop="30dp"
-            android:background="@drawable/red_bg"
-            android:drawableStart="@drawable/ic_next_white"
-            android:paddingHorizontal="60dp"
-            android:text="@string/book_installment"
-            android:textColor="@color/white"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/full_payment" />
-
-
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/buy_btn"
-            android:layout_width="0dp"
-            android:layout_height="60dp"
-            android:layout_margin="15dp"
-            android:background="@drawable/red_bg"
-            android:text="@string/buy"
-            android:textColor="@color/white"
+            android:background="@color/default_color"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/book_installment" />
+            app:layout_constraintTop_toTopOf="parent">
 
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/clean_basket"
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"
+                    android:layout_marginHorizontal="15dp"
+                    android:layout_marginTop="30dp"
+                    android:background="@drawable/grey_stroke_bg"
+                    android:drawableStart="@drawable/ic_delete"
+                    android:paddingHorizontal="85dp"
+                    android:text="@string/clean_basket"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/basketRV"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_margin="15dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/clean_basket" />
+
+                <TextView
+                    android:id="@+id/unavailable_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginTop="25dp"
+                    android:text="Недоступны для заказа"
+                    android:textColor="@color/default_red"
+                    android:textFontWeight="@integer/material_motion_duration_medium_1"
+                    android:textSize="18dp"
+                    android:visibility="gone"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/basketRV" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/unavailableRV"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginHorizontal="15dp"
+                    android:layout_marginTop="20dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/unavailable_tv" />
+
+
+                <TextView
+                    android:id="@+id/product_cost_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginTop="25dp"
+                    android:text="Стоимость товаров"
+                    android:textColor="@color/default_black"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/unavailableRV" />
+
+                <TextView
+                    android:id="@+id/cost_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="25dp"
+                    android:layout_marginEnd="15dp"
+                    android:text="64 200 000 сум"
+                    android:textColor="@color/default_black"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/unavailableRV" />
+
+                <TextView
+                    android:id="@+id/installment_duration"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginTop="30sp"
+                    android:text="@string/installment_duration"
+                    android:textColor="@color/default_black"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/product_cost_tv" />
+
+                <LinearLayout
+                    android:id="@+id/installment_duration_btns"
+                    android:layout_width="wrap_content"
+                    android:layout_height="70dp"
+                    android:layout_marginHorizontal="15dp"
+                    android:layout_marginTop="15dp"
+                    android:orientation="horizontal"
+                    android:scrollbars="none"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/installment_duration">
+
+                    <RadioGroup
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal">
+
+                        <androidx.appcompat.widget.AppCompatRadioButton
+                            android:id="@+id/button1Month"
+                            style="@null"
+                            android:layout_width="70dp"
+                            android:layout_height="match_parent"
+                            android:layout_margin="5dp"
+                            android:background="@drawable/month_installment_selector"
+                            android:button="@null"
+                            android:gravity="center"
+                            android:hint="@string/one_month"
+                            android:padding="5dp"
+                            android:stateListAnimator="@anim/month_installment"
+                            android:text="@string/one_month"
+                            android:textColor="@drawable/installment_month_text_color"
+                            android:textSize="18sp" />
+
+                        <androidx.appcompat.widget.AppCompatRadioButton
+                            android:id="@+id/button3Month"
+                            style="@null"
+                            android:layout_width="70dp"
+                            android:layout_height="match_parent"
+                            android:layout_margin="5dp"
+                            android:background="@drawable/month_installment_selector"
+                            android:button="@null"
+                            android:gravity="center"
+                            android:hint="@string/one_month"
+                            android:padding="5dp"
+                            android:stateListAnimator="@anim/month_installment"
+                            android:text="@string/three_month"
+                            android:textColor="@drawable/installment_month_text_color"
+                            android:textSize="18sp" />
+
+                        <androidx.appcompat.widget.AppCompatRadioButton
+                            android:id="@+id/button6Month"
+                            style="@null"
+                            android:layout_width="70dp"
+                            android:layout_height="match_parent"
+                            android:layout_margin="5dp"
+                            android:background="@drawable/month_installment_selector"
+                            android:button="@null"
+                            android:gravity="center"
+                            android:padding="5dp"
+                            android:stateListAnimator="@anim/month_installment"
+                            android:text="@string/six_month"
+                            android:textColor="@drawable/installment_month_text_color"
+                            android:textSize="18sp" />
+
+                        <androidx.appcompat.widget.AppCompatRadioButton
+                            android:id="@+id/button9Month"
+                            style="@null"
+                            android:layout_width="70dp"
+                            android:layout_height="match_parent"
+                            android:layout_margin="5dp"
+                            android:background="@drawable/month_installment_selector"
+                            android:button="@null"
+                            android:gravity="center"
+                            android:padding="5dp"
+                            android:stateListAnimator="@anim/month_installment"
+                            android:text="@string/nine_month"
+                            android:textColor="@drawable/installment_month_text_color"
+                            android:textSize="18sp" />
+
+                        <androidx.appcompat.widget.AppCompatRadioButton
+                            android:id="@+id/button12Month"
+                            style="@null"
+                            android:layout_width="70dp"
+                            android:layout_height="match_parent"
+                            android:layout_margin="5dp"
+                            android:background="@drawable/month_installment_selector"
+                            android:button="@null"
+                            android:gravity="center"
+                            android:padding="5dp"
+                            android:stateListAnimator="@anim/month_installment"
+                            android:text="@string/twelve_month"
+                            android:textColor="@drawable/installment_month_text_color"
+                            android:textSize="18sp" />
+                    </RadioGroup>
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/month_pay_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginTop="40dp"
+                    android:text="@string/month_payment"
+                    android:textColor="@color/default_black"
+                    android:textSize="14sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/installment_duration_btns" />
+
+                <TextView
+                    android:id="@+id/amount_products_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="15dp"
+                    android:text="@string/amount_products"
+                    android:textColor="@color/default_black"
+                    android:textSize="14dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/month_pay_tv" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="15dp"
+                    android:text="@string/full_payment"
+                    android:textColor="@color/default_black"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/amount_products_tv" />
+
+                <TextView
+                    android:id="@+id/month_pay"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="40dp"
+                    android:layout_marginEnd="15dp"
+                    android:text="7 490 000 сум"
+                    android:textColor="@color/default_black"
+                    android:textSize="14sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/installment_duration_btns" />
+
+                <TextView
+                    android:id="@+id/amount_products"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="15dp"
+                    android:text="6 штук"
+                    android:textColor="@color/default_black"
+                    android:textSize="14sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/month_pay" />
+
+                <TextView
+                    android:id="@+id/full_payment"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="15dp"
+                    android:text="89 880 000 сум"
+                    android:textColor="@color/default_black"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/amount_products" />
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/book_installment"
+                    android:layout_width="0dp"
+                    android:layout_height="60dp"
+                    android:layout_marginHorizontal="15dp"
+                    android:layout_marginTop="30dp"
+                    android:background="@drawable/red_bg"
+                    android:drawableStart="@drawable/ic_next_white"
+                    android:paddingHorizontal="60dp"
+                    android:text="@string/book_installment"
+                    android:textColor="@color/white"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/full_payment" />
+
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/buy_btn"
+                    android:layout_width="0dp"
+                    android:layout_height="60dp"
+                    android:layout_margin="15dp"
+                    android:background="@drawable/red_bg"
+                    android:text="@string/buy"
+                    android:textColor="@color/white"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/book_installment" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.core.widget.NestedScrollView>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-</androidx.core.widget.NestedScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

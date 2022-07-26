@@ -1,15 +1,13 @@
 package com.app.garant.presenter.viewModel.viewModelimpl.profile
 
-import android.net.Uri
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.app.garant.app.App
-import com.app.garant.data.pref.MyPref
 import com.app.garant.data.request.auth.DocumentRequest
 import com.app.garant.data.request.profile.request.UserRequest
 import com.app.garant.data.response.profile.account.DocumentResponse
 import com.app.garant.data.response.profile.account.UserResponse
 import com.app.garant.data.response.profile.account.regions.RegionResponse
+import com.app.garant.data.response.profile.account.user_info.UserInfoResponse
 import com.app.garant.domain.repository.UserRepository
 import com.app.garant.presenter.viewModel.profile.AccountScreenViewModel
 import com.app.garant.utils.eventValueFlow
@@ -35,6 +33,7 @@ class AccountScreenViewModelImpl @Inject constructor(private val userRepository:
     override val successFlowProfessionId = eventValueFlow<ArrayList<Int>>()
     override val successFlowDoc = eventValueFlow<DocumentResponse>()
     override val successFlowUserInfo = eventValueFlow<UserResponse>()
+    override val successFlowGetUserInfo = eventValueFlow<UserInfoResponse>()
 
     private var regionsName = ArrayList<String>()
     private var citiesName = ArrayList<String>()
@@ -124,14 +123,32 @@ class AccountScreenViewModelImpl @Inject constructor(private val userRepository:
             return
         }
 
-        viewModelScope.launch {
-            progressFlow.emit(true)
-        }
-
         userRepository.sendUserInfo(userInfo).onEach {
             it.onSuccess {
                 progressFlow.emit(false)
                 successFlowUserInfo.emit(it)
+            }
+
+            it.onFailure {
+                progressFlow.emit(false)
+                //errorFlow.emit(it.message.toString())
+            }
+        }.launchIn(viewModelScope)
+    }
+
+    override fun getUserInfo() {
+        if (!isConnected()) {
+            return
+        }
+
+        viewModelScope.launch {
+            progressFlow.emit(true)
+        }
+
+        userRepository.getUserInfo().onEach {
+            it.onSuccess {
+                progressFlow.emit(false)
+                successFlowGetUserInfo.emit(it)
             }
 
             it.onFailure {

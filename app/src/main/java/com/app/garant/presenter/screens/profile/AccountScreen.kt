@@ -1,16 +1,18 @@
 package com.app.garant.presenter.screens.profile
 
 import android.app.Activity
-import android.content.res.ColorStateList
 import android.graphics.Color
 import android.os.Bundle
 import android.view.View
+import android.widget.TextView
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.NavDirections
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.app.garant.R
 import com.app.garant.app.App
@@ -24,7 +26,6 @@ import com.app.garant.utils.FileUtils
 import com.app.garant.utils.hideKeyboard
 import com.app.garant.utils.showToast
 import com.github.dhaval2404.imagepicker.ImagePicker
-import com.skydoves.powerspinner.IconSpinnerItem
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -44,31 +45,26 @@ class AccountScreen : Fragment(R.layout.screen_account) {
     private var districtId: Int? = null
     private var workplace: String? = null
     private var workplaceId: Int? = null
-
+    private var type: String? = null
+    private val checkAcc = MyPref(App.instance).account
+    private val args by navArgs<AccountScreenArgs>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        if (MyPref(App.instance).account)
+        if (args.entryFlag) {
             bind.save.text = "ДАЛЕЕ"
+        }
+
+        viewModel.getUserInfo()
+
+        if (!checkAcc) {
+            getUserInfo()
+        }
 
         val phoneNumber = MyPref(App.instance).phoneNumber
         bind.inputPhoneNumber.setText("  $phoneNumber")
         bind.inputPhoneNumber.isEnabled = false
-
-
-        bind.uploadPassportBtn.setOnClickListener {
-            ImagePicker.with(requireActivity())
-                .compress(1024)
-                .galleryOnly()
-                .crop()
-                .saveDir(
-                    File(requireContext().getExternalFilesDir(null)?.absolutePath, "MyImage")
-                )
-                .createIntent {
-                    startForProfileImageResult.launch(it)
-                }
-        }
 
 
         viewModel.errorFlow.onEach {
@@ -84,7 +80,6 @@ class AccountScreen : Fragment(R.layout.screen_account) {
         }.launchIn(lifecycleScope)
 
 
-
         view.setOnClickListener {
             it.hideKeyboard()
         }
@@ -93,6 +88,7 @@ class AccountScreen : Fragment(R.layout.screen_account) {
         getAddress()
         getProfession()
         save()
+        docUpload()
     }
 
     private fun getAddress() {
@@ -140,8 +136,6 @@ class AccountScreen : Fragment(R.layout.screen_account) {
         viewModel.successFlowDistrict.onEach { district ->
             bind.inputArea.setItems(district)
         }.launchIn(lifecycleScope)
-
-
     }
 
     private fun getProfession() {
@@ -162,34 +156,123 @@ class AccountScreen : Fragment(R.layout.screen_account) {
 
     private fun save() {
         bind.save.setOnClickListener {
-            if (bind.inputExtraPhoneNumber.text!!.isNotEmpty() && regionX!!.isNotEmpty() && city!!.isNotEmpty()
-                && district!!.isNotEmpty() && bind.address.text!!.isNotEmpty() && bind.work.text!!.isNotEmpty()
-                && workplace!!.isNotEmpty()
-            ) {
-                viewModel.sendUserInfo(
-                    UserRequest(
-                        bind.address.text!!.toString(),
-                        workplace!!,
-                        districtId!!,
-                        "998${bind.inputExtraPhoneNumber.unMasked}".toLong(),
-                        workplaceId!!
-                    )
-                )
-                if (file != null) {
-                    viewModel.sendDocuments(
-                        DocumentRequest(
-                            file!!,
-                            "passport"
+            if (args.entryFlag) {
+                findNavController().navigate(R.id.action_accountScreen_to_installmentSentModerationScreen)
+            } else if (checkAcc) {
+                if (bind.inputExtraPhoneNumber.text!!.isNotEmpty()
+                    && regionX!!.isNotEmpty()
+                    && city!!.isNotEmpty()
+                    && district!!.isNotEmpty()
+                    && bind.inputAddress.text!!.isNotEmpty()
+                    && bind.work.text!!.isNotEmpty()
+                    && type!!.isNotEmpty()
+                ) {
+                    viewModel.sendUserInfo(
+                        UserRequest(
+                            bind.inputAddress.text!!.toString(),
+                            bind.work.text!!.toString(),
+                            districtId!!,
+                            "998${bind.inputExtraPhoneNumber.unMasked}".toLong(),
+                            workplaceId!!
                         )
                     )
 
                     MyPref(App.instance).account = true
-                    findNavController().navigate(R.id.action_accountPage_to_profileScreen)
-                } else
                     showToast("Загрузите фото или скан паспорта")
-            } else showToast("Заполните все поля")
-
+                } else showToast("Заполните все поля")
+            } else if (!checkAcc) {
+                if (bind.inputAddress.text!!.toString().isNotEmpty() &&
+                    workplace!!.isNotBlank() &&
+                    districtId!!.toString().isNotBlank() &&
+                    bind.inputExtraPhoneNumber.unMasked.isNotBlank() &&
+                    workplaceId.toString().isNotBlank()
+                )
+                    viewModel.sendUserInfo(
+                        UserRequest(
+                            bind.inputAddress.text!!.toString(),
+                            bind.work.text!!.toString(),
+                            districtId!!,
+                            "998${bind.inputExtraPhoneNumber.unMasked}".toLong(),
+                            workplaceId!!
+                        )
+                    )
+                findNavController().navigate(R.id.action_accountScreen_to_profileScreen)
+            }
         }
+    }
+
+    private fun getUserInfo() {
+
+        viewModel.successFlowGetUserInfo.onEach {
+            if (it.documents.passport == "waiting") {
+                bind.expectationPassportTextView.setText(R.string.awaiting_confirmation)
+                bind.expectationPassportTextView.setTextColor(Color.parseColor("#E7B901"))
+            } else if (it.documents.passport == "confirmed") {
+                bind.expectationPassportTextView.setText(R.string.confirmed)
+                bind.expectationPassportTextView.setTextColor(Color.parseColor("#64D6A2"))
+            }
+
+            if (it.documents.registration == "waiting") {
+                bind.expectationRegistrationTextView.setText(R.string.awaiting_confirmation)
+                bind.expectationRegistrationTextView.setTextColor(Color.parseColor("#E7B901"))
+            } else if (it.documents.registration == "confirmed") {
+                bind.expectationRegistrationTextView.setText(R.string.confirmed)
+                bind.expectationRegistrationTextView.setTextColor(Color.parseColor("#64D6A2"))
+            }
+
+            if (it.documents.selfie == "waiting") {
+                bind.expectationSelfiePassportTextView.setText(R.string.awaiting_confirmation)
+                bind.expectationSelfiePassportTextView.setTextColor(Color.parseColor("#E7B901"))
+            } else if (it.documents.selfie == "confirmed") {
+                bind.expectationSelfiePassportTextView.setText(R.string.confirmed)
+                bind.expectationSelfiePassportTextView.setTextColor(Color.parseColor("#64D6A2"))
+            }
+            bind.inputExtraPhoneNumber.setText(it.contacts.additional_phone.toString())
+            bind.inputRegion.text = it.address.region.name
+            bind.inputCity.text = it.address.city.name
+            bind.inputAddress.setText(it.address.address)
+            bind.inputArea.text = it.address.district.name
+            bind.profession.text = it.profession.profession.name
+            bind.work.setText(it.profession.company)
+            districtId = it.address.district.id
+            workplaceId = it.profession.profession.id
+            workplace = it.profession.company
+        }.launchIn(viewLifecycleOwner.lifecycleScope)
+    }
+
+    private fun uploadPic(textView: TextView) {
+        textView.setText(R.string.awaiting_confirmation)
+        textView.setTextColor(Color.parseColor("#E7B901"))
+    }
+
+    private fun docUpload() {
+        bind.uploadPassportBtn.setOnClickListener {
+            imgPiker()
+            type = "passport"
+        }
+
+        bind.uploadRegistrationBtn.setOnClickListener {
+            imgPiker()
+            type = "registration"
+        }
+
+        bind.selfiePassportBtn.setOnClickListener {
+            imgPiker()
+            type = "selfie"
+        }
+    }
+
+    private fun imgPiker() {
+        ImagePicker.with(requireActivity())
+            .compress(1024)
+            .galleryOnly()
+            .crop()
+            .saveDir(
+                File(requireContext().getExternalFilesDir(null)?.absolutePath, "MyImage")
+            )
+            .createIntent {
+                startForProfileImageResult.launch(it)
+            }
     }
 
     private val startForProfileImageResult =
@@ -199,12 +282,22 @@ class AccountScreen : Fragment(R.layout.screen_account) {
             when (resultCode) {
                 Activity.RESULT_OK -> {
                     val fileUri = data?.data!!
-                    bind.expectationPassportTextView.setText(R.string.awaiting_confirmation)
-                    bind.expectationPassportTextView.setTextColor(Color.parseColor("#E7B901"))
+                    if (type == "passport")
+                        uploadPic(bind.expectationPassportTextView)
+                    else if (type == "selfie")
+                        uploadPic(bind.expectationSelfiePassportTextView)
+                    else if (type == "registration")
+                        uploadPic(bind.expectationRegistrationTextView)
                     file = File(FileUtils.getPath(requireContext(), fileUri))
+                    if (file != null) {
+                        viewModel.sendDocuments(
+                            DocumentRequest(
+                                file!!,
+                                type!!
+                            )
+                        )
+                    }
                 }
             }
         }
-
 }
-

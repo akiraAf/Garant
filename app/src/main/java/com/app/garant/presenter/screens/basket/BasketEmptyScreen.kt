@@ -21,7 +21,5 @@ class BasketEmptyScreen : Fragment(R.layout.screen_basket_empty) {
         bind.goToCatalog.setOnClickListener {
             findNavController().popBackStack()
         }
-        if (!StaticValue.cartCheck)
-            findNavController().navigate(R.id.action_cartEmptyPage_to_basketPage)
     }
 }

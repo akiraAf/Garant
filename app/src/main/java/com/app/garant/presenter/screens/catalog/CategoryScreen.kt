@@ -1,6 +1,5 @@
 package com.app.garant.presenter.screens.catalog
 
-import android.content.Context
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
@@ -13,21 +12,20 @@ import android.text.Editable
 import android.text.InputType
 import android.text.TextWatcher
 import android.util.Log
+import android.view.FocusFinder
 import android.view.inputmethod.EditorInfo
 import android.widget.ArrayAdapter
-import android.widget.SearchView
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
+import androidx.core.widget.doAfterTextChanged
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.GridLayoutManager
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.app.garant.R
-import com.app.garant.data.response.category.categories.Category
 import com.app.garant.data.response.category.categories.CategoryResponse
 import com.app.garant.databinding.ScreenCategoryBinding
 import com.app.garant.presenter.adapters.category.CategoryAdapter
-import com.app.garant.presenter.screens.main.MainScreenDirections
 import com.app.garant.presenter.viewModel.catolog.CategoryViewModel
 import com.app.garant.presenter.viewModel.viewModelimpl.catalog.CategoryViewModelImpl
 import com.app.garant.utils.hideKeyboard
@@ -49,7 +47,6 @@ class CategoryScreen : Fragment(R.layout.screen_category) {
     private val adapterCategory by lazy { CategoryAdapter() }
     var listAdapter: ArrayAdapter<String>? = null
     var listArray: ArrayList<String>? = null
-    private var categoryResponse: CategoryResponse? = null
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -59,17 +56,13 @@ class CategoryScreen : Fragment(R.layout.screen_category) {
             it.hideKeyboard()
         }
 
-        if (categoryResponse == null)
-            viewModel.getCategory()
-        else
-            adapterCategory.submitList(categoryResponse!!.reversed())
-
+        viewModel.getCategory()
         bind.listSearch.visibility = View.GONE
 
         viewModel.progressFlow.onEach {
             bind.progress.bringToFront()
             bind.progress.visibility = View.VISIBLE
-        }.launchIn(lifecycleScope)
+        }.launchIn(viewLifecycleOwner.lifecycleScope)
 
 
         view.setOnClickListener {
@@ -79,11 +72,8 @@ class CategoryScreen : Fragment(R.layout.screen_category) {
         viewModel.successFlow.onEach {
             delay(1000)
             bind.progress.visibility = View.GONE
-            categoryResponse = it
-            adapterCategory.submitList(categoryResponse!!.reversed())
-            delay(1000)
+            adapterCategory.submitList(it)
             adapterCategory.setListenerClick { sub, name ->
-
                 val action: NavDirections =
                     CategoryScreenDirections.actionCatalogPageToSubcategoryPage(
                         sub.toTypedArray(), name
@@ -94,7 +84,7 @@ class CategoryScreen : Fragment(R.layout.screen_category) {
 
             bind.favorites.setOnClickListener {
                 if (isAdded)
-                    findNavController().navigate(R.id.favoritesPage2)
+                    findNavController().navigate(R.id.favoritesScreen)
             }
             voiceSearch()
             searchList()
@@ -102,8 +92,8 @@ class CategoryScreen : Fragment(R.layout.screen_category) {
         }.launchIn(viewLifecycleOwner.lifecycleScope)
 
         viewModel.errorFlow.onEach {
-            showToast(it)
-        }.launchIn(lifecycleScope)
+            Log.i("LOL", "CategoryScreen Error $it")
+        }.launchIn(viewLifecycleOwner.lifecycleScope)
 
         bind.catalogRV.layoutManager = GridLayoutManager(requireContext(), 2)
         bind.catalogRV.adapter = adapterCategory
@@ -139,7 +129,7 @@ class CategoryScreen : Fragment(R.layout.screen_category) {
                 findNavController().navigate(action)
                 true
             } else {
-                false
+                true
             }
         }
     }
@@ -163,45 +153,38 @@ class CategoryScreen : Fragment(R.layout.screen_category) {
     }
 
     private fun searchList() {
+        bind.search.doAfterTextChanged {
+            bind.listSearch.isVisible = bind.search.text.toString().isNotBlank()
+        }
         bind.search.addTextChangedListener(object : TextWatcher {
 
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-                if (s!!.isEmpty()) {
-                    bind.listSearch.visibility = View.GONE
-                }
-            }
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
 
-            override fun afterTextChanged(s: Editable?) {
-                if (s!!.isEmpty()) {
-                    bind.listSearch.visibility = View.GONE
-                }
-            }
+            override fun afterTextChanged(s: Editable?) {}
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 val query = s.toString()
-                if (count == 0) {
-                    bind.listSearch.visibility = View.GONE
-                } else {
+                if (query.isBlank())
                     viewModel.search(query)
-                    viewModel.successSearch.onEach {
-                        listArray = it
-                        bind.listSearch.visibility = View.VISIBLE
-                        listAdapter = ArrayAdapter<String>(
-                            requireContext(),
-                            android.R.layout.simple_list_item_1,
-                            listArray!!
-                        )
-                        bind.listSearch.adapter = listAdapter
-                        listAdapter!!.filter.filter(query)
-                        bind.listSearch.setOnItemClickListener { parent, view, position, id ->
-                            val action =
-                                CategoryScreenDirections.actionCatalogPageToSearchProductsScreen(
-                                    query
-                                )
-                            findNavController().navigate(action)
-                        }
-                    }.launchIn(viewLifecycleOwner.lifecycleScope)
-                }
+                viewModel.successSearch.onEach {
+                    delay(500)
+                    listArray = it
+                    bind.listSearch.visibility = View.VISIBLE
+                    listAdapter = ArrayAdapter<String>(
+                        requireContext(),
+                        android.R.layout.simple_list_item_1,
+                        listArray!!
+                    )
+                    bind.listSearch.adapter = listAdapter
+                    listAdapter!!.filter.filter(query)
+                    bind.listSearch.setOnItemClickListener { parent, view, position, id ->
+                        val action =
+                            CategoryScreenDirections.actionCatalogPageToSearchProductsScreen(
+                                query
+                            )
+                        findNavController().navigate(action)
+                    }
+                }.launchIn(viewLifecycleOwner.lifecycleScope)
             }
         })
     }
@@ -210,8 +193,7 @@ class CategoryScreen : Fragment(R.layout.screen_category) {
         super.onStop()
         bind.search.setText("")
         bind.listSearch.visibility = View.GONE
-        bind.progress.visibility = View.VISIBLE
-        Log.d("Fragment1", "onStop")
+        bind.progress.visibility = View.GONE
     }
 
 }

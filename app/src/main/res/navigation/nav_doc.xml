@@ -9,13 +9,21 @@
         android:id="@+id/installmentHistoryScreen2"
         android:name="com.app.garant.presenter.screens.installment.InstallmentHistoryScreen"
         android:label="screen_installment_history"
-        tools:layout="@layout/screen_installment_history" >
+        tools:layout="@layout/screen_installment_history">
         <action
             android:id="@+id/action_installmentHistoryScreen2_to_installmentPage"
-            app:destination="@id/installmentPage" />
+            app:destination="@id/installmentPage"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@android:anim/fade_in"
+            app:popExitAnim="@android:anim/fade_out" />
         <action
             android:id="@+id/action_installmentHistoryScreen2_to_orderPage"
-            app:destination="@id/orderPage" />
+            app:destination="@id/orderPage"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@android:anim/fade_in"
+            app:popExitAnim="@android:anim/fade_out" />
     </fragment>
     <fragment
         android:id="@+id/installmentHistoryPaymentPage"
@@ -26,37 +34,40 @@
         android:id="@+id/installmentContractPage"
         android:name="com.app.garant.presenter.screens.installment.InstallmentContractScreen"
         android:label="page_installment_contract"
-        tools:layout="@layout/page_installment_contract" >
+        tools:layout="@layout/page_installment_contract">
         <action
             android:id="@+id/action_installmentContractPage_to_installmentPaymentPage2"
-            app:destination="@id/installmentPaymentPage" />
+            app:destination="@id/installmentPaymentPage"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@android:anim/fade_in"
+            app:popExitAnim="@android:anim/fade_out" />
     </fragment>
     <fragment
         android:id="@+id/installmentPaymentPage"
         android:name="com.app.garant.presenter.screens.installment.InstallmentPaymentPage"
         android:label="page_installment_payment"
-        tools:layout="@layout/page_installment_payment" >
+        tools:layout="@layout/page_installment_payment">
         <action
             android:id="@+id/action_installmentPaymentPage_to_installmentHistoryPaymentPage"
-            app:destination="@id/installmentHistoryPaymentPage" />
-    </fragment>
-    <fragment
-        android:id="@+id/installmentSentModerationPage"
-        android:name="com.app.garant.presenter.screens.installment.InstallmentSentModerationScreen"
-        android:label="page_installment_sent_moderation"
-        tools:layout="@layout/page_installment_sent_moderation" >
-        <action
-            android:id="@+id/action_installmentSentModerationPage_to_installmentHistoryScreen2"
-            app:destination="@id/installmentHistoryScreen2" />
+            app:destination="@id/installmentHistoryPaymentPage"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@android:anim/fade_in"
+            app:popExitAnim="@android:anim/fade_out" />
     </fragment>
     <fragment
         android:id="@+id/installmentPage"
         android:name="com.app.garant.presenter.screens.installment.InstallmentScreen"
         android:label="screen_installment"
-        tools:layout="@layout/page_installment" >
+        tools:layout="@layout/page_installment">
         <action
             android:id="@+id/action_installmentPage_to_installmentContractPage"
-            app:destination="@id/installmentContractPage" />
+            app:destination="@id/installmentContractPage"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@android:anim/fade_in"
+            app:popExitAnim="@android:anim/fade_out" />
     </fragment>
     <fragment
         android:id="@+id/orderPage"

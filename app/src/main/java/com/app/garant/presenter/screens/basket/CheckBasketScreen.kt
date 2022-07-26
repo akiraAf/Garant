@@ -4,10 +4,14 @@ import android.os.Bundle
 import android.view.View
 import android.widget.LinearLayout
 import androidx.fragment.app.Fragment
+import androidx.navigation.NavDirections
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
+import androidx.recyclerview.widget.LinearLayoutManager
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.app.garant.R
 import com.app.garant.databinding.ScreenBasketCheckBinding
+import com.app.garant.presenter.adapters.CartAdapter
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -15,24 +19,29 @@ import dagger.hilt.android.AndroidEntryPoint
 class CheckBasketScreen : Fragment(R.layout.screen_basket_check) {
 
     private val bind by viewBinding(ScreenBasketCheckBinding::bind)
-//    private val orderAdapter by lazy { OrderAdapter(orderData, true) }
+    private val orderAdapter by lazy { CartAdapter() }
+    private val args by navArgs<CheckBasketScreenArgs>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-//    bind.basketRV.layoutManager = LinearLayoutManager(activity)
-  //      bind.basketRV.adapter = orderAdapter
+        val arrayList = args.cartProducts
 
         bind.back.setOnClickListener {
             findNavController().popBackStack()
         }
 
         bind.bookInstallment.setOnClickListener {
-            findNavController().navigate(R.id.action_checkBasketPage_to_nav_installment)
+            val action: NavDirections =
+                CheckBasketScreenDirections.actionCheckBasketPageToAccountScreen(true)
+            findNavController().navigate(action)
         }
+        orderAdapter.submitList(arrayList.toList())
+
+        bind.basketRV.adapter = orderAdapter
+        bind.basketRV.layoutManager = LinearLayoutManager(requireContext())
+
         month_btn()
     }
-
-
 
 
     private fun month_btn() {

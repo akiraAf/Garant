@@ -18,7 +18,9 @@ import com.app.garant.databinding.PageTopsellingBinding
 import com.app.garant.presenter.adapters.ProductsAdapter
 import com.app.garant.presenter.viewModel.main.ProdutsPageViewModel
 import com.app.garant.presenter.viewModel.viewModelimpl.main.ProdutsPageViewModelImpl
+import com.app.garant.utils.showToast
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 
@@ -34,10 +36,13 @@ class ProductsPage : Fragment(R.layout.page_topselling) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        adapterProduct.notifyDataSetChanged()
+
         for (products in StaticValue.mainScreenProduct) {
             if (products.name == StaticValue.nameCategory) {
                 productData = products.products
                 adapterProduct.submitList(productData)
+                adapterProduct.notifyDataSetChanged()
             }
         }
         bind.recycler.adapter = adapterProduct
@@ -52,13 +57,17 @@ class ProductsPage : Fragment(R.layout.page_topselling) {
         adapterProduct.setCartListenerClick { idProduct, index, isChecked ->
             if (isChecked) {
                 viewModel.addCart(CartRequest(1, idProduct))
-                viewModel.successFlowCartRemove.onEach {
-                    adapterProduct.notifyItemChanged(index)
+                StaticValue.cartAmount.value = Unit
+                viewModel.errorFlowS.onEach {
+                    delay(5000)
+                    StaticValue.mainRequest.value = Unit
                 }.launchIn(viewLifecycleOwner.lifecycleScope)
             } else {
                 viewModel.removeCart(CartDeleteRequest(idProduct))
-                viewModel.successFlowCartAdd.onEach {
-                    adapterProduct.notifyItemChanged(index)
+                StaticValue.cartAmount.value = Unit
+                viewModel.errorFlowR.onEach {
+                    delay(5000)
+                    StaticValue.mainRequest.value = Unit
                 }.launchIn(viewLifecycleOwner.lifecycleScope)
             }
         }
@@ -66,13 +75,15 @@ class ProductsPage : Fragment(R.layout.page_topselling) {
         adapterProduct.setFavoriteListenerClick { idProduct, index, isChecked ->
             if (isChecked) {
                 viewModel.addFavorite(FavoriteRequest(idProduct))
-                viewModel.successFlowCartRemove.onEach {
-                    adapterProduct.notifyItemChanged(index)
+                viewModel.successFlowCartAdd.onEach {
+                    showToast(it)
+                    StaticValue.mainRequest.value = Unit
                 }.launchIn(viewLifecycleOwner.lifecycleScope)
             } else {
                 viewModel.removeFavorite(FavoriteRequest(idProduct))
-                viewModel.successFlowCartAdd.onEach {
-                    adapterProduct.notifyItemChanged(index)
+                viewModel.successFlowCartRemove.onEach {
+                    showToast(it)
+                    StaticValue.mainRequest.value = Unit
                 }.launchIn(viewLifecycleOwner.lifecycleScope)
             }
         }
@@ -82,9 +93,21 @@ class ProductsPage : Fragment(R.layout.page_topselling) {
 
     override fun onResume() {
         super.onResume()
+        for (products in StaticValue.mainScreenProduct) {
+            if (products.name == StaticValue.nameCategory) {
+                productData = products.products
+                adapterProduct.submitList(productData)
+                adapterProduct.notifyDataSetChanged()
+            }
+        }
         bind.recycler.adapter = adapterProduct
         bind.recycler.layoutManager =
             GridLayoutManager(requireContext(), 2, GridLayoutManager.VERTICAL, false)
+    }
+
+    override fun onStop() {
+        super.onStop()
+        adapterProduct.notifyDataSetChanged()
     }
 
 

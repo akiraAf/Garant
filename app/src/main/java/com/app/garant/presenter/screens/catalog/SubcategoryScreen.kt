@@ -11,6 +11,8 @@ import android.view.inputmethod.EditorInfo
 import android.widget.ArrayAdapter
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
+import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -18,7 +20,6 @@ import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.app.garant.R
-import com.app.garant.data.other.StaticValue
 import com.app.garant.presenter.adapters.category.SubcategoryAdapter
 import com.app.garant.databinding.ScreenSubcategoryBinding
 import com.app.garant.presenter.viewModel.catolog.SubCategoryViewModel
@@ -39,13 +40,18 @@ class SubcategoryScreen : Fragment(R.layout.screen_subcategory) {
     private val subcategoryAdapter: SubcategoryAdapter = SubcategoryAdapter()
     private val viewModel: SubCategoryViewModel by viewModels<SubCategoryViewModelImpl>()
     private val args by navArgs<SubcategoryScreenArgs>()
-
+    var listArray: ArrayList<String>? = null
     var listAdapter: ArrayAdapter<String>? = null
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         val category = args.subCategory.toList()
         val name = args.nameSubCategory
+
+        view.setOnClickListener {
+            it.hideKeyboard()
+        }
 
         bind.nameCategory.text = name
 
@@ -68,7 +74,7 @@ class SubcategoryScreen : Fragment(R.layout.screen_subcategory) {
             findNavController().navigate(action)
         }
         bind.favorites.setOnClickListener {
-            findNavController().navigate(R.id.favoritesPage2)
+            findNavController().navigate(R.id.favoritesScreen)
         }
 
         bind.back.setOnClickListener {
@@ -133,48 +139,44 @@ class SubcategoryScreen : Fragment(R.layout.screen_subcategory) {
     }
 
     private fun searchList() {
+        bind.search.doAfterTextChanged {
+            bind.listSearch.isVisible = bind.search.text.toString().isNotBlank()
+        }
         bind.search.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-                if (s!!.isEmpty())
-                    bind.listSearch.visibility = View.GONE
-            }
 
-            override fun afterTextChanged(s: Editable?) {
-                if (s!!.isEmpty())
-                    bind.listSearch.visibility = View.GONE
-            }
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+
+            override fun afterTextChanged(s: Editable?) {}
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 val query = s.toString()
-                if (count == 0) {
-                    bind.listSearch.visibility = View.GONE
-                } else {
+                if (query.isBlank())
                     viewModel.search(query)
-                    viewModel.successSearch.onEach {
-                        bind.listSearch.visibility = View.VISIBLE
-                        listAdapter = ArrayAdapter<String>(
-                            requireContext(),
-                            android.R.layout.simple_list_item_1,
-                            it
-                        )
-                        bind.listSearch.adapter = listAdapter
-                        listAdapter!!.filter.filter(query)
-                        bind.listSearch.setOnItemClickListener { parent, view, position, id ->
-                            val action =
-                                CategoryScreenDirections.actionCatalogPageToSearchProductsScreen(
-                                    query
-                                )
-                            findNavController().navigate(action)
-                        }
-                    }.launchIn(lifecycleScope)
-                }
+                viewModel.successSearch.onEach {
+                    listArray = it
+                    bind.listSearch.visibility = View.VISIBLE
+                    listAdapter = ArrayAdapter<String>(
+                        requireContext(),
+                        android.R.layout.simple_list_item_1,
+                        listArray!!
+                    )
+                    bind.listSearch.adapter = listAdapter
+                    listAdapter!!.filter.filter(query)
+                    bind.listSearch.setOnItemClickListener { parent, view, position, id ->
+                        val action =
+                            CategoryScreenDirections.actionCatalogPageToSearchProductsScreen(
+                                query
+                            )
+                        findNavController().navigate(action)
+                    }
+                }.launchIn(viewLifecycleOwner.lifecycleScope)
             }
         })
     }
 
     override fun onResume() {
         super.onResume()
-        bind.search.setText("")
+        //bind.search.setText("")
         bind.listSearch.visibility = View.GONE
     }
 

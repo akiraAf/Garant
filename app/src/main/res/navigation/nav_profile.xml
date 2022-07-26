@@ -8,67 +8,103 @@
         android:id="@+id/profileScreen"
         android:name="com.app.garant.presenter.screens.profile.ProfileScreen"
         android:label="screen_profile"
-        tools:layout="@layout/screen_profile" >
-        <action
-            android:id="@+id/action_profileScreen_to_accountPage"
-            app:destination="@id/accountPage" />
+        tools:layout="@layout/screen_profile">
         <action
             android:id="@+id/action_profileScreen_to_changePhoneNumberPage"
-            app:destination="@id/changePhoneNumberPage" />
+            app:destination="@id/changePhoneNumberPage"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@android:anim/fade_in"
+            app:popExitAnim="@android:anim/fade_out" />
         <action
             android:id="@+id/action_profileScreen_to_favoritesPage"
-            app:destination="@id/favoritesPage" />
+            app:destination="@id/favoritesPage"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@android:anim/fade_in"
+            app:popExitAnim="@android:anim/fade_out" />
         <action
             android:id="@+id/action_profileScreen_to_emptyHistory"
-            app:destination="@id/emptyHistory" />
+            app:destination="@id/emptyHistory"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@android:anim/fade_in"
+            app:popExitAnim="@android:anim/fade_out" />
         <action
             android:id="@+id/action_profileScreen_to_installmentHistoryScreen"
-            app:destination="@id/installmentHistoryScreen" />
+            app:destination="@id/installmentHistoryScreen"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@android:anim/fade_in"
+            app:popExitAnim="@android:anim/fade_out" />
+        <action
+            android:id="@+id/action_profileScreen_to_accountScreen"
+            app:destination="@id/accountScreen" />
     </fragment>
     <fragment
-        android:id="@+id/accountPage"
+        android:id="@+id/accountScreen"
         android:name="com.app.garant.presenter.screens.profile.AccountScreen"
         android:label="page_account"
-        tools:layout="@layout/screen_account" >
+        tools:layout="@layout/screen_account">
+        <argument
+            android:name="entryFlag"
+            app:argType="boolean"
+            android:defaultValue="false" />
         <action
-            android:id="@+id/action_accountPage_to_profileScreen"
+            android:id="@+id/action_accountScreen_to_profileScreen"
             app:destination="@id/profileScreen" />
     </fragment>
     <fragment
         android:id="@+id/changePhoneNumberPage"
         android:name="com.app.garant.presenter.screens.profile.ChangePhoneScreen"
         android:label="page_change_phone_number"
-        tools:layout="@layout/screen_change_number" >
+        tools:layout="@layout/screen_change_number">
         <action
             android:id="@+id/action_changePhoneNumberPage_to_receiveConfirmationCodePage2"
-            app:destination="@id/receiveConfirmationCodePage2" />
+            app:destination="@id/receiveConfirmationCodePage2"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@android:anim/fade_in"
+            app:popExitAnim="@android:anim/fade_out" />
     </fragment>
     <fragment
         android:id="@+id/successfulNumberChangePage2"
         android:name="com.app.garant.presenter.screens.profile.SuccessfulNumberChangeScreen"
         android:label="page_successful_number_change"
-        tools:layout="@layout/screen_successful_change_number" >
+        tools:layout="@layout/screen_successful_change_number">
         <action
             android:id="@+id/action_successfulNumberChangePage2_to_profileScreen"
-            app:destination="@id/profileScreen" />
+            app:destination="@id/profileScreen"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@android:anim/fade_in"
+            app:popExitAnim="@android:anim/fade_out" />
     </fragment>
     <fragment
         android:id="@+id/receiveConfirmationCodePage2"
         android:name="com.app.garant.presenter.screens.profile.UpdatePhoneScreen"
         android:label="page_receive_confirmation_code"
-        tools:layout="@layout/screen_receive_confirmation_code" >
+        tools:layout="@layout/screen_receive_confirmation_code">
         <action
             android:id="@+id/action_receiveConfirmationCodePage2_to_successfulNumberChangePage2"
-            app:destination="@id/successfulNumberChangePage2" />
+            app:destination="@id/successfulNumberChangePage2"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@android:anim/fade_in"
+            app:popExitAnim="@android:anim/fade_out" />
     </fragment>
     <fragment
         android:id="@+id/favoritesPage"
         android:name="com.app.garant.presenter.screens.favorites.FavoritesScreen"
         android:label="page_favorites"
-        tools:layout="@layout/screen_favorites" >
+        tools:layout="@layout/screen_favorites">
         <action
             android:id="@+id/action_favoritesPage_to_nav_product_details"
-            app:destination="@id/nav_product_details" />
+            app:destination="@id/nav_product_details"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@android:anim/fade_in"
+            app:popExitAnim="@android:anim/fade_out" />
     </fragment>
     <fragment
         android:id="@+id/emptyHistory"

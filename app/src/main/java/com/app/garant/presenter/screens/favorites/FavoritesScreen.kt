@@ -39,11 +39,18 @@ class FavoritesScreen : Fragment(R.layout.screen_favorites) {
         viewModel.getFavorite()
 
         viewModel.successFlowFavorite.onEach {
-            adapterProduct.submitList(it.data)
             delay(1000)
+            bind.progress.visibility = View.GONE
+            if (it.data.isEmpty()) {
+                bind.NestedScrollView.visibility = View.GONE
+                bind.emptyFavorite.visibility = View.VISIBLE
+            } else {
+                bind.NestedScrollView.visibility = View.VISIBLE
+                bind.emptyFavorite.visibility = View.GONE
+            }
+            adapterProduct.submitList(it.data)
             bind.favoriteRV.adapter = adapterProduct
             bind.favoriteRV.layoutManager = GridLayoutManager(requireContext(), 2)
-            bind.progress.visibility = View.GONE
         }.launchIn(viewLifecycleOwner.lifecycleScope)
 
         adapterProduct.setCartListenerClick { idProduct, index, isChecked ->
@@ -51,11 +58,13 @@ class FavoritesScreen : Fragment(R.layout.screen_favorites) {
                 viewModel.addCart(CartRequest(1, idProduct))
                 viewModel.successFlowCartRemove.onEach {
                     adapterProduct.notifyItemChanged(index)
+                    viewModel.getFavorite()
                 }.launchIn(viewLifecycleOwner.lifecycleScope)
             } else {
                 viewModel.removeCart(CartDeleteRequest(idProduct))
                 viewModel.successFlowCartAdd.onEach {
                     adapterProduct.notifyItemChanged(index)
+                    viewModel.getFavorite()
                 }.launchIn(viewLifecycleOwner.lifecycleScope)
             }
         }
@@ -65,11 +74,13 @@ class FavoritesScreen : Fragment(R.layout.screen_favorites) {
                 viewModel.addFavorite(FavoriteRequest(idProduct))
                 viewModel.successFlowFavoriteAdd.onEach {
                     adapterProduct.notifyItemChanged(index)
+                    viewModel.getFavorite()
                 }.launchIn(viewLifecycleOwner.lifecycleScope)
             } else {
                 viewModel.removeFavorite(FavoriteRequest(idProduct))
                 viewModel.successFlowFavoriteRemove.onEach {
                     adapterProduct.notifyItemChanged(index)
+                    viewModel.getFavorite()
                 }.launchIn(viewLifecycleOwner.lifecycleScope)
             }
         }
@@ -98,6 +109,10 @@ class FavoritesScreen : Fragment(R.layout.screen_favorites) {
                 false
             }
             popUpMenu.show()
+        }
+
+        bind.goToCatalog.setOnClickListener {
+            findNavController().navigate(R.id.nav_catalog)
         }
 
         bind.filter.setOnClickListener {

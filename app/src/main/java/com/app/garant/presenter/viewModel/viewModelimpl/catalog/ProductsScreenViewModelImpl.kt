@@ -17,6 +17,8 @@ import com.app.garant.presenter.viewModel.catolog.ProductsScreenViewModel
 import com.app.garant.utils.eventValueFlow
 import com.app.garant.utils.isConnected
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
@@ -31,6 +33,11 @@ class ProductsScreenViewModelImpl @Inject constructor(private val categoryReposi
     override val successFlow = eventValueFlow<AllProductsResponse>()
     override val errorFlow = eventValueFlow<String>()
     override val progressFlow = eventValueFlow<Boolean>()
+
+    override val progressFlowCart = eventValueFlow<Boolean>()
+    override val progressFlowFavorite = eventValueFlow<Boolean>()
+    override val progressFlowSearch = eventValueFlow<Boolean>()
+
     override val successFlowCartAdd = eventValueFlow<CartResponse>()
     override val successFlowCartRemove = eventValueFlow<Unit>()
 
@@ -64,6 +71,7 @@ class ProductsScreenViewModelImpl @Inject constructor(private val categoryReposi
         }.launchIn(viewModelScope)
     }
 
+    var searchJob: Job? = null
     override fun search(query: String) {
         search.clear()
         if (!isConnected()) {
@@ -72,7 +80,9 @@ class ProductsScreenViewModelImpl @Inject constructor(private val categoryReposi
         viewModelScope.launch {
             progressFlow.emit(true)
         }
-        categoryRepository.getSearch(query).onEach {
+        searchJob?.cancel()
+        searchJob = categoryRepository.getSearch(query).onEach {
+            delay(500)
             it.onSuccess { products ->
                 progressFlow.emit(false)
                 products.data.map { search.add(it.name) }
@@ -115,11 +125,11 @@ class ProductsScreenViewModelImpl @Inject constructor(private val categoryReposi
 
         categoryRepository.addCart(request).onEach {
             it.onSuccess {
-                progressFlow.emit(false)
+                progressFlowCart.emit(false)
                 successFlowCartAdd.emit(it)
             }
             it.onFailure { throwable ->
-                progressFlow.emit(false)
+                progressFlowCart.emit(false)
                 errorFlow.emit(throwable.message.toString())
             }
         }.launchIn(viewModelScope)
@@ -132,11 +142,11 @@ class ProductsScreenViewModelImpl @Inject constructor(private val categoryReposi
 
         categoryRepository.deleteCart(request).onEach {
             it.onSuccess {
-                progressFlow.emit(false)
+                progressFlowCart.emit(false)
                 successFlowCartRemove.emit(Unit)
             }
             it.onFailure { throwable ->
-                progressFlow.emit(false)
+                progressFlowCart.emit(false)
                 errorFlow.emit(throwable.message.toString())
             }
         }.launchIn(viewModelScope)
@@ -149,11 +159,11 @@ class ProductsScreenViewModelImpl @Inject constructor(private val categoryReposi
 
         categoryRepository.addFavorite(request).onEach {
             it.onSuccess {
-                progressFlow.emit(false)
+                progressFlowFavorite.emit(false)
                 successFlowFavoriteAdd.emit(Unit)
             }
             it.onFailure { throwable ->
-                progressFlow.emit(false)
+                progressFlowFavorite.emit(false)
                 errorFlow.emit(throwable.message.toString())
             }
         }.launchIn(viewModelScope)
@@ -166,11 +176,11 @@ class ProductsScreenViewModelImpl @Inject constructor(private val categoryReposi
 
         categoryRepository.deleteFavorite(request).onEach {
             it.onSuccess {
-                progressFlow.emit(false)
+                progressFlowFavorite.emit(false)
                 successFlowFavoriteAdd.emit(Unit)
             }
             it.onFailure { throwable ->
-                progressFlow.emit(false)
+                progressFlowFavorite.emit(false)
                 errorFlow.emit(throwable.message.toString())
             }
         }.launchIn(viewModelScope)

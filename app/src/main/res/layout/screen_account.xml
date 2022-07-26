@@ -129,6 +129,7 @@
                     app:layout_constraintStart_toStartOf="@id/border1"
                     app:layout_constraintTop_toBottomOf="@+id/upload_passport_btn" />
 
+
                 <TextView
                     android:id="@+id/expectation_registration_textView"
                     android:layout_width="wrap_content"
@@ -395,30 +396,23 @@
                     app:spinner_popup_elevation="14dp" />
 
 
-                <com.google.android.material.textfield.TextInputLayout
+                <androidx.appcompat.widget.AppCompatEditText
                     android:id="@+id/input_address"
                     android:layout_width="match_parent"
                     android:layout_height="60dp"
                     android:layout_marginHorizontal="20dp"
                     android:layout_marginVertical="20dp"
                     android:background="@drawable/grey_bg"
+                    android:hint="@string/address"
+                    android:paddingHorizontal="10sp"
+                    android:textColorHint="@color/btn_hint_color"
+                    android:textSize="16sp"
                     app:hintEnabled="false"
                     app:layout_constraintBottom_toBottomOf="@id/border3"
                     app:layout_constraintEnd_toEndOf="@id/border3"
                     app:layout_constraintStart_toStartOf="@id/border3"
-                    app:layout_constraintTop_toBottomOf="@+id/input_area">
+                    app:layout_constraintTop_toBottomOf="@+id/input_area" />
 
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/address"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:background="@drawable/grey_bg"
-                        android:hint="@string/address"
-                        android:paddingHorizontal="10sp"
-                        android:textColorHint="@color/btn_hint_color"
-                        android:textSize="16sp" />
-
-                </com.google.android.material.textfield.TextInputLayout>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -456,16 +450,16 @@
                     android:layout_margin="20sp"
                     android:background="@drawable/grey_bg"
                     android:gravity="start|center"
-                    android:hint="Место работы"
+                    android:hint="@string/position_work"
                     android:paddingHorizontal="10sp"
                     android:paddingVertical="15sp"
                     android:textColor="@color/default_black"
                     android:textColorHint="@color/grey"
                     android:textSize="16sp"
-                    app:layout_constraintBottom_toTopOf="@id/input_position_work"
+                    app:layout_constraintBottom_toBottomOf="@id/border4"
                     app:layout_constraintEnd_toEndOf="@id/border4"
                     app:layout_constraintStart_toStartOf="@id/border4"
-                    app:layout_constraintTop_toBottomOf="@+id/work_info_textView"
+                    app:layout_constraintTop_toBottomOf="@+id/work"
                     app:spinner_arrow_animate="true"
                     app:spinner_arrow_gravity="end"
                     app:spinner_arrow_padding="30sp"
@@ -479,28 +473,22 @@
                     app:spinner_popup_elevation="14dp" />
 
 
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/input_position_work"
+                <androidx.appcompat.widget.AppCompatEditText
+                    android:id="@+id/work"
                     android:layout_width="match_parent"
                     android:layout_height="60dp"
                     android:layout_marginHorizontal="20dp"
+                    android:layout_marginTop="10dp"
                     android:background="@drawable/grey_bg"
+                    android:hint="Место работы"
+                    android:paddingHorizontal="10sp"
+                    android:textColorHint="@color/btn_hint_color"
+                    android:textSize="16sp"
                     app:hintEnabled="false"
-                    app:layout_constraintBottom_toBottomOf="@id/border4"
+                    app:layout_constraintBottom_toTopOf="@id/profession"
                     app:layout_constraintEnd_toEndOf="@id/border4"
                     app:layout_constraintStart_toStartOf="@id/border4"
-                    app:layout_constraintTop_toBottomOf="@+id/profession">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/work"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:background="@drawable/grey_bg"
-                        android:hint="@string/position_work"
-                        android:paddingHorizontal="10sp"
-                        android:textColorHint="@color/btn_hint_color"
-                        android:textSize="16sp" />
-                </com.google.android.material.textfield.TextInputLayout>
+                    app:layout_constraintTop_toBottomOf="@+id/work_info_textView" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
