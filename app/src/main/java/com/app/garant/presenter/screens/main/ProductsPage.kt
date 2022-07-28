@@ -36,8 +36,6 @@ class ProductsPage : Fragment(R.layout.page_topselling) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        adapterProduct.notifyDataSetChanged()
-
         for (products in StaticValue.mainScreenProduct) {
             if (products.name == StaticValue.nameCategory) {
                 productData = products.products
@@ -49,6 +47,7 @@ class ProductsPage : Fragment(R.layout.page_topselling) {
         bind.recycler.layoutManager =
             GridLayoutManager(requireContext(), 2, GridLayoutManager.VERTICAL, false)
 
+
         adapterProduct.setListenerClick {
             findNavController().navigate(R.id.action_mainPage_to_nav_product_details)
         }
@@ -57,34 +56,35 @@ class ProductsPage : Fragment(R.layout.page_topselling) {
         adapterProduct.setCartListenerClick { idProduct, index, isChecked ->
             if (isChecked) {
                 viewModel.addCart(CartRequest(1, idProduct))
-                StaticValue.cartAmount.value = Unit
-                viewModel.errorFlowS.onEach {
-                    delay(5000)
-                    StaticValue.mainRequest.value = Unit
-                }.launchIn(viewLifecycleOwner.lifecycleScope)
+                //               adapterProduct.notifyItemRemoved(index)
+//                StaticValue.cartAmount.value = Unit
+//                viewModel.errorFlowS.onEach {
+//                    delay(3000)
+//                    StaticValue.mainRequest.value = Unit
+//                }.launchIn(viewLifecycleOwner.lifecycleScope)
             } else {
-                viewModel.removeCart(CartDeleteRequest(idProduct))
-                StaticValue.cartAmount.value = Unit
-                viewModel.errorFlowR.onEach {
-                    delay(5000)
-                    StaticValue.mainRequest.value = Unit
-                }.launchIn(viewLifecycleOwner.lifecycleScope)
+                viewModel.removeCart(CartDeleteRequest(idProduct)) //               adapterProduct.notifyItemRemoved(index)
+//                StaticValue.cartAmount.value = Unit
+//                viewModel.errorFlowR.onEach {
+//                    delay(3000)
+//                    StaticValue.mainRequest.value = Unit
+//                }.launchIn(viewLifecycleOwner.lifecycleScope)
             }
         }
 
         adapterProduct.setFavoriteListenerClick { idProduct, index, isChecked ->
             if (isChecked) {
                 viewModel.addFavorite(FavoriteRequest(idProduct))
-                viewModel.successFlowCartAdd.onEach {
-                    showToast(it)
-                    StaticValue.mainRequest.value = Unit
-                }.launchIn(viewLifecycleOwner.lifecycleScope)
+//                viewModel.successFlowCartAdd.onEach {
+//                    showToast(it)
+//                    StaticValue.mainRequest.value = Unit
+//                }.launchIn(viewLifecycleOwner.lifecycleScope)
             } else {
                 viewModel.removeFavorite(FavoriteRequest(idProduct))
-                viewModel.successFlowCartRemove.onEach {
-                    showToast(it)
-                    StaticValue.mainRequest.value = Unit
-                }.launchIn(viewLifecycleOwner.lifecycleScope)
+//                viewModel.successFlowCartRemove.onEach {
+//                    showToast(it)
+//                    StaticValue.mainRequest.value = Unit
+//                }.launchIn(viewLifecycleOwner.lifecycleScope)
             }
         }
 
@@ -93,11 +93,11 @@ class ProductsPage : Fragment(R.layout.page_topselling) {
 
     override fun onResume() {
         super.onResume()
+        adapterProduct.notifyDataSetChanged()
         for (products in StaticValue.mainScreenProduct) {
             if (products.name == StaticValue.nameCategory) {
                 productData = products.products
                 adapterProduct.submitList(productData)
-                adapterProduct.notifyDataSetChanged()
             }
         }
         bind.recycler.adapter = adapterProduct

@@ -1,50 +1,47 @@
 package com.app.garant.presenter.screens.main
 
 import android.app.ActionBar
-import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.widget.ArrayAdapter
-import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.SearchView
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.NavDirections
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.fragment.navArgs
+import androidx.recyclerview.widget.LinearLayoutManager
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.app.garant.R
 import com.app.garant.data.other.StaticValue
 import com.app.garant.databinding.ScreenMainBinding
 import com.app.garant.presenter.adapters.main.BannerSalesAdapter
 import com.app.garant.presenter.adapters.main.ProductPagerAdapter
+import com.app.garant.presenter.adapters.search.SearchAdapter
 import com.app.garant.presenter.viewModel.main.MainScreenViewModel
 import com.app.garant.presenter.viewModel.viewModelimpl.main.MainScreenViewModelImpl
 import com.app.garant.utils.hideKeyboard
 import com.app.garant.utils.scope
-import com.app.garant.utils.showToast
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onCompletion
-import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.flow.onStart
+import kotlinx.coroutines.flow.*
 
 @AndroidEntryPoint
 class MainScreen : Fragment(R.layout.screen_main) {
     private val bind by viewBinding(ScreenMainBinding::bind)
     private val viewModel: MainScreenViewModel by viewModels<MainScreenViewModelImpl>()
+    private val adapterSearch by lazy { SearchAdapter() }
     private var nameCategory = ""
     private var idCategory = 1
     private var tabArray: ArrayList<String>? = null
-    var listAdapter: ArrayAdapter<String>? = null
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -53,23 +50,48 @@ class MainScreen : Fragment(R.layout.screen_main) {
 
         view.setOnClickListener {
             it.hideKeyboard()
+            bind.listSearch.isVisible = false
         }
+        bind.salesPager.isSaveEnabled = false
 
         viewModel.getProducts()
 
-        viewModel.successFlow.onEach {
-            viewModel.getNames()
-            StaticValue.mainScreenProduct = it
-            bind.all.setOnClickListener {
-                val action =
-                    MainScreenDirections.actionMainPageToProductsScreen(
-                        nameCategory,
-                        idCategory
-                    )
-                findNavController().navigate(action)
+        viewLifecycleOwner.lifecycleScope.launchWhenCreated {
+            viewModel.successFlow.collect {
+                viewModel.getNames()
+
+                StaticValue.mainScreenProduct = it
+
+                bind.all.setOnClickListener {
+                    val action =
+                        MainScreenDirections.actionMainPageToProductsScreen(
+                            nameCategory,
+                            idCategory
+                        )
+                    findNavController().navigate(action)
+                }
+                bind.progress.visibility = View.GONE
             }
-            bind.progress.visibility = View.GONE
-        }.launchIn(viewLifecycleOwner.lifecycleScope)
+
+
+        }
+
+        viewModel.successSearch.onEach {
+            Log.d("RRR", "onViewCreated: search result = $it")
+            val arrayList: ArrayList<String> = it
+            adapterSearch.submitList(arrayList)
+        }.launchIn(lifecycleScope)
+
+        Log.d("RRR", "onViewCreated:setData")
+        adapterSearch.setListenerClick { text ->
+            viewModel.cancelProcess()
+            val action =
+                MainScreenDirections.actionMainPageToSearchProductsPage(text)
+            findNavController().navigate(action)
+        }
+        bind.listSearch.adapter = adapterSearch
+        bind.listSearch.layoutManager = LinearLayoutManager(requireContext())
+
 
         if (tabArray == null)
             viewModel.tabСontentLoad.onEach {
@@ -89,8 +111,6 @@ class MainScreen : Fragment(R.layout.screen_main) {
                 tab.text = names[position]
             }.attach()
         }
-
-
 
 
         bind.bell.setOnClickListener {
@@ -166,7 +186,7 @@ class MainScreen : Fragment(R.layout.screen_main) {
         bind.link.setOnClickListener {
             val intent = Intent(
                 Intent.ACTION_VIEW,
-                Uri.parse("https://t.me/android_jobs_for_future_tashkent")
+                Uri.parse("https://t.me/GARANT_ADMI_N")
             )
             startActivity(intent)
         }
@@ -186,33 +206,24 @@ class MainScreen : Fragment(R.layout.screen_main) {
     private fun search() {
         bind.listSearch.bringToFront()
         bind.listSearch.visibility = View.GONE
+        bind.search.setOnQueryTextFocusChangeListener { v, hasFocus ->
+            bind.listSearch.isVisible = hasFocus
+        }
 
         bind.search.setOnQueryTextListener(object : SearchView.OnQueryTextListener,
             androidx.appcompat.widget.SearchView.OnQueryTextListener {
-            override fun onQueryTextSubmit(query: String?): Boolean = false
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                val action: NavDirections = MainScreenDirections.actionMainPageToSearchProductsPage(
+                    query.toString()
+                )
+                findNavController().navigate(action)
+                return false
+            }
 
             override fun onQueryTextChange(newText: String?): Boolean {
-                if (newText!!.isEmpty()) {
-                    bind.listSearch.visibility = View.GONE
-                } else {
+                adapterSearch.submitList(emptyList())
+                if (newText!!.isNotBlank())
                     viewModel.getSearch(newText)
-                    viewModel.successSearch.onEach {
-                        listAdapter = ArrayAdapter<String>(
-                            requireContext(),
-                            android.R.layout.simple_list_item_1,
-                            it
-                        )
-                        bind.listSearch.adapter = listAdapter
-                        listAdapter!!.filter.filter(newText)
-                        bind.listSearch.setOnItemClickListener { parent, view, position, id ->
-                            val action =
-                                MainScreenDirections.actionMainPageToSearchProductsPage(newText)
-                            findNavController().navigate(action)
-                        }
-                    }.launchIn(lifecycleScope)
-                    bind.listSearch.visibility = View.VISIBLE
-                    bind.progress.visibility = View.GONE
-                }
                 return false
             }
         })
@@ -228,19 +239,16 @@ class MainScreen : Fragment(R.layout.screen_main) {
         bind.search.onActionViewCollapsed();
         bind.search.onCancelPendingInputEvents()
         closeSearch()
-        bind.progress.visibility = View.GONE
-        Log.d("Fragment", "onResume")
+        adapterSearch.notifyDataSetChanged()
     }
-
-    override fun onStart() {
-        super.onStart()
-        bind.progress.visibility = View.GONE
-    }
-
 
     override fun onStop() {
         super.onStop()
-        bind.progress.visibility = View.GONE
+        bind.search.clearAnimation()
+        bind.search.onActionViewCollapsed();
+        bind.search.onCancelPendingInputEvents()
+        closeSearch()
+        adapterSearch.notifyDataSetChanged()
     }
 
     private val observer = Observer<Unit> {

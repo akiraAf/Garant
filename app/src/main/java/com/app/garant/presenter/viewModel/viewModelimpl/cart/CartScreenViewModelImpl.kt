@@ -18,6 +18,7 @@ import com.app.garant.utils.isConnected
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
 import javax.inject.Inject
@@ -54,12 +55,13 @@ class CartScreenViewModelImpl @Inject constructor(
     override val progressPatch = eventValueFlow<String>()
 
 
+    private var getCartJob: Job? = null
     override fun getCart() {
         if (!isConnected()) {
             return
         }
-
-        categoryRepository.getCart().onEach {
+        getCartJob?.cancel()
+        getCartJob = categoryRepository.getCart().onEach {
             available.clear()
             unavailable.clear()
             it.onSuccess {
@@ -87,11 +89,13 @@ class CartScreenViewModelImpl @Inject constructor(
     }
 
 
+    private var deleteCartJob: Job? = null
     override fun deleteCart(request: CartDeleteRequest) {
         if (!isConnected()) {
             return
         }
-        categoryRepository.deleteCart(request).onEach {
+        deleteCartJob?.cancel()
+        deleteCartJob = categoryRepository.deleteCart(request).onEach {
             it.onSuccess {
                 successFlowDeleteAvailable.emit(Unit)
             }
@@ -115,11 +119,13 @@ class CartScreenViewModelImpl @Inject constructor(
         }.launchIn(viewModelScope)
     }
 
+    var putCartMonthJob: Job? = null
     override fun putCartMonth(request: CartMonthRequest) {
         if (!isConnected()) {
             return
         }
-        categoryRepository.putCartMonth(request).onEach {
+        putCartMonthJob?.cancel()
+        putCartMonthJob = categoryRepository.putCartMonth(request).onEach {
             it.onSuccess {
                 successPut.emit("success")
             }
@@ -129,11 +135,13 @@ class CartScreenViewModelImpl @Inject constructor(
         }.launchIn(viewModelScope)
     }
 
+    private var countJob: Job? = null
     override fun countCart(request: CartParchRequest) {
         if (!isConnected()) {
             return
         }
-        categoryRepository.patchCart(request).onEach {
+        countJob?.cancel()
+        countJob = categoryRepository.patchCart(request).onEach {
             it.onSuccess {
                 successPatch.emit("success")
             }

@@ -68,14 +68,18 @@ class ChangePhoneScreen : Fragment(R.layout.screen_change_number) {
             bundle.putString(PHONE_ARG, newNumber)
             bundle.putString(PHONE_ARG_TEXT_VIEW, inputNewNumber.text.toString())
 
-            if (currentNumber == newNumber)
-                showToast("Два одиннаковых номер телефона")
-            else if (isConnected()) {
-                viewModel.changeNumber(ChangePhoneRequest(newNumber.toLong()))
-                findNavController().navigate(
-                    R.id.action_changePhoneNumberPage_to_receiveConfirmationCodePage2,
-                    bundle
-                )
+            if (isConnected()) {
+                if (newNumber.length == 12) {
+                    if (newNumber != currentNumber) {
+                        viewModel.changeNumber(ChangePhoneRequest(newNumber.toLong()))
+                        findNavController().navigate(
+                            R.id.action_changePhoneNumberPage_to_receiveConfirmationCodePage2,
+                            bundle
+                        )
+                    } else showToast("Два одиннаковых номера телефона")
+                } else
+                    showToast("Введите новый номер телефона")
+
             } else {
                 val dialogBuilder = AlertDialog.Builder(activity!!)
                 dialogBuilder.setMessage("Введите корректный номер телефона")

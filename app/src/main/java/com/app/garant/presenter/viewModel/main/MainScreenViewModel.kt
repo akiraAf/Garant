@@ -13,4 +13,5 @@ interface MainScreenViewModel {
     fun getProducts()
     fun getSearch(query: String)
     fun getNames()
+    fun cancelProcess()
 }

@@ -16,11 +16,14 @@ import com.app.garant.data.other.StaticValue
 import com.app.garant.data.request.cart.CartDeleteRequest
 import com.app.garant.data.request.cart.CartRequest
 import com.app.garant.data.request.favorite.FavoriteRequest
+import com.app.garant.data.response.favorite.Data
+import com.app.garant.data.response.favorite.FavoriteResponse
 import com.app.garant.databinding.ScreenFavoritesBinding
 import com.app.garant.presenter.adapters.ProductsAdapter
 import com.app.garant.presenter.dialogs.DialogFilter
 import com.app.garant.presenter.viewModel.profile.FavoriteScreenViewModel
 import com.app.garant.presenter.viewModel.viewModelimpl.profile.FavoriteScreenViewModelImpl
+import com.app.garant.utils.showToast
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.launchIn
@@ -38,6 +41,7 @@ class FavoritesScreen : Fragment(R.layout.screen_favorites) {
 
         viewModel.getFavorite()
 
+        adapterProduct.notifyDataSetChanged()
         viewModel.successFlowFavorite.onEach {
             delay(1000)
             bind.progress.visibility = View.GONE
@@ -49,38 +53,38 @@ class FavoritesScreen : Fragment(R.layout.screen_favorites) {
                 bind.emptyFavorite.visibility = View.GONE
             }
             adapterProduct.submitList(it.data)
-            bind.favoriteRV.adapter = adapterProduct
-            bind.favoriteRV.layoutManager = GridLayoutManager(requireContext(), 2)
         }.launchIn(viewLifecycleOwner.lifecycleScope)
+
+        bind.favoriteRV.adapter = adapterProduct
+        bind.favoriteRV.layoutManager = GridLayoutManager(requireContext(), 2)
 
         adapterProduct.setCartListenerClick { idProduct, index, isChecked ->
             if (isChecked) {
                 viewModel.addCart(CartRequest(1, idProduct))
-                viewModel.successFlowCartRemove.onEach {
-                    adapterProduct.notifyItemChanged(index)
-                    viewModel.getFavorite()
-                }.launchIn(viewLifecycleOwner.lifecycleScope)
+//                viewModel.errorFlowCartRemove.onEach {
+//                    adapterProduct.notifyItemChanged(index)
+//                    viewModel.getFavorite()
+//                }.launchIn(viewLifecycleOwner.lifecycleScope)
             } else {
                 viewModel.removeCart(CartDeleteRequest(idProduct))
-                viewModel.successFlowCartAdd.onEach {
-                    adapterProduct.notifyItemChanged(index)
-                    viewModel.getFavorite()
-                }.launchIn(viewLifecycleOwner.lifecycleScope)
+                adapterProduct.notifyItemRemoved(index)
+//                viewModel.errorFlowCartAdd.onEach {
+//                    adapterProduct.notifyItemChanged(index)
+//                    viewModel.getFavorite()
+//                }.launchIn(viewLifecycleOwner.lifecycleScope)
             }
         }
 
+        adapterProduct.setListenerClick {
+        }
         adapterProduct.setFavoriteListenerClick { idProduct, index, isChecked ->
-            if (isChecked) {
-                viewModel.addFavorite(FavoriteRequest(idProduct))
-                viewModel.successFlowFavoriteAdd.onEach {
-                    adapterProduct.notifyItemChanged(index)
-                    viewModel.getFavorite()
-                }.launchIn(viewLifecycleOwner.lifecycleScope)
-            } else {
+            if (!isChecked) {
                 viewModel.removeFavorite(FavoriteRequest(idProduct))
-                viewModel.successFlowFavoriteRemove.onEach {
-                    adapterProduct.notifyItemChanged(index)
-                    viewModel.getFavorite()
+                viewModel.errorFlowFavoriteRemove.onEach {
+//                    delay(3000)
+                    adapterProduct.notifyItemRemoved(index)
+//                    adapterProduct.notifyDataSetChanged()
+//                    viewModel.getFavorite()
                 }.launchIn(viewLifecycleOwner.lifecycleScope)
             }
         }
@@ -112,6 +116,9 @@ class FavoritesScreen : Fragment(R.layout.screen_favorites) {
         }
 
         bind.goToCatalog.setOnClickListener {
+            findNavController().popBackStack()
+            findNavController().popBackStack()
+            findNavController().popBackStack()
             findNavController().navigate(R.id.nav_catalog)
         }
 

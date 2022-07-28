@@ -60,6 +60,7 @@ class ProfileScreen : Fragment(R.layout.screen_profile) {
             showToast("Ошибка")
         }
 
+
         bind.logout.setOnClickListener {
             val dialog = DialogLogout()
             dialog.show(parentFragmentManager, "DialogLogOut")
@@ -74,9 +75,10 @@ class ProfileScreen : Fragment(R.layout.screen_profile) {
                     StaticValue.screenLogoutLiveData.value = Unit
                     MyPref(App.instance).startScreen = false
                     MyPref(App.instance).access_token = ""
-                }.launchIn(lifecycleScope)
-                MyPref(App.instance).startScreen = false
-                MyPref(App.instance).account = false
+                }.launchIn(viewLifecycleOwner.lifecycleScope)
+                viewModel.errorFlow.onEach {
+                    showToast("Ошибка")
+                }.launchIn(viewLifecycleOwner.lifecycleScope)
             }
         }
 

@@ -71,25 +71,22 @@ class ProductsScreenViewModelImpl @Inject constructor(private val categoryReposi
         }.launchIn(viewModelScope)
     }
 
-    var searchJob: Job? = null
+    private var searchJob: Job? = null
     override fun search(query: String) {
         search.clear()
         if (!isConnected()) {
             return
         }
-        viewModelScope.launch {
-            progressFlow.emit(true)
-        }
         searchJob?.cancel()
         searchJob = categoryRepository.getSearch(query).onEach {
             delay(500)
             it.onSuccess { products ->
-                progressFlow.emit(false)
+                progressFlowSearch.emit(false)
                 products.data.map { search.add(it.name) }
                 successSearch.emit(search)
             }
             it.onFailure { throwable ->
-                progressFlow.emit(false)
+                progressFlowSearch.emit(false)
                 errorFlow.emit(throwable.message.toString())
             }
         }.launchIn(viewModelScope)

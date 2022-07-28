@@ -126,6 +126,7 @@
         <entry key="..\:/Users/Lenovo/AndroidStudioProjects/Garant/app/src/main/res/layout/item_banner_main_page.xml" value="0.20863616930312098" />
         <entry key="..\:/Users/Lenovo/AndroidStudioProjects/Garant/app/src/main/res/layout/item_branch.xml" value="0.2" />
         <entry key="..\:/Users/Lenovo/AndroidStudioProjects/Garant/app/src/main/res/layout/item_catalog.xml" value="0.4" />
+        <entry key="..\:/Users/Lenovo/AndroidStudioProjects/Garant/app/src/main/res/layout/item_check_cart.xml" value="0.264" />
         <entry key="..\:/Users/Lenovo/AndroidStudioProjects/Garant/app/src/main/res/layout/item_history_payment.xml" value="0.20863616930312098" />
         <entry key="..\:/Users/Lenovo/AndroidStudioProjects/Garant/app/src/main/res/layout/item_installment.xml" value="0.4" />
         <entry key="..\:/Users/Lenovo/AndroidStudioProjects/Garant/app/src/main/res/layout/item_notification.xml" value="0.264" />
@@ -134,7 +135,7 @@
         <entry key="..\:/Users/Lenovo/AndroidStudioProjects/Garant/app/src/main/res/layout/item_pickup_delivery.xml" value="0.20863616930312098" />
         <entry key="..\:/Users/Lenovo/AndroidStudioProjects/Garant/app/src/main/res/layout/item_product.xml" value="0.4" />
         <entry key="..\:/Users/Lenovo/AndroidStudioProjects/Garant/app/src/main/res/layout/item_recycler.xml" value="0.20863616930312098" />
-        <entry key="..\:/Users/Lenovo/AndroidStudioProjects/Garant/app/src/main/res/layout/item_search.xml" value="0.12360688956433637" />
+        <entry key="..\:/Users/Lenovo/AndroidStudioProjects/Garant/app/src/main/res/layout/item_search.xml" value="0.4273356401384083" />
         <entry key="..\:/Users/Lenovo/AndroidStudioProjects/Garant/app/src/main/res/layout/item_subcategory.xml" value="0.20863616930312098" />
         <entry key="..\:/Users/Lenovo/AndroidStudioProjects/Garant/app/src/main/res/layout/page_account.xml" value="0.264" />
         <entry key="..\:/Users/Lenovo/AndroidStudioProjects/Garant/app/src/main/res/layout/page_basket.xml" value="0.2" />

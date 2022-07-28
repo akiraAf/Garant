@@ -7,6 +7,7 @@ import android.speech.tts.TextToSpeech
 import android.text.Editable
 import android.text.InputType
 import android.text.TextWatcher
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.View
 import android.view.inputmethod.EditorInfo
@@ -22,6 +23,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.app.garant.R
 import com.app.garant.data.other.StaticValue
@@ -30,6 +32,7 @@ import com.app.garant.data.request.cart.CartRequest
 import com.app.garant.data.request.favorite.FavoriteRequest
 import com.app.garant.databinding.ScreenSearchProductsBinding
 import com.app.garant.presenter.adapters.ProductsAdapter
+import com.app.garant.presenter.adapters.search.SearchAdapter
 import com.app.garant.presenter.dialogs.DialogFilter
 import com.app.garant.presenter.screens.catalog.CategoryScreenDirections
 import com.app.garant.presenter.screens.catalog.ProductsScreenDirections
@@ -51,16 +54,19 @@ class SearchProductsScreen : Fragment(R.layout.screen_search_products) {
     private val viewModel: SearchProductsScreenViewModel by viewModels<SearchProductsScreenViewModelImpl>()
     private val bind by viewBinding(ScreenSearchProductsBinding::bind)
     private val args = navArgs<SearchProductsScreenArgs>()
+    private val adapterSearch by lazy { SearchAdapter() }
     val adapter by lazy { ProductsAdapter() }
-    var listAdapter: ArrayAdapter<String>? = null
-    var listArray: ArrayList<String>? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         bind.listSearch.visibility = View.GONE
         val query = args.value.query
-        viewModel.search(query)
+        if (query.isNotBlank())
+            viewModel.search(query)
+        else {
+            findNavController().popBackStack()
+        }
 
         viewModel.successFlowSearch.onEach {
             adapter.submitList(it.data)
@@ -144,7 +150,7 @@ class SearchProductsScreen : Fragment(R.layout.screen_search_products) {
                         DrawablePosition.LEFT -> {
                             if (bind.searchBar.text!!.isNotEmpty()) {
                                 val action =
-                                    ProductsScreenDirections.actionProductsScreenToSearchProductsPage(
+                                    ProductsScreenDirections.actionProductsScreenToSearchProductsScreen(
                                         bind.searchBar.text!!.toString()
                                     )
                                 findNavController().navigate(action)
@@ -157,13 +163,14 @@ class SearchProductsScreen : Fragment(R.layout.screen_search_products) {
 
         bind.searchBar.setOnEditorActionListener { v, actionId, event ->
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-                val action =
-                    ProductsScreenDirections.actionProductsScreenToSearchProductsPage(v.text!!.toString())
-                findNavController().navigate(action)
+                viewModel.search(bind.searchBar.text.toString())
                 true
             } else {
                 false
             }
+        }
+        bind.searchBar.setOnFocusChangeListener { v, hasFocus ->
+            bind.listSearch.isVisible = hasFocus
         }
 
 
@@ -215,19 +222,17 @@ class SearchProductsScreen : Fragment(R.layout.screen_search_products) {
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 val query = s.toString()
-                if (query.isBlank())
+                if (query.isNotBlank())
                     viewModel.search(query)
+                viewModel.errorSearch.onEach {
+                }.launchIn(viewLifecycleOwner.lifecycleScope)
                 viewModel.successSearch.onEach {
-                    listArray = it
+                    val arrayList: ArrayList<String> = it
+                    adapterSearch.submitList(arrayList)
                     bind.listSearch.visibility = View.VISIBLE
-                    listAdapter = ArrayAdapter<String>(
-                        requireContext(),
-                        android.R.layout.simple_list_item_1,
-                        listArray!!
-                    )
-                    bind.listSearch.adapter = listAdapter
-                    listAdapter!!.filter.filter(query)
-                    bind.listSearch.setOnItemClickListener { parent, view, position, id ->
+                    bind.listSearch.adapter = adapterSearch
+                    bind.listSearch.layoutManager = LinearLayoutManager(requireContext())
+                    adapterSearch.setListenerClick {
                         val action =
                             CategoryScreenDirections.actionCatalogPageToSearchProductsScreen(
                                 query
@@ -242,7 +247,7 @@ class SearchProductsScreen : Fragment(R.layout.screen_search_products) {
     override fun onStop() {
         super.onStop()
         bind.searchBar.setText("")
+        adapterSearch.submitList(emptyList())
         bind.listSearch.visibility = View.GONE
     }
-
 }

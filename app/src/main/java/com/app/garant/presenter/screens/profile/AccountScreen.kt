@@ -7,6 +7,7 @@ import android.view.View
 import android.widget.TextView
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -27,6 +28,7 @@ import com.app.garant.utils.hideKeyboard
 import com.app.garant.utils.showToast
 import com.github.dhaval2404.imagepicker.ImagePicker
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import java.io.File
@@ -65,6 +67,11 @@ class AccountScreen : Fragment(R.layout.screen_account) {
         val phoneNumber = MyPref(App.instance).phoneNumber
         bind.inputPhoneNumber.setText("  $phoneNumber")
         bind.inputPhoneNumber.isEnabled = false
+
+        viewModel.progressFlow.onEach {
+            bind.header.isVisible = false
+            bind.progress.isVisible = true
+        }.launchIn(viewLifecycleOwner.lifecycleScope)
 
 
         viewModel.errorFlow.onEach {
@@ -204,6 +211,9 @@ class AccountScreen : Fragment(R.layout.screen_account) {
     private fun getUserInfo() {
 
         viewModel.successFlowGetUserInfo.onEach {
+            delay(1000)
+            bind.header.isVisible = true
+            bind.progress.isVisible = false
             if (it.documents.passport == "waiting") {
                 bind.expectationPassportTextView.setText(R.string.awaiting_confirmation)
                 bind.expectationPassportTextView.setTextColor(Color.parseColor("#E7B901"))

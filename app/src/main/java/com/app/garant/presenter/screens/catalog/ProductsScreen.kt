@@ -24,6 +24,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.app.garant.R
 import com.app.garant.data.other.StaticValue
@@ -33,6 +34,7 @@ import com.app.garant.data.request.favorite.FavoriteRequest
 import com.app.garant.data.response.category.Data
 import com.app.garant.databinding.ScreenProductsBinding
 import com.app.garant.presenter.adapters.ProductsAdapter
+import com.app.garant.presenter.adapters.search.SearchAdapter
 import com.app.garant.presenter.dialogs.DialogFilter
 import com.app.garant.presenter.viewModel.catolog.ProductsScreenViewModel
 import com.app.garant.presenter.viewModel.viewModelimpl.catalog.ProductsScreenViewModelImpl
@@ -45,6 +47,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import java.util.*
+import kotlin.collections.ArrayList
 
 
 @AndroidEntryPoint
@@ -52,9 +55,8 @@ class ProductsScreen : Fragment(R.layout.screen_products) {
     private val bind by viewBinding(ScreenProductsBinding::bind)
     private val args by navArgs<ProductsScreenArgs>()
     private val productAdapter by lazy { ProductsAdapter() }
+    private val adapterSearch by lazy { SearchAdapter() }
     private var productsData: List<Data>? = null
-    var listAdapter: ArrayAdapter<String>? = null
-    var listArray: ArrayList<String>? = null
     private val viewModel: ProductsScreenViewModel by viewModels<ProductsScreenViewModelImpl>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -68,11 +70,19 @@ class ProductsScreen : Fragment(R.layout.screen_products) {
         if (productsData == null)
             viewModel.getAllProducts(idCategory)
 
+        productAdapter.setListenerClick {
+            findNavController().navigate(R.id.action_productsPage_to_nav_product_details)
+        }
+
         view.setOnClickListener {
             it.hideKeyboard()
         }
 
         activity?.onBackPressed()
+
+        bind.search.setOnFocusChangeListener { v, hasFocus ->
+            bind.listSearch.isVisible = hasFocus
+        }
 
         viewModel.successFlow.onEach {
             delay(1000)
@@ -184,7 +194,7 @@ class ProductsScreen : Fragment(R.layout.screen_products) {
                         DrawablePosition.LEFT -> {
                             if (bind.search.text!!.isNotEmpty()) {
                                 val action =
-                                    ProductsScreenDirections.actionProductsScreenToSearchProductsPage(
+                                    ProductsScreenDirections.actionProductsScreenToSearchProductsScreen(
                                         bind.search.text!!.toString()
                                     )
                                 findNavController().navigate(action)
@@ -198,8 +208,7 @@ class ProductsScreen : Fragment(R.layout.screen_products) {
         bind.search.setOnEditorActionListener { v, actionId, event ->
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                 val action =
-                    ProductsScreenDirections.actionProductsScreenToSearchProductsPage(v.text!!.toString())
-                ProductsScreenDirections.actionProductsScreenToSearchProductsPage(v.text!!.toString())
+                    ProductsScreenDirections.actionProductsScreenToSearchProductsScreen(v.text!!.toString())
                 findNavController().navigate(action)
                 true
             } else {
@@ -242,18 +251,13 @@ class ProductsScreen : Fragment(R.layout.screen_products) {
                 if (query.isNotBlank())
                     viewModel.search(query)
                 viewModel.successSearch.onEach {
-                    listArray = it
+                    adapterSearch.submitList(it)
                     bind.listSearch.visibility = View.VISIBLE
-                    listAdapter = ArrayAdapter<String>(
-                        requireContext(),
-                        android.R.layout.simple_list_item_1,
-                        listArray!!
-                    )
-                    bind.listSearch.adapter = listAdapter
-                    listAdapter!!.filter.filter(query)
-                    bind.listSearch.setOnItemClickListener { parent, view, position, id ->
+                    bind.listSearch.adapter = adapterSearch
+                    bind.listSearch.layoutManager = LinearLayoutManager(requireContext())
+                    adapterSearch.setListenerClick {
                         val action =
-                            ProductsScreenDirections.actionProductsScreenToSearchProductsPage(
+                            ProductsScreenDirections.actionProductsScreenToSearchProductsScreen(
                                 query
                             )
                         findNavController().navigate(action)
@@ -266,6 +270,8 @@ class ProductsScreen : Fragment(R.layout.screen_products) {
 
     override fun onStop() {
         super.onStop()
+        bind.search.setText("")
+        adapterSearch.submitList(emptyList())
         bind.listSearch.visibility = View.GONE
         bind.progress.visibility = View.GONE
     }

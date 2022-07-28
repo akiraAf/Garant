@@ -22,6 +22,7 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import com.app.garant.R
 import com.app.garant.presenter.adapters.category.SubcategoryAdapter
 import com.app.garant.databinding.ScreenSubcategoryBinding
+import com.app.garant.presenter.adapters.search.SearchAdapter
 import com.app.garant.presenter.viewModel.catolog.SubCategoryViewModel
 import com.app.garant.presenter.viewModel.viewModelimpl.catalog.SubCategoryViewModelImpl
 import com.app.garant.utils.hideKeyboard
@@ -37,11 +38,11 @@ import java.util.*
 class SubcategoryScreen : Fragment(R.layout.screen_subcategory) {
 
     private val bind by viewBinding(ScreenSubcategoryBinding::bind)
-    private val subcategoryAdapter: SubcategoryAdapter = SubcategoryAdapter()
+    private val subcategoryAdapter by lazy { SubcategoryAdapter() }
+    private val adapterSearch by lazy { SearchAdapter() }
     private val viewModel: SubCategoryViewModel by viewModels<SubCategoryViewModelImpl>()
     private val args by navArgs<SubcategoryScreenArgs>()
-    var listArray: ArrayList<String>? = null
-    var listAdapter: ArrayAdapter<String>? = null
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -51,6 +52,7 @@ class SubcategoryScreen : Fragment(R.layout.screen_subcategory) {
 
         view.setOnClickListener {
             it.hideKeyboard()
+            bind.search.clearFocus()
         }
 
         bind.nameCategory.text = name
@@ -64,6 +66,22 @@ class SubcategoryScreen : Fragment(R.layout.screen_subcategory) {
         view.setOnClickListener {
             it.hideKeyboard()
         }
+
+        viewModel.successSearch.onEach {
+            adapterSearch.submitList(it)
+            bind.listSearch.visibility = View.VISIBLE
+        }.launchIn(viewLifecycleOwner.lifecycleScope)
+
+        adapterSearch.setListenerClick { data ->
+            val action =
+                SubcategoryScreenDirections.actionSubcategoryPageToSearchProductsScreen(
+                    data
+                )
+            findNavController().navigate(action)
+        }
+
+        bind.listSearch.adapter = adapterSearch
+        bind.listSearch.layoutManager = LinearLayoutManager(requireContext())
 
 
         bind.subcategoryRecycler.layoutManager = LinearLayoutManager(activity)
@@ -139,9 +157,15 @@ class SubcategoryScreen : Fragment(R.layout.screen_subcategory) {
     }
 
     private fun searchList() {
+
         bind.search.doAfterTextChanged {
             bind.listSearch.isVisible = bind.search.text.toString().isNotBlank()
         }
+
+        bind.search.setOnFocusChangeListener { v, hasFocus ->
+            bind.listSearch.isVisible = hasFocus
+        }
+
         bind.search.addTextChangedListener(object : TextWatcher {
 
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
@@ -149,35 +173,19 @@ class SubcategoryScreen : Fragment(R.layout.screen_subcategory) {
             override fun afterTextChanged(s: Editable?) {}
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                adapterSearch.submitList(emptyList())
                 val query = s.toString()
-                if (query.isBlank())
+                if (query.isNotBlank())
                     viewModel.search(query)
-                viewModel.successSearch.onEach {
-                    listArray = it
-                    bind.listSearch.visibility = View.VISIBLE
-                    listAdapter = ArrayAdapter<String>(
-                        requireContext(),
-                        android.R.layout.simple_list_item_1,
-                        listArray!!
-                    )
-                    bind.listSearch.adapter = listAdapter
-                    listAdapter!!.filter.filter(query)
-                    bind.listSearch.setOnItemClickListener { parent, view, position, id ->
-                        val action =
-                            CategoryScreenDirections.actionCatalogPageToSearchProductsScreen(
-                                query
-                            )
-                        findNavController().navigate(action)
-                    }
-                }.launchIn(viewLifecycleOwner.lifecycleScope)
             }
         })
     }
 
-    override fun onResume() {
-        super.onResume()
-        //bind.search.setText("")
-        bind.listSearch.visibility = View.GONE
+
+    override fun onStop() {
+        super.onStop()
+        bind.search.setText("")
+        adapterSearch.submitList(emptyList())
     }
 
 }

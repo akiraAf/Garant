@@ -28,11 +28,14 @@ class CategoryViewModelImpl @Inject constructor(private val categoryRepository: 
     override val successFlow = eventValueFlow<CategoryResponse>()
     override val errorFlow = eventValueFlow<String>()
     override val progressFlow = eventValueFlow<Boolean>()
-    override val successSearch = eventValueFlow<ArrayList<String>>()
+
+    override val errorFlowS = eventValueFlow<String>()
+    override val progressFlowS = eventValueFlow<Boolean>()
+    override val successFlowS = eventValueFlow<ArrayList<String>>()
+
     private lateinit var textToSpeechEngine: TextToSpeech
     private lateinit var startForResult: ActivityResultLauncher<Intent>
     private val search: ArrayList<String> = ArrayList()
-    private var dataTemp = CategoryResponse()
 
     override fun getCategory() {
         if (!isConnected()) {
@@ -42,8 +45,7 @@ class CategoryViewModelImpl @Inject constructor(private val categoryRepository: 
         categoryRepository.getCategory().onEach {
             it.onSuccess { data ->
                 progressFlow.emit(false)
-                dataTemp = data
-                successFlow.emit(dataTemp)
+                successFlow.emit(data)
             }
             it.onFailure { throwable ->
                 progressFlow.emit(false)
@@ -77,27 +79,23 @@ class CategoryViewModelImpl @Inject constructor(private val categoryRepository: 
 
     var searchJob: Job? = null
     override fun search(query: String) {
-        search.clear()
         if (!isConnected()) {
             return
         }
-        viewModelScope.launch {
-            progressFlow.emit(true)
-        }
         searchJob?.cancel()
-        if (query.isNotBlank())
-            searchJob = categoryRepository.getSearch(query).onEach {
-                delay(500)
-                it.onSuccess { products ->
-                    progressFlow.emit(false)
-                    products.data.map { search.add(it.name) }
-                    successSearch.emit(search)
-                }
-                it.onFailure { throwable ->
-                    progressFlow.emit(false)
-                    errorFlow.emit(throwable.message.toString())
-                }
-            }.launchIn(viewModelScope)
+        searchJob = categoryRepository.getSearch(query).onEach {
+            delay(500)
+            it.onSuccess { products ->
+                search.clear()
+                progressFlowS.emit(false)
+                products.data.map { search.add(it.name) }
+                successFlowS.emit(search)
+            }
+            it.onFailure { throwable ->
+                progressFlowS.emit(false)
+                errorFlowS.emit(throwable.message.toString())
+            }
+        }.launchIn(viewModelScope)
     }
 
 }

@@ -10,6 +10,7 @@ import com.app.garant.data.response.cart.CartResponse
 import com.app.garant.data.response.category.allProducts.AllProductsResponse
 import com.app.garant.data.response.category.product.ProductResponse
 import com.app.garant.data.response.category.search.SearchResponse
+import com.app.garant.utils.eventValueFlow
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.Flow
 import java.util.ArrayList
@@ -19,7 +20,10 @@ interface SearchProductsScreenViewModel {
     val successFlowSearch: Flow<SearchResponse>
     val errorFlow: Flow<String>
     val progressFlow: Flow<Boolean>
+
     val successSearch: Flow<ArrayList<String>>
+    val errorSearch: Flow<String>
+    val progressSearch: Flow<Boolean>
 
     val successFlowFavoriteAdd: Flow<Unit>
     val successFlowFavoriteRemove: Flow<Unit>

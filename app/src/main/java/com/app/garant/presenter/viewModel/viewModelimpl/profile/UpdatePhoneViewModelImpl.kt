@@ -2,7 +2,9 @@ package com.app.garant.presenter.viewModel.viewModelimpl.profile
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.app.garant.data.request.profile.ChangePhoneRequest
 import com.app.garant.data.request.profile.UpdatePhoneRequest
+import com.app.garant.data.response.profile.ChangePhoneResponse
 import com.app.garant.data.response.profile.UpdatePhoneResponce
 import com.app.garant.domain.repository.AuthRepository
 import com.app.garant.domain.repository.UserRepository
@@ -23,6 +25,30 @@ class UpdatePhoneViewModelImpl @Inject constructor(private val userRepository: U
     override val errorFlow = eventValueFlow<String>()
     override val successFlow = eventValueFlow<UpdatePhoneResponce>()
     override val progressFlow = eventValueFlow<Boolean>()
+
+    override val errorFlowChange = eventValueFlow<String>()
+    override val successFlowChange = eventValueFlow<ChangePhoneResponse>()
+    override val progressFlowChange = eventValueFlow<Boolean>()
+
+    override fun changeNumber(request: ChangePhoneRequest) {
+        if (!isConnected()) {
+            return
+        }
+
+        viewModelScope.launch {
+            progressFlowChange.emit(true)
+        }
+        userRepository.changePhone(request).onEach {
+            it.onSuccess {
+                progressFlowChange.emit(false)
+                successFlowChange.emit(it)
+            }
+            it.onFailure { throwable ->
+                progressFlowChange.emit(false)
+                errorFlowChange.emit(throwable.message.toString())
+            }
+        }.launchIn(viewModelScope)
+    }
 
 
     override fun updatePhone(request: UpdatePhoneRequest) {

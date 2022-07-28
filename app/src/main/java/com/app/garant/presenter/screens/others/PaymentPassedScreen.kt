@@ -18,10 +18,19 @@ class PaymentPassedScreen : Fragment(R.layout.page_payment_passed) {
         super.onViewCreated(view, savedInstanceState)
 
         bind.toMainBnt.setOnClickListener {
-            //     findNavController().navigate(R.id.mainPage)
+            findNavController().popBackStack()
+            findNavController().popBackStack()
+            findNavController().popBackStack()
+            findNavController().navigate(R.id.nav_main)
         }
 
         bind.goAgreementBnt.setOnClickListener {
+            findNavController().popBackStack()
+            findNavController().popBackStack()
+            findNavController().popBackStack()
+            findNavController().popBackStack()
+            findNavController().popBackStack()
+            findNavController().popBackStack()
             findNavController().navigate(R.id.nav_doc)
         }
 

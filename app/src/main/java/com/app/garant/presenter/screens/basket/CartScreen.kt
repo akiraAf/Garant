@@ -48,6 +48,7 @@ class CartScreen : Fragment(R.layout.screen_basket) {
     private val args by navArgs<CartScreenArgs>()
     private var flag = false
     private var countFlag = true
+    private var countReq = 0
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -99,22 +100,26 @@ class CartScreen : Fragment(R.layout.screen_basket) {
             bind.basketRV.layoutManager = layoutManager
 
             cartAdapter.setAddListenerClick { count, product_id, absoluteAdapterPosition ->
-                viewModel.countCart(CartParchRequest(product_id = product_id, count = count))
-                viewModel.successPatch.onEach {
-                    delay(2000).apply {
-                        viewModel.getCart()
-                        cartAdapter.notifyDataSetChanged()
-                    }
-                }.launchIn(viewLifecycleOwner.lifecycleScope)
+                if (countReq < 20) {
+                    viewModel.countCart(CartParchRequest(product_id = product_id, count = count))
+                    viewModel.successPatch.onEach {
+                        delay(2000).apply {
+                            viewModel.getCart()
+                        }
+                    }.launchIn(viewLifecycleOwner.lifecycleScope)
+                    ++countReq
+                }
             }
             cartAdapter.setRemoveListenerClick { count, product_id, absoluteAdapterPosition ->
-                viewModel.countCart(CartParchRequest(product_id = product_id, count = count))
-                viewModel.successPatch.onEach {
-                    delay(2000).apply {
-                        viewModel.getCart()
-                        cartAdapter.notifyDataSetChanged()
-                    }
-                }.launchIn(viewLifecycleOwner.lifecycleScope)
+                if (countReq < 20) {
+                    viewModel.countCart(CartParchRequest(product_id = product_id, count = count))
+                    viewModel.successPatch.onEach {
+                        delay(2000).apply {
+                            viewModel.getCart()
+                        }
+                    }.launchIn(viewLifecycleOwner.lifecycleScope)
+                    ++countReq
+                }
             }
 
 

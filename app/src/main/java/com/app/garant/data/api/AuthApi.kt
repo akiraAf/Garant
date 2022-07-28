@@ -20,10 +20,9 @@ interface AuthApi {
     suspend fun verify(@Body data: VerifyRequest): Response<VerifyResponse>
 
     @POST("auth/me")
-    suspend fun me():Response<MeResponse>
+    suspend fun me(): Response<MeResponse>
 
     @POST("auth/logout")
     suspend fun logout(): Response<LogoutResponse>
-
 
 }

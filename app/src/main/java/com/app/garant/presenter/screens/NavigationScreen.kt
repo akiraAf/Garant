@@ -18,6 +18,7 @@ import com.app.garant.data.pref.MyPref
 import com.app.garant.databinding.ScreenNavigationBinding
 import com.app.garant.presenter.viewModel.navigation.NavigationScreenViewModel
 import com.app.garant.presenter.viewModel.viewModelimpl.navigation.NavigationScreenViewModelImpl
+import com.app.garant.utils.showToast
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -50,7 +51,6 @@ class NavigationScreen : Fragment(R.layout.screen_navigation) {
         viewModel.errorFlow.onEach {
             bind.countCart.visibility = View.GONE
         }.launchIn(viewLifecycleOwner.lifecycleScope)
-
 
 
         activity?.onBackPressed()

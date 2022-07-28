@@ -44,6 +44,9 @@ class SearchProductsScreenViewModelImpl @Inject constructor(private val category
     override val successFlowFavoriteRemove = eventValueFlow<Unit>()
 
     override val successSearch = eventValueFlow<ArrayList<String>>()
+    override val errorSearch = eventValueFlow<String>()
+    override val progressSearch = eventValueFlow<Boolean>()
+    
     private lateinit var textToSpeechEngine: TextToSpeech
     private lateinit var startForResult: ActivityResultLauncher<Intent>
     private val search: ArrayList<String> = ArrayList()
@@ -51,37 +54,30 @@ class SearchProductsScreenViewModelImpl @Inject constructor(private val category
 
     var searchJob: Job? = null
     override fun getSearch(query: String) {
-        search.clear()
         if (!isConnected()) {
             return
         }
-        viewModelScope.launch {
-            progressFlow.emit(true)
-        }
         searchJob?.cancel()
         searchJob = categoryRepository.getSearch(query).onEach {
-            delay(500)
             it.onSuccess { products ->
+                search.clear()
                 progressFlow.emit(false)
                 products.data.map { search.add(it.name) }
                 successSearch.emit(search)
             }
             it.onFailure { throwable ->
                 progressFlow.emit(false)
-                errorFlow.emit(throwable.message.toString())
+                errorSearch.emit(throwable.message.toString())
             }
         }.launchIn(viewModelScope)
     }
 
     override fun search(query: String) {
-        search.clear()
         if (!isConnected()) {
             return
         }
-        viewModelScope.launch {
-            progressFlow.emit(true)
-        }
         categoryRepository.getSearch(query).onEach {
+            search.clear()
             it.onSuccess { products ->
                 progressFlow.emit(false)
                 products.data.map { search.add(it.name) }

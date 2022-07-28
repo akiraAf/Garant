@@ -13,7 +13,11 @@ interface CategoryViewModel {
     val errorFlow: Flow<String>
     val successFlow: Flow<CategoryResponse>
     val progressFlow: Flow<Boolean>
-    val successSearch: Flow<ArrayList<String>>
+
+
+    val errorFlowS: Flow<String>
+    val progressFlowS: Flow<Boolean>
+    val successFlowS: Flow<ArrayList<String>>
 
     fun getCategory()
     fun initial(engine: TextToSpeech, launcher: ActivityResultLauncher<Intent>): Job

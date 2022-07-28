@@ -4,6 +4,7 @@ import com.app.garant.data.request.cart.CartDeleteRequest
 import com.app.garant.data.request.cart.CartMonthRequest
 import com.app.garant.data.request.cart.CartRequest
 import com.app.garant.data.request.favorite.FavoriteRequest
+import com.app.garant.data.request.order.OrderCreateRequest
 import com.app.garant.data.response.cart.CartDeleteResponse
 import com.app.garant.data.response.cart.CartParchRequest
 import com.app.garant.data.response.cart.CartResponse
@@ -55,6 +56,9 @@ interface CategoryApi {
 
     @HTTP(method = "DELETE", path = "favorite", hasBody = true)
     suspend fun deleteFavorite(@Body data: FavoriteRequest): Response<FavoriteResponse>
+
+    @POST("order")
+    suspend fun createOrder(@Body data: OrderCreateRequest): Response<Unit>
 
 
 }

@@ -1,5 +1,6 @@
 package com.app.garant.presenter.viewModel.viewModelimpl.main
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.app.garant.data.response.category.allProducts.AllProductsResponse
@@ -9,7 +10,9 @@ import com.app.garant.presenter.viewModel.main.MainScreenViewModel
 import com.app.garant.utils.eventValueFlow
 import com.app.garant.utils.isConnected
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
@@ -46,30 +49,39 @@ class MainScreenViewModelImpl @Inject constructor(private val categoryRepository
         }.launchIn(viewModelScope)
     }
 
+    var searchJob: Job? = null
     override fun getSearch(query: String) {
-        search.clear()
+        searchJob?.cancel()
         if (!isConnected()) {
             return
         }
         viewModelScope.launch {
             progressFlow.emit(true)
         }
-        categoryRepository.getSearch(query).onEach {
-            it.onSuccess { products ->
-                progressFlow.emit(false)
-                products.data.map { search.add(it.name) }
-                successSearch.emit(search)
+
+        searchJob = viewModelScope.launch {
+            categoryRepository.getSearch(query).collect {
+                search.clear()
+                it.onSuccess { products ->
+                    progressFlow.emit(false)
+                    products.data.map { search.add(it.name) }
+                    successSearch.emit(search)
+                }
+                it.onFailure { throwable ->
+                    progressFlow.emit(false)
+                    errorFlow.emit(throwable.message.toString())
+                }
             }
-            it.onFailure { throwable ->
-                progressFlow.emit(false)
-                errorFlow.emit(throwable.message.toString())
-            }
-        }.launchIn(viewModelScope)
+        }
     }
 
 
     override fun getNames() {
         tabСontentLoad.tryEmit(categoryRepository.collectCompanions())
+    }
+
+    override fun cancelProcess() {
+        searchJob?.cancel()
     }
 
 }

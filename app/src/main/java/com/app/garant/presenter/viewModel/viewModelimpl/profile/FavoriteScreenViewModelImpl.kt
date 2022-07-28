@@ -12,6 +12,7 @@ import com.app.garant.presenter.viewModel.profile.FavoriteScreenViewModel
 import com.app.garant.utils.eventValueFlow
 import com.app.garant.utils.isConnected
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
@@ -22,53 +23,65 @@ class FavoriteScreenViewModelImpl @Inject constructor(
 ) : FavoriteScreenViewModel, ViewModel() {
 
     override val successFlowFavoriteAdd = eventValueFlow<Unit>()
+    override val errorFlowFavoriteAdd = eventValueFlow<String>()
+
+    override val errorFlowFavoriteRemove = eventValueFlow<String>()
     override val successFlowFavoriteRemove = eventValueFlow<Unit>()
+
+    override val successFlowCartAdd = eventValueFlow<CartResponse>()
+    override val errorFlowCartAdd = eventValueFlow<String>()
+
+    override val successFlowCartRemove = eventValueFlow<Unit>()
+    override val errorFlowCartRemove = eventValueFlow<String>()
+
     override val successFlowFavorite = eventValueFlow<FavoriteResponse>()
     override val progressFlow = eventValueFlow<Boolean>()
-    override val successFlowCartAdd = eventValueFlow<CartResponse>()
-    override val successFlowCartRemove = eventValueFlow<Unit>()
     override val errorFlow = eventValueFlow<String>()
 
+
+    var addFavJOb: Job? = null
     override fun addFavorite(request: FavoriteRequest) {
         if (!isConnected()) {
             return
         }
-
-        categoryRepository.addFavorite(request).onEach {
+        addFavJOb?.cancel()
+        addFavJOb = categoryRepository.addFavorite(request).onEach {
             it.onSuccess {
                 progressFlow.emit(false)
                 successFlowFavoriteAdd.emit(Unit)
             }
             it.onFailure { throwable ->
                 progressFlow.emit(false)
-                errorFlow.emit(throwable.message.toString())
+                errorFlowFavoriteAdd.emit(throwable.message.toString())
             }
         }.launchIn(viewModelScope)
     }
 
+    var removeFavJOb: Job? = null
     override fun removeFavorite(request: FavoriteRequest) {
         if (!isConnected()) {
             return
         }
-
-        categoryRepository.deleteFavorite(request).onEach {
+        removeFavJOb?.cancel()
+        removeFavJOb = categoryRepository.deleteFavorite(request).onEach {
             it.onSuccess {
                 progressFlow.emit(false)
-                successFlowFavoriteAdd.emit(Unit)
+                successFlowFavoriteRemove.emit(Unit)
             }
             it.onFailure { throwable ->
                 progressFlow.emit(false)
-                errorFlow.emit(throwable.message.toString())
+                errorFlowFavoriteRemove.emit(throwable.message.toString())
             }
         }.launchIn(viewModelScope)
     }
 
+    var favJOb: Job? = null
     override fun getFavorite() {
         if (!isConnected()) {
             return
         }
-
-        categoryRepository.getFavorite().onEach {
+        favJOb?.cancel()
+        favJOb = categoryRepository.getFavorite().onEach {
             it.onSuccess {
                 progressFlow.emit(false)
                 successFlowFavorite.emit(it)
@@ -80,36 +93,38 @@ class FavoriteScreenViewModelImpl @Inject constructor(
         }.launchIn(viewModelScope)
     }
 
+    var addCartJob: Job? = null
     override fun addCart(request: CartRequest) {
         if (!isConnected()) {
             return
         }
-
-        categoryRepository.addCart(request).onEach {
+        addCartJob?.cancel()
+        addCartJob = categoryRepository.addCart(request).onEach {
             it.onSuccess {
                 progressFlow.emit(false)
                 successFlowCartAdd.emit(it)
             }
             it.onFailure { throwable ->
                 progressFlow.emit(false)
-                errorFlow.emit(throwable.message.toString())
+                errorFlowCartAdd.emit(throwable.message.toString())
             }
         }.launchIn(viewModelScope)
     }
 
+    var removeCartJob: Job? = null
     override fun removeCart(request: CartDeleteRequest) {
         if (!isConnected()) {
             return
         }
-
-        categoryRepository.deleteCart(request).onEach {
+        removeCartJob?.cancel()
+        removeCartJob = categoryRepository.deleteCart(request).onEach {
             it.onSuccess {
                 progressFlow.emit(false)
                 successFlowCartRemove.emit(Unit)
             }
             it.onFailure { throwable ->
                 progressFlow.emit(false)
-                errorFlow.emit(throwable.message.toString())
+                errorFlowCartRemove.emit(throwable.message.toString())
             }
         }.launchIn(viewModelScope)
     }
