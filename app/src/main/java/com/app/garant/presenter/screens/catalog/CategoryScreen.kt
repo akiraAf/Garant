@@ -68,7 +68,6 @@ class CategoryScreen : Fragment(R.layout.screen_category) {
 
         viewModel.successFlowS.onEach {
             adapterSearch.submitList(it)
-            bind.listSearch.visibility = View.VISIBLE
         }.launchIn(viewLifecycleOwner.lifecycleScope)
 
 
@@ -107,7 +106,7 @@ class CategoryScreen : Fragment(R.layout.screen_category) {
 
             voiceSearch()
             searchList()
-            bind.search.inputType = InputType.TYPE_CLASS_TEXT
+
         }.launchIn(viewLifecycleOwner.lifecycleScope)
 
         viewModel.errorFlow.onEach {
@@ -139,6 +138,15 @@ class CategoryScreen : Fragment(R.layout.screen_category) {
                         DrawablePosition.RIGHT -> {
                             viewModel.displaySpeechRecognizer()
                         }
+                        DrawablePosition.LEFT -> {
+                            if (bind.search.text!!.isNotBlank()) {
+                                val action =
+                                    CategoryScreenDirections.actionCatalogPageToSearchProductsScreen(
+                                        bind.search.text!!.toString()
+                                    )
+                                findNavController().navigate(action)
+                            }
+                        }
                     }
                 }
             })
@@ -167,9 +175,7 @@ class CategoryScreen : Fragment(R.layout.screen_category) {
         bind.search.doAfterTextChanged {
             bind.listSearch.isVisible = bind.search.text.toString().isNotBlank()
         }
-        bind.search.setOnFocusChangeListener { v, hasFocus ->
-            bind.listSearch.isVisible = hasFocus
-        }
+
         bind.search.addTextChangedListener(object : TextWatcher {
 
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}

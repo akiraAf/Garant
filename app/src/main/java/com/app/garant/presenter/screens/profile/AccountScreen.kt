@@ -11,7 +11,6 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.NavDirections
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import by.kirich1409.viewbindingdelegate.viewBinding
@@ -58,10 +57,9 @@ class AccountScreen : Fragment(R.layout.screen_account) {
             bind.save.text = "ДАЛЕЕ"
         }
 
-        viewModel.getUserInfo()
-
         if (!checkAcc) {
             getUserInfo()
+            viewModel.getUserInfo()
         }
 
         val phoneNumber = MyPref(App.instance).phoneNumber
@@ -69,13 +67,13 @@ class AccountScreen : Fragment(R.layout.screen_account) {
         bind.inputPhoneNumber.isEnabled = false
 
         viewModel.progressFlow.onEach {
-            bind.header.isVisible = false
+            //    bind.header.isVisible = false
             bind.progress.isVisible = true
         }.launchIn(viewLifecycleOwner.lifecycleScope)
 
 
         viewModel.errorFlow.onEach {
-            showToast(it)
+            //       showToast(it)
         }.launchIn(lifecycleScope)
 
         bind.back.setOnClickListener {

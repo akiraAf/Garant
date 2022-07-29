@@ -20,6 +20,7 @@ import androidx.core.view.isVisible
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.NavDirections
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.GridLayoutManager
@@ -59,6 +60,20 @@ class SearchProductsScreen : Fragment(R.layout.screen_search_products) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        viewModel.successSearch.onEach {
+            adapterSearch.submitList(it)
+        }.launchIn(viewLifecycleOwner.lifecycleScope)
+
+        bind.listSearch.adapter = adapterSearch
+        bind.listSearch.layoutManager = LinearLayoutManager(requireContext())
+        adapterSearch.setListenerClick { query ->
+            val action =
+                SearchProductsScreenDirections.actionSearchProductsScreenSelf(
+                    query
+                )
+            findNavController().navigate(action)
+        }
 
         bind.listSearch.visibility = View.GONE
         val query = args.value.query
@@ -148,9 +163,9 @@ class SearchProductsScreen : Fragment(R.layout.screen_search_products) {
                             viewModel.displaySpeechRecognizer()
                         }
                         DrawablePosition.LEFT -> {
-                            if (bind.searchBar.text!!.isNotEmpty()) {
+                            if (bind.searchBar.text!!.isNotBlank()) {
                                 val action =
-                                    ProductsScreenDirections.actionProductsScreenToSearchProductsScreen(
+                                    SearchProductsScreenDirections.actionSearchProductsScreenSelf(
                                         bind.searchBar.text!!.toString()
                                     )
                                 findNavController().navigate(action)
@@ -163,7 +178,9 @@ class SearchProductsScreen : Fragment(R.layout.screen_search_products) {
 
         bind.searchBar.setOnEditorActionListener { v, actionId, event ->
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-                viewModel.search(bind.searchBar.text.toString())
+                val action: NavDirections =
+                    SearchProductsScreenDirections.actionSearchProductsScreenSelf(v.text.toString())
+                findNavController().navigate(action)
                 true
             } else {
                 false
@@ -222,24 +239,9 @@ class SearchProductsScreen : Fragment(R.layout.screen_search_products) {
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 val query = s.toString()
-                if (query.isNotBlank())
-                    viewModel.search(query)
-                viewModel.errorSearch.onEach {
-                }.launchIn(viewLifecycleOwner.lifecycleScope)
-                viewModel.successSearch.onEach {
-                    val arrayList: ArrayList<String> = it
-                    adapterSearch.submitList(arrayList)
-                    bind.listSearch.visibility = View.VISIBLE
-                    bind.listSearch.adapter = adapterSearch
-                    bind.listSearch.layoutManager = LinearLayoutManager(requireContext())
-                    adapterSearch.setListenerClick {
-                        val action =
-                            CategoryScreenDirections.actionCatalogPageToSearchProductsScreen(
-                                query
-                            )
-                        findNavController().navigate(action)
-                    }
-                }.launchIn(viewLifecycleOwner.lifecycleScope)
+                if (query.isNotBlank()) {
+                    viewModel.getSearch(query)
+                }
             }
         })
     }

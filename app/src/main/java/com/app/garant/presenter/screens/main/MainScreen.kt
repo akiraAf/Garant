@@ -4,7 +4,6 @@ import android.app.ActionBar
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.LinearLayout
 import android.widget.SearchView
@@ -30,31 +29,57 @@ import com.app.garant.utils.scope
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
 
 @AndroidEntryPoint
 class MainScreen : Fragment(R.layout.screen_main) {
+
     private val bind by viewBinding(ScreenMainBinding::bind)
     private val viewModel: MainScreenViewModel by viewModels<MainScreenViewModelImpl>()
     private val adapterSearch by lazy { SearchAdapter() }
+    private var tabArray: ArrayList<String>? = null
+    private var tabMediator: TabLayoutMediator? = null
     private var nameCategory = ""
     private var idCategory = 1
-    private var tabArray: ArrayList<String>? = null
-
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        bind.salesPager.adapter = BannerSalesAdapter(childFragmentManager, lifecycle)
-        StaticValue.mainRequest.observe(viewLifecycleOwner, observer)
-
-        view.setOnClickListener {
-            it.hideKeyboard()
-            bind.listSearch.isVisible = false
-        }
-        bind.salesPager.isSaveEnabled = false
 
         viewModel.getProducts()
+
+        initAdapters()
+        initObservables()
+        initClicks()
+        updateSearchView()
+        updateToolbar()
+        searchQuery()
+        bind.salesPager.isSaveEnabled = false
+    }
+
+    private fun initClicks() {
+        bind.bell.setOnClickListener {
+            findNavController().navigate(R.id.action_mainPage_to_notificationScreen)
+        }
+
+        adapterSearch.setListenerClick { text ->
+            viewModel.cancelProcess()
+            val action =
+                MainScreenDirections.actionMainPageToSearchProductsPage(text)
+            findNavController().navigate(action)
+        }
+
+        view?.setOnClickListener {
+            it.hideKeyboard()
+        }
+
+    }
+
+    private fun initObservables() {
+
+        viewModel.successSearch.onEach {
+            val arrayList: ArrayList<String> = it
+            adapterSearch.submitList(arrayList)
+        }.launchIn(viewLifecycleOwner.lifecycleScope)
 
         viewLifecycleOwner.lifecycleScope.launchWhenCreated {
             viewModel.successFlow.collect {
@@ -73,56 +98,48 @@ class MainScreen : Fragment(R.layout.screen_main) {
                 bind.progress.visibility = View.GONE
             }
 
-
         }
 
-        viewModel.successSearch.onEach {
-            Log.d("RRR", "onViewCreated: search result = $it")
-            val arrayList: ArrayList<String> = it
-            adapterSearch.submitList(arrayList)
-        }.launchIn(lifecycleScope)
+        StaticValue.mainRequest.observe(viewLifecycleOwner, observer)
 
-        Log.d("RRR", "onViewCreated:setData")
-        adapterSearch.setListenerClick { text ->
-            viewModel.cancelProcess()
-            val action =
-                MainScreenDirections.actionMainPageToSearchProductsPage(text)
-            findNavController().navigate(action)
-        }
-        bind.listSearch.adapter = adapterSearch
-        bind.listSearch.layoutManager = LinearLayoutManager(requireContext())
+    }
 
-
+    private fun initAdapters() {
+        // TabLayout adapter
         if (tabArray == null)
             viewModel.tabСontentLoad.onEach {
+                tabMediator?.detach()
                 tabArray = it
                 bind.productsPager.adapter =
                     ProductPagerAdapter(tabArray!!.size, childFragmentManager, lifecycle)
                 val names = tabArray!!.reversed()
-                TabLayoutMediator(bind.tabLayout, bind.productsPager) { tab, position ->
-                    tab.text = names[position]
-                }.attach()
+                tabMediator =
+                    TabLayoutMediator(bind.tabLayout, bind.productsPager) { tab, position ->
+                        tab.text = names[position]
+                    }
+                tabMediator?.attach()
             }.launchIn(viewLifecycleOwner.lifecycleScope)
         else {
             bind.productsPager.adapter =
                 ProductPagerAdapter(tabArray!!.size, childFragmentManager, lifecycle)
             val names = tabArray!!.reversed()
-            TabLayoutMediator(bind.tabLayout, bind.productsPager) { tab, position ->
+
+            tabMediator?.detach()
+            tabMediator = TabLayoutMediator(bind.tabLayout, bind.productsPager) { tab, position ->
                 tab.text = names[position]
-            }.attach()
+            }
+            tabMediator?.attach()
         }
+        // SearchView adapter
+        bind.listSearch.adapter = adapterSearch
+        bind.listSearch.layoutManager = LinearLayoutManager(requireContext())
 
+        // Banner adapter
+        bind.salesPager.adapter = BannerSalesAdapter(childFragmentManager, lifecycle)
 
-        bind.bell.setOnClickListener {
-            findNavController().navigate(R.id.action_mainPage_to_notificationScreen)
-        }
-
-        updateUI()
-        toolbar()
-        search()
     }
 
-    private fun updateUI() {
+    private fun updateSearchView() {
 
         val param = LinearLayout.LayoutParams(
             ActionBar.LayoutParams.MATCH_PARENT,
@@ -171,7 +188,7 @@ class MainScreen : Fragment(R.layout.screen_main) {
         })
     }
 
-    private fun toolbar() {
+    private fun updateToolbar() {
         bind.telegram.setOnClickListener {
             bind.apply {
                 logoImage.visibility = View.INVISIBLE
@@ -203,12 +220,10 @@ class MainScreen : Fragment(R.layout.screen_main) {
         }
     }
 
-    private fun search() {
+    private fun searchQuery() {
         bind.listSearch.bringToFront()
         bind.listSearch.visibility = View.GONE
-        bind.search.setOnQueryTextFocusChangeListener { v, hasFocus ->
-            bind.listSearch.isVisible = hasFocus
-        }
+
 
         bind.search.setOnQueryTextListener(object : SearchView.OnQueryTextListener,
             androidx.appcompat.widget.SearchView.OnQueryTextListener {
@@ -224,6 +239,7 @@ class MainScreen : Fragment(R.layout.screen_main) {
                 adapterSearch.submitList(emptyList())
                 if (newText!!.isNotBlank())
                     viewModel.getSearch(newText)
+                bind.listSearch.isVisible = newText!!.isNotBlank()
                 return false
             }
         })
@@ -235,15 +251,6 @@ class MainScreen : Fragment(R.layout.screen_main) {
 
     override fun onResume() {
         super.onResume()
-        bind.search.clearAnimation()
-        bind.search.onActionViewCollapsed();
-        bind.search.onCancelPendingInputEvents()
-        closeSearch()
-        adapterSearch.notifyDataSetChanged()
-    }
-
-    override fun onStop() {
-        super.onStop()
         bind.search.clearAnimation()
         bind.search.onActionViewCollapsed();
         bind.search.onCancelPendingInputEvents()
