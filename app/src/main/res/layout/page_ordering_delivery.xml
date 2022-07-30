@@ -27,52 +27,52 @@
             android:id="@+id/back"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="30dp"
             android:layout_marginTop="15dp"
+            android:padding="30dp"
             android:src="@drawable/ic_left"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <LinearLayout
+            android:id="@+id/tabs"
             android:layout_width="match_parent"
             android:layout_height="15dp"
-            android:id="@+id/tabs"
             android:layout_marginHorizontal="5dp"
-            app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@id/back">
 
             <ImageView
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:src="@drawable/ic_red_line"
                 android:layout_marginHorizontal="10dp"
-                android:layout_weight="1"/>
-            <ImageView
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:src="@drawable/ic_grey_line"
-                android:layout_marginHorizontal="10dp"
-                android:layout_weight="1"/>
+                android:layout_weight="1"
+                android:src="@drawable/ic_red_line" />
 
             <ImageView
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:src="@drawable/ic_grey_line"
                 android:layout_marginHorizontal="10dp"
-                android:layout_weight="1"/>
+                android:layout_weight="1"
+                android:src="@drawable/ic_grey_line" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginHorizontal="10dp"
+                android:layout_weight="1"
+                android:src="@drawable/ic_grey_line" />
 
         </LinearLayout>
-
 
 
         <androidx.cardview.widget.CardView
             android:id="@+id/contact_info_card"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginHorizontal="15dp"
             android:layout_marginVertical="25dp"
             app:cardCornerRadius="10dp"
-            android:layout_marginHorizontal="15dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tabs">
@@ -129,8 +129,8 @@
             android:id="@+id/delivery_type_card"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginVertical="20dp"
             android:layout_marginHorizontal="15dp"
+            android:layout_marginVertical="20dp"
             app:cardCornerRadius="10dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -188,6 +188,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:button="@drawable/radio_selector"
+                        android:checked="true"
                         android:padding="10dp" />
 
                     <RadioButton
@@ -208,8 +209,8 @@
             android:id="@+id/deliveryType"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_marginVertical="15dp"
             android:layout_marginHorizontal="15dp"
+            android:layout_marginVertical="15dp"
             android:visibility="gone"
             app:cardCornerRadius="10dp"
             app:layout_constraintBottom_toTopOf="@id/next"
@@ -252,9 +253,9 @@
                     android:id="@+id/factual_address_checkBox"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
                     android:button="@drawable/radio_selector"
                     android:paddingStart="15dp"
-                    android:layout_marginTop="15dp"
                     android:paddingTop="15dp"
                     android:paddingBottom="15dp"
                     app:layout_constraintEnd_toStartOf="@id/factual_address"
@@ -345,11 +346,11 @@
                     android:id="@+id/map"
                     android:layout_width="0dp"
                     android:layout_height="60dp"
+                    android:layout_marginTop="15dp"
                     android:background="@drawable/map_bg"
                     android:drawableStart="@drawable/ic_map"
                     android:paddingHorizontal="90dp"
                     android:text="НА КАРТЕ"
-                    android:layout_marginTop="15dp"
                     android:textColor="@color/white"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -365,9 +366,9 @@
             android:id="@+id/self_type"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginHorizontal="15dp"
             android:layout_marginVertical="20dp"
             android:visibility="gone"
-            android:layout_marginHorizontal="15dp"
             app:cardCornerRadius="10dp"
             app:layout_constraintBottom_toTopOf="@id/next"
             app:layout_constraintEnd_toEndOf="parent"
@@ -385,8 +386,8 @@
                     android:layout_height="wrap_content"
                     android:text="Адрес доставки"
                     android:textColor="@color/default_black"
-                    android:textStyle="bold"
                     android:textSize="18sp"
+                    android:textStyle="bold"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
@@ -399,8 +400,8 @@
                     android:drawableEnd="@drawable/ic_right_white"
                     android:gravity="start|center"
                     android:padding="10dp"
-                    android:text="Выбрать филиал"
                     android:paddingStart="20sp"
+                    android:text="Выбрать филиал"
                     android:textAllCaps="false"
                     android:textColor="@color/white"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -415,18 +416,18 @@
             android:id="@+id/next"
             android:layout_width="0dp"
             android:layout_height="60dp"
+            android:layout_marginHorizontal="15dp"
             android:layout_marginVertical="20dp"
             android:background="@drawable/red_bg"
-            android:layout_marginHorizontal="15dp"
             android:drawableStart="@drawable/ic_next_white"
             android:paddingHorizontal="140dp"
             android:text="@string/next"
             android:textColor="@color/white"
             android:textSize="14sp"
             app:iconGravity="textStart"
-            app:layout_constraintTop_toBottomOf="@id/deliveryType"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/deliveryType" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.core.widget.NestedScrollView>

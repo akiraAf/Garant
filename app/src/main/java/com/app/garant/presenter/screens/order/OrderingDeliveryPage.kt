@@ -3,6 +3,7 @@ package com.app.garant.presenter.screens.order
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.View
+import androidx.core.view.isVisible
 import androidx.navigation.fragment.findNavController
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.app.garant.R
@@ -30,13 +31,20 @@ class OrderingDeliveryPage : Fragment(R.layout.page_ordering_delivery) {
             findNavController().navigate(R.id.action_orderingDeliveryPage_to_branchSelectionPage)
         }
 
-        bind.radioDelivery.setOnClickListener {
-            bind.selfType.visibility = View.GONE
-            bind.deliveryType.visibility = View.VISIBLE
+        bind.map.setOnClickListener {
+            findNavController().navigate(R.id.action_orderingDeliveryPage_to_screenMap)
         }
-        bind.radioSelfDelivery.setOnClickListener{
-            bind.selfType.visibility = View.VISIBLE
-            bind.deliveryType.visibility = View.GONE
+
+        bind.selfType.isVisible = true
+
+        bind.radioDelivery.setOnCheckedChangeListener { buttonView, isChecked ->
+            bind.selfType.isVisible = isChecked
+            bind.deliveryType.isVisible = isChecked
+        }
+
+        bind.radioSelfDelivery.setOnCheckedChangeListener { buttonView, isChecked ->
+            bind.selfType.isVisible = isChecked
+            bind.deliveryType.isVisible = isChecked
         }
     }
 

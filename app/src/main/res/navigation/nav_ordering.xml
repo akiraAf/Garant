@@ -24,6 +24,9 @@
             app:exitAnim="@android:anim/fade_out"
             app:popEnterAnim="@android:anim/fade_in"
             app:popExitAnim="@android:anim/fade_out" />
+        <action
+            android:id="@+id/action_orderingDeliveryPage_to_screenMap"
+            app:destination="@id/screenMap" />
     </fragment>
     <fragment
         android:id="@+id/orderingPaymentPage"
@@ -61,4 +64,9 @@
         android:name="com.app.garant.presenter.screens.main.MainScreen"
         android:label="page_main"
         tools:layout="@layout/screen_main" />
+    <fragment
+        android:id="@+id/screenMap"
+        android:name="com.app.garant.presenter.screens.map.ScreenMap"
+        android:label="ScreenMap"
+        tools:layout="@layout/screen_map" />
 </navigation>

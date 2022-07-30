@@ -33,6 +33,7 @@ android {
         }
     }
 
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
@@ -188,5 +189,13 @@ dependencies {
      * EditDrawableText
      */
     implementation 'com.github.MindorksOpenSource:EditDrawableText:1.1.0'
+
+
+    /**
+     * YandexMap
+     */
+    // Облегченная библиотека, содержит только карту, слой пробок,
+    // LocationManager, UserLocationLayer и возможность скачивать офлайн-карты (только в платной версии).
+    implementation 'com.yandex.android:maps.mobile:4.1.0-lite'
 
 }

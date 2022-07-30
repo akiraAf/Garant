@@ -58,8 +58,9 @@ class AccountScreen : Fragment(R.layout.screen_account) {
         }
 
         if (!checkAcc) {
-            getUserInfo()
             viewModel.getUserInfo()
+        } else {
+            getUserInfo()
         }
 
         val phoneNumber = MyPref(App.instance).phoneNumber
@@ -67,8 +68,7 @@ class AccountScreen : Fragment(R.layout.screen_account) {
         bind.inputPhoneNumber.isEnabled = false
 
         viewModel.progressFlow.onEach {
-            //    bind.header.isVisible = false
-            bind.progress.isVisible = true
+            //    bind.progress.isVisible = true
         }.launchIn(viewLifecycleOwner.lifecycleScope)
 
 
