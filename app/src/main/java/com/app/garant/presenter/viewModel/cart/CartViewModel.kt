@@ -2,36 +2,37 @@ package com.app.garant.presenter.viewModel.cart
 
 import com.app.garant.data.request.cart.CartDeleteRequest
 import com.app.garant.data.request.cart.CartMonthRequest
-import com.app.garant.data.request.cart.CartRequest
-import com.app.garant.data.response.cart.CartDeleteResponse
 import com.app.garant.data.response.cart.CartParchRequest
 import com.app.garant.data.response.cart.CartResponse
 import com.app.garant.data.response.cart.Product
-import com.app.garant.data.response.category.product.ProductResponseItem
 import kotlinx.coroutines.flow.Flow
 
 interface CartViewModel {
 
 
-    val successFlowCartUnavailable: Flow<ArrayList<Product>>
-    val successFlowCartAvailable: Flow<ArrayList<Product>>
     val successFlowDeleteAvailable: Flow<Unit>
+    val progressFlowDeleteAvailable: Flow<Boolean>
     val errorFlowDeleteAvailable: Flow<String>
 
-    val successFlowCart: Flow<CartResponse>
-    val errorFlowProduct: Flow<String>
-    val progressFlowProduct: Flow<Boolean>
+    val successFlowGetCart: Flow<CartResponse>
+    val errorFlowGetCart: Flow<String>
+    val progressFlowGetCart: Flow<Boolean>
 
-    val progressFlowProductAv: Flow<Boolean>
-    val progressFlowProductUn: Flow<Boolean>
+    val successFlowCartAvailable: Flow<ArrayList<Product>>
+    val progressFlowCartAvailable: Flow<Boolean>
+    val errorFlowCartAvailable: Flow<String>
 
-    val successPut: Flow<String>
-    val errorPut: Flow<String>
-    val progressPut: Flow<String>
+    val successFlowCartUnavailable: Flow<ArrayList<Product>>
+    val progressFlowCartUnavailable: Flow<Boolean>
+    val errorFlowCartUnavailable: Flow<String>
 
-    val successPatch: Flow<String>
-    val errorPatch: Flow<String>
-    val progressPatch: Flow<String>
+    val successPutCart: Flow<Unit>
+    val errorPutCart: Flow<String>
+    val progressPutCart: Flow<Boolean>
+
+    val successPatchCart: Flow<Unit>
+    val errorPatchCart: Flow<String>
+    val progressPatchCart: Flow<Boolean>
 
     val progressFlowDelete: Flow<Boolean>
     val successFlowDelete: Flow<Unit>

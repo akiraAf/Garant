@@ -55,64 +55,51 @@ class CategoryScreen : Fragment(R.layout.screen_category) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        voiceSearch()
+        searchList()
+        initObserver()
+        initClicks()
+
         view.setOnClickListener {
             it.hideKeyboard()
         }
 
         viewModel.getCategory()
 
+        bind.listSearch.adapter = adapterSearch
+        bind.listSearch.layoutManager = LinearLayoutManager(requireContext())
+
+        view.setOnClickListener {
+            it.hideKeyboard()
+        }
+
+        bind.catalogRV.layoutManager = GridLayoutManager(requireContext(), 2)
+        bind.catalogRV.adapter = adapterCategory
+    }
+
+    private fun initObserver() {
         viewModel.progressFlow.onEach {
-            bind.progress.visibility = View.VISIBLE
+            bind.progress.isVisible = it
         }.launchIn(viewLifecycleOwner.lifecycleScope)
 
+        viewModel.errorFlow.onEach {
+            Log.i("LOL", "CategoryScreen Error $it")
+        }.launchIn(viewLifecycleOwner.lifecycleScope)
+
+        viewModel.errorFlowS.onEach {
+            Log.i("LOL", "CategoryScreen Error $it")
+        }.launchIn(viewLifecycleOwner.lifecycleScope)
 
         viewModel.successFlowS.onEach {
             adapterSearch.submitList(it)
         }.launchIn(viewLifecycleOwner.lifecycleScope)
 
-
-        bind.listSearch.adapter = adapterSearch
-        bind.listSearch.layoutManager = LinearLayoutManager(requireContext())
-
-        adapterSearch.setListenerClick { query ->
-            val action =
-                CategoryScreenDirections.actionCatalogPageToSearchProductsScreen(
-                    query
-                )
-            findNavController().navigate(action)
-        }
-
-        view.setOnClickListener {
-            it.hideKeyboard()
-            bind.listSearch.isVisible = false
-        }
-
-        adapterCategory.setListenerClick { sub, name ->
-            val action: NavDirections =
-                CategoryScreenDirections.actionCatalogPageToSubcategoryPage(
-                    sub.toTypedArray(), name
-                )
-            findNavController().navigate(action)
-        }
-
-        bind.favorites.setOnClickListener {
-            if (isAdded)
-                findNavController().navigate(R.id.favoritesScreen)
-        }
-
         viewModel.successFlow.onEach {
-            bind.progress.visibility = View.GONE
             adapterCategory.submitList(it)
-
-            voiceSearch()
-            searchList()
-
         }.launchIn(viewLifecycleOwner.lifecycleScope)
+    }
 
-        viewModel.errorFlow.onEach {
-            Log.i("LOL", "CategoryScreen Error $it")
-            bind.progress.isVisible = false
-        }.launchIn(viewLifecycleOwner.lifecycleScope)
+    private fun initClicks() {
 
         bind.search.setOnEditorActionListener { v, actionId, event ->
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
@@ -125,8 +112,30 @@ class CategoryScreen : Fragment(R.layout.screen_category) {
             }
         }
 
-        bind.catalogRV.layoutManager = GridLayoutManager(requireContext(), 2)
-        bind.catalogRV.adapter = adapterCategory
+        adapterCategory.setListenerClick { sub, name ->
+            if (sub.isNotEmpty()) {
+                val action: NavDirections =
+                    CategoryScreenDirections.actionCatalogPageToSubcategoryPage(
+                        sub.toTypedArray(), name
+                    )
+                findNavController().navigate(action)
+            } else {
+                showToast("Category is empty")
+            }
+        }
+
+        bind.favorites.setOnClickListener {
+            findNavController().navigate(R.id.favoritesScreen)
+        }
+
+        adapterSearch.setListenerClick { query ->
+            val action =
+                CategoryScreenDirections.actionCatalogPageToSearchProductsScreen(
+                    query
+                )
+            findNavController().navigate(action)
+        }
+
     }
 
     private fun voiceSearch() {

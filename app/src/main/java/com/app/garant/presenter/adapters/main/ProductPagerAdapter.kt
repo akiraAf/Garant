@@ -15,6 +15,6 @@ class ProductPagerAdapter(
     override fun getItemCount(): Int = pagesCount
 
     override fun createFragment(position: Int): Fragment {
-        return ProductsPage()
+        return ProductsPage(position)
     }
 }

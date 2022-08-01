@@ -15,6 +15,7 @@ import com.app.garant.utils.isConnected
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
@@ -40,6 +41,10 @@ class CategoryViewModelImpl @Inject constructor(private val categoryRepository: 
     override fun getCategory() {
         if (!isConnected()) {
             return
+        }
+
+        viewModelScope.launch {
+            progressFlow.emit(true)
         }
 
         categoryRepository.getCategory().onEach {
@@ -83,19 +88,21 @@ class CategoryViewModelImpl @Inject constructor(private val categoryRepository: 
             return
         }
         searchJob?.cancel()
-        searchJob = categoryRepository.getSearch(query).onEach {
+        searchJob = viewModelScope.launch {
             delay(500)
-            it.onSuccess { products ->
-                search.clear()
-                progressFlowS.emit(false)
-                products.data.map { search.add(it.name) }
-                successFlowS.emit(search)
+            categoryRepository.getSearch(query).collect {
+                it.onSuccess { products ->
+                    search.clear()
+                    progressFlowS.emit(false)
+                    products.data.map { search.add(it.name) }
+                    successFlowS.emit(search)
+                }
+                it.onFailure { throwable ->
+                    progressFlowS.emit(false)
+                    errorFlowS.emit(throwable.message.toString())
+                }
             }
-            it.onFailure { throwable ->
-                progressFlowS.emit(false)
-                errorFlowS.emit(throwable.message.toString())
-            }
-        }.launchIn(viewModelScope)
+        }
     }
 
 }

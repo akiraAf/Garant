@@ -12,8 +12,7 @@ import dagger.hilt.android.AndroidEntryPoint
 
 
 @AndroidEntryPoint
-
-class OrderingDeliveryPage : Fragment(R.layout.page_ordering_delivery) {
+class OrderUserInfoScreen : Fragment(R.layout.page_ordering_delivery) {
 
     private val bind by viewBinding(PageOrderingDeliveryBinding::bind)
 
@@ -35,16 +34,14 @@ class OrderingDeliveryPage : Fragment(R.layout.page_ordering_delivery) {
             findNavController().navigate(R.id.action_orderingDeliveryPage_to_screenMap)
         }
 
-        bind.selfType.isVisible = true
+        bind.deliveryType.isVisible = true
 
         bind.radioDelivery.setOnCheckedChangeListener { buttonView, isChecked ->
-            bind.selfType.isVisible = isChecked
             bind.deliveryType.isVisible = isChecked
         }
 
         bind.radioSelfDelivery.setOnCheckedChangeListener { buttonView, isChecked ->
             bind.selfType.isVisible = isChecked
-            bind.deliveryType.isVisible = isChecked
         }
     }
 

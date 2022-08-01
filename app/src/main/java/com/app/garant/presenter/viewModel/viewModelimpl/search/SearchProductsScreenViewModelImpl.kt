@@ -9,9 +9,7 @@ import androidx.lifecycle.viewModelScope
 import com.app.garant.data.request.cart.CartDeleteRequest
 import com.app.garant.data.request.cart.CartRequest
 import com.app.garant.data.request.favorite.FavoriteRequest
-import com.app.garant.data.response.cart.CartResponse
-import com.app.garant.data.response.category.allProducts.AllProductsResponse
-import com.app.garant.data.response.category.product.ProductResponse
+import com.app.garant.data.response.cart.EmptyResponse
 import com.app.garant.data.response.category.search.SearchResponse
 import com.app.garant.domain.repository.CategoryRepository
 import com.app.garant.presenter.viewModel.search.SearchProductsScreenViewModel
@@ -19,8 +17,6 @@ import com.app.garant.utils.eventValueFlow
 import com.app.garant.utils.isConnected
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
@@ -37,7 +33,7 @@ class SearchProductsScreenViewModelImpl @Inject constructor(private val category
     override val progressFlowFavorite = eventValueFlow<Boolean>()
 
 
-    override val successFlowCartAdd = eventValueFlow<CartResponse>()
+    override val successFlowCartAdd = eventValueFlow<EmptyResponse>()
     override val successFlowCartRemove = eventValueFlow<Unit>()
 
     override val successFlowFavoriteAdd = eventValueFlow<Unit>()

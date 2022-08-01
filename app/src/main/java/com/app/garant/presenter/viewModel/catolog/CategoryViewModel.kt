@@ -10,6 +10,7 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.Flow
 
 interface CategoryViewModel {
+
     val errorFlow: Flow<String>
     val successFlow: Flow<CategoryResponse>
     val progressFlow: Flow<Boolean>

@@ -1,10 +1,10 @@
 package com.app.garant.data.response.category.search
 
-import com.app.garant.data.response.category.Data
+import com.app.garant.data.response.cart.Product
 
 data class SearchResponse(
     val current_page: Int,
-    val `data`: List<Data>,
+    val `data`: List<Product>,
     val first_page_url: String,
     val from: Int,
     val last_page: Int,

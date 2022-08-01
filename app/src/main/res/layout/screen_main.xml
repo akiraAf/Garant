@@ -240,6 +240,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="15dp"
                 android:text="@string/all_products"
+                android:background="?android:selectableItemBackground"
                 android:textColor="@color/default_red"
                 android:textSize="18sp"
                 app:layout_constraintBottom_toBottomOf="@id/new_products"

@@ -6,7 +6,10 @@ import com.app.garant.data.request.cart.CartDeleteRequest
 import com.app.garant.data.request.cart.CartMonthRequest
 import com.app.garant.data.request.cart.CartRequest
 import com.app.garant.data.request.favorite.FavoriteRequest
+import com.app.garant.data.response.branch.BranchResponse
+import com.app.garant.data.response.brand.BrandResponse
 import com.app.garant.data.response.cart.CartDeleteResponse
+import com.app.garant.data.response.cart.EmptyResponse
 import com.app.garant.data.response.cart.CartParchRequest
 import com.app.garant.data.response.cart.CartResponse
 import com.app.garant.data.response.category.allProducts.AllProductsResponse
@@ -107,7 +110,7 @@ class CategoryRepositoryImpl @Inject constructor(
     }.flowOn(Dispatchers.IO)
 
 
-    override fun addCart(request: CartRequest): Flow<Result<CartResponse>> =
+    override fun addCart(request: CartRequest): Flow<Result<EmptyResponse>> =
         flow {
             val response = api.addCart(request)
             if (response.isSuccessful) {
@@ -205,8 +208,30 @@ class CategoryRepositoryImpl @Inject constructor(
         emit(Result.failure(Throwable(it.message.toString())))
     }.flowOn(Dispatchers.IO)
 
+    override fun getBrand(): Flow<Result<BrandResponse>> = flow {
+        val response = api.getBrand()
+        if (response.isSuccessful) {
+            emit(Result.success(response.body()!!))
+        } else {
+            emit(Result.failure(Throwable(response.errorBody().toString())))
+        }
+    }.catch {
+        emit(Result.failure(Throwable(it.message.toString())))
+    }.flowOn(Dispatchers.IO)
+
     override fun deleteFavorite(request: FavoriteRequest): Flow<Result<FavoriteResponse>> = flow {
         val response = api.deleteFavorite(request)
+        if (response.isSuccessful) {
+            emit(Result.success(response.body()!!))
+        } else {
+            emit(Result.failure(Throwable(response.errorBody().toString())))
+        }
+    }.catch {
+        emit(Result.failure(Throwable(it.message.toString())))
+    }.flowOn(Dispatchers.IO)
+
+    override fun getBranch(): Flow<Result<BranchResponse>> = flow {
+        val response = api.getBranch()
         if (response.isSuccessful) {
             emit(Result.success(response.body()!!))
         } else {

@@ -4,6 +4,16 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <ImageView
+        android:id="@+id/back"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:padding="30dp"
+        android:translationZ="1000dp"
+        android:src="@drawable/ic_left"
+        app:layout_constraintLeft_toLeftOf="@id/mapview"
+        app:layout_constraintTop_toTopOf="@id/mapview" />
 
     <com.yandex.mapkit.mapview.MapView
         android:id="@+id/mapview"
@@ -12,7 +22,8 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:apiKey="4d71f10a-b1dd-4ee5-82a2-a8b6851c2bf7"/>
 
     <ImageView
         android:layout_width="50sp"

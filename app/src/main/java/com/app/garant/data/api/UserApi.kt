@@ -46,5 +46,4 @@ interface UserApi {
     @POST("request")
     suspend fun sendUserInfo(@Body data: UserRequest): Response<UserResponse>
 
-
 }

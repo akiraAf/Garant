@@ -6,27 +6,38 @@ import androidx.activity.result.ActivityResultLauncher
 import com.app.garant.data.request.cart.CartDeleteRequest
 import com.app.garant.data.request.cart.CartRequest
 import com.app.garant.data.request.favorite.FavoriteRequest
-import com.app.garant.data.response.cart.CartResponse
+import com.app.garant.data.response.cart.EmptyResponse
 import com.app.garant.data.response.category.allProducts.AllProductsResponse
-import com.app.garant.utils.eventValueFlow
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.Flow
 import java.util.ArrayList
 
 
 interface ProductsScreenViewModel {
+
     val errorFlow: Flow<String>
     val successFlow: Flow<AllProductsResponse>
     val progressFlow: Flow<Boolean>
-    val progressFlowCart: Flow<Boolean>
-    val progressFlowFavorite: Flow<Boolean>
-    val progressFlowSearch: Flow<Boolean>
-    val successSearch: Flow<ArrayList<String>>
 
-    val successFlowCartAdd: Flow<CartResponse>
+    val successFlowSearch: Flow<ArrayList<String>>
+    val progressFlowSearch: Flow<Boolean>
+    val errorFlowSearch: Flow<String>
+
+    val successFlowCartAdd: Flow<EmptyResponse>
+    val progressFlowCartAdd: Flow<Boolean>
+    val errorFlowCartAdd: Flow<String>
+
     val successFlowCartRemove: Flow<Unit>
+    val progressFlowCartRemove: Flow<Boolean>
+    val errorFlowCartRemove: Flow<String>
+
     val successFlowFavoriteAdd: Flow<Unit>
+    val progressFlowFavoriteAdd: Flow<Boolean>
+    val errorFlowFavoriteAdd: Flow<String>
+
     val successFlowFavoriteRemove: Flow<Unit>
+    val progressFlowFavoriteRemove: Flow<Boolean>
+    val errorFlowFavoriteRemove: Flow<String>
 
     fun getAllProducts(id: Int)
 
@@ -37,7 +48,6 @@ interface ProductsScreenViewModel {
 
     fun addCart(request: CartRequest)
     fun removeCart(request: CartDeleteRequest)
-
 
     fun addFavorite(request: FavoriteRequest)
     fun removeFavorite(request: FavoriteRequest)

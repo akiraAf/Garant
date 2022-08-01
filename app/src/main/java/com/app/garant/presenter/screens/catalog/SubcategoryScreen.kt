@@ -52,33 +52,11 @@ class SubcategoryScreen : Fragment(R.layout.screen_subcategory) {
 
         view.setOnClickListener {
             it.hideKeyboard()
-            bind.search.clearFocus()
         }
 
         bind.nameCategory.text = name
 
-        if (category.isNotEmpty())
-            subcategoryAdapter.submitList(category)
-        else {
-            bind.subcategoryRecycler.visibility = View.GONE
-        }
-
-        view.setOnClickListener {
-            it.hideKeyboard()
-        }
-
-        viewModel.successSearch.onEach {
-            adapterSearch.submitList(it)
-            bind.listSearch.visibility = View.VISIBLE
-        }.launchIn(viewLifecycleOwner.lifecycleScope)
-
-        adapterSearch.setListenerClick { data ->
-            val action =
-                SubcategoryScreenDirections.actionSubcategoryPageToSearchProductsScreen(
-                    data
-                )
-            findNavController().navigate(action)
-        }
+        subcategoryAdapter.submitList(category)
 
         bind.listSearch.adapter = adapterSearch
         bind.listSearch.layoutManager = LinearLayoutManager(requireContext())
@@ -87,21 +65,19 @@ class SubcategoryScreen : Fragment(R.layout.screen_subcategory) {
         bind.subcategoryRecycler.layoutManager = LinearLayoutManager(activity)
         bind.subcategoryRecycler.adapter = subcategoryAdapter
 
-        subcategoryAdapter.setListenerClick { id, name ->
-            val action = SubcategoryScreenDirections.actionSubcategoryPageToProductsPage(name, id)
-            findNavController().navigate(action)
-        }
-        bind.favorites.setOnClickListener {
-            findNavController().navigate(R.id.favoritesScreen)
-        }
-
-        bind.back.setOnClickListener {
-            findNavController().popBackStack()
-        }
-
+        initObserver()
+        initClicks()
         voiceSearch()
         searchList()
     }
+
+    private fun initObserver() {
+
+        viewModel.successSearch.onEach {
+            adapterSearch.submitList(it)
+        }.launchIn(viewLifecycleOwner.lifecycleScope)
+    }
+
 
     private fun voiceSearch() {
         viewModel.initial(textToSpeechEngine, startForResult)
@@ -126,15 +102,28 @@ class SubcategoryScreen : Fragment(R.layout.screen_subcategory) {
             })
         }
 
-        bind.search.setOnEditorActionListener { v, actionId, event ->
-            if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-                val action =
-                    SubcategoryScreenDirections.actionSubcategoryPageToSearchProductsScreen(v.text!!.toString())
-                findNavController().navigate(action)
-                true
-            } else {
-                false
-            }
+    }
+
+    private fun initClicks() {
+        bind.favorites.setOnClickListener {
+            findNavController().navigate(R.id.favoritesScreen)
+        }
+
+        bind.back.setOnClickListener {
+            findNavController().popBackStack()
+        }
+
+        subcategoryAdapter.setListenerClick { id, name ->
+            val action = SubcategoryScreenDirections.actionSubcategoryPageToProductsPage(name, id)
+            findNavController().navigate(action)
+        }
+
+        adapterSearch.setListenerClick { data ->
+            val action =
+                SubcategoryScreenDirections.actionSubcategoryPageToSearchProductsScreen(
+                    data
+                )
+            findNavController().navigate(action)
         }
     }
 
@@ -179,6 +168,17 @@ class SubcategoryScreen : Fragment(R.layout.screen_subcategory) {
                     viewModel.search(query)
             }
         })
+
+        bind.search.setOnEditorActionListener { v, actionId, event ->
+            if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                val action =
+                    SubcategoryScreenDirections.actionSubcategoryPageToSearchProductsScreen(v.text!!.toString())
+                findNavController().navigate(action)
+                true
+            } else {
+                false
+            }
+        }
     }
 
 

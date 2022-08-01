@@ -2,7 +2,6 @@ package com.app.garant.presenter.adapters
 
 import android.annotation.SuppressLint
 import android.icu.text.NumberFormat
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,32 +10,31 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.app.garant.R
-import com.app.garant.data.other.StaticValue
-import com.app.garant.data.response.category.Data
+import com.app.garant.data.response.cart.Product
 import com.app.garant.databinding.ItemProductBinding
 import com.app.garant.utils.scope
 import com.bumptech.glide.Glide
 import java.util.*
 
-class ProductsAdapter : ListAdapter<Data, ProductsAdapter.ProductVH>(MyDifUtils) {
+class ProductsAdapter : ListAdapter<Product, ProductsAdapter.ProductVH>(MyDifUtils) {
 
     private var itemListener: ((Int) -> Unit)? = null
-    private var itemCartListener: ((Int, Int, Boolean) -> Unit)? = null
-    private var itemFavoriteListener: ((Int, Int, Boolean) -> Unit)? = null
+    private var itemCartListener: ((Product, Int, Boolean) -> Unit)? = null
+    private var itemFavoriteListener: ((Product, Int, Boolean) -> Unit)? = null
     private val numberFormat = NumberFormat.getNumberInstance(Locale.CANADA)
 
-    object MyDifUtils : DiffUtil.ItemCallback<Data>() {
+    object MyDifUtils : DiffUtil.ItemCallback<Product>() {
         override fun areItemsTheSame(
-            oldItem: Data,
-            newItem: Data
+            oldItem: Product,
+            newItem: Product
         ): Boolean {
             return oldItem == newItem
         }
 
         @SuppressLint("DiffUtilEquals")
         override fun areContentsTheSame(
-            oldItem: Data,
-            newItem: Data
+            oldItem: Product,
+            newItem: Product
         ): Boolean {
             return oldItem == newItem
         }
@@ -58,23 +56,23 @@ class ProductsAdapter : ListAdapter<Data, ProductsAdapter.ProductVH>(MyDifUtils)
         }
 
         fun load() = bind.scope {
-            val value = getItem(absoluteAdapterPosition)
-            name.text = value.name
-            price.text = price_converter(value.price.toLong())
-            monthlyPrice.text = price_converter(value.monthly_price.toLong())
-            Glide.with(productImageView.context).load(value.image).into(productImageView)
-            bind.productBtn.isChecked = value.is_cart == 1
-            bind.favorite.isChecked = value.is_favorite == 1
+            val item: Product = getItem(absoluteAdapterPosition)
+            name.text = item.name
+            price.text = price_converter(item.price.toLong())
+            monthlyPrice.text = price_converter(item.monthly_price.toLong())
+            Glide.with(productImageView.context).load(item.image).into(productImageView)
+            bind.btnAddToBasket.isChecked = item.is_cart == 1
+            bind.favorite.isChecked = item.is_favorite == 1
             bind.parent.setOnClickListener {
                 itemListener?.invoke(absoluteAdapterPosition)
             }
 
-            bind.productBtn.setOnCheckedChangeListener { buttonView, isChecked ->
-                itemCartListener?.invoke(value.id, absoluteAdapterPosition, isChecked)
+            bind.btnAddToBasket.setOnCheckedChangeListener { buttonView, isChecked ->
+                itemCartListener?.invoke(item, absoluteAdapterPosition, isChecked)
             }
 
             bind.favorite.setOnCheckedChangeListener { buttonView, isChecked ->
-                itemFavoriteListener?.invoke(value.id, absoluteAdapterPosition, isChecked)
+                itemFavoriteListener?.invoke(item, absoluteAdapterPosition, isChecked)
             }
 
         }
@@ -94,11 +92,11 @@ class ProductsAdapter : ListAdapter<Data, ProductsAdapter.ProductVH>(MyDifUtils)
         itemListener = function
     }
 
-    fun setCartListenerClick(function: (Int, Int, Boolean) -> Unit) {
+    fun setCartListenerClick(function: (Product, Int, Boolean) -> Unit) {
         itemCartListener = function
     }
 
-    fun setFavoriteListenerClick(function: (Int, Int, Boolean) -> Unit) {
+    fun setFavoriteListenerClick(function: (Product, Int, Boolean) -> Unit) {
         itemFavoriteListener = function
     }
 

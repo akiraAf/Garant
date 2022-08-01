@@ -9,9 +9,8 @@ import androidx.lifecycle.viewModelScope
 import com.app.garant.data.request.cart.CartDeleteRequest
 import com.app.garant.data.request.cart.CartRequest
 import com.app.garant.data.request.favorite.FavoriteRequest
-import com.app.garant.data.response.cart.CartResponse
+import com.app.garant.data.response.cart.EmptyResponse
 import com.app.garant.data.response.category.allProducts.AllProductsResponse
-import com.app.garant.data.response.favorite.FavoriteResponse
 import com.app.garant.domain.repository.CategoryRepository
 import com.app.garant.presenter.viewModel.catolog.ProductsScreenViewModel
 import com.app.garant.utils.eventValueFlow
@@ -19,6 +18,7 @@ import com.app.garant.utils.isConnected
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
@@ -29,22 +29,30 @@ import javax.inject.Inject
 class ProductsScreenViewModelImpl @Inject constructor(private val categoryRepository: CategoryRepository) :
     ViewModel(), ProductsScreenViewModel {
 
-
     override val successFlow = eventValueFlow<AllProductsResponse>()
     override val errorFlow = eventValueFlow<String>()
     override val progressFlow = eventValueFlow<Boolean>()
 
-    override val progressFlowCart = eventValueFlow<Boolean>()
-    override val progressFlowFavorite = eventValueFlow<Boolean>()
-    override val progressFlowSearch = eventValueFlow<Boolean>()
+    override val progressFlowCartAdd = eventValueFlow<Boolean>()
+    override val errorFlowCartAdd = eventValueFlow<String>()
+    override val progressFlowFavoriteAdd = eventValueFlow<Boolean>()
 
-    override val successFlowCartAdd = eventValueFlow<CartResponse>()
-    override val successFlowCartRemove = eventValueFlow<Unit>()
-
+    override val successFlowCartAdd = eventValueFlow<EmptyResponse>()
+    override val errorFlowFavoriteAdd = eventValueFlow<String>()
     override val successFlowFavoriteAdd = eventValueFlow<Unit>()
-    override val successFlowFavoriteRemove = eventValueFlow<Unit>()
 
-    override val successSearch = eventValueFlow<ArrayList<String>>()
+    override val progressFlowSearch = eventValueFlow<Boolean>()
+    override val errorFlowSearch = eventValueFlow<String>()
+    override val successFlowSearch = eventValueFlow<ArrayList<String>>()
+
+    override val successFlowCartRemove = eventValueFlow<Unit>()
+    override val progressFlowCartRemove = eventValueFlow<Boolean>()
+    override val errorFlowCartRemove = eventValueFlow<String>()
+
+    override val successFlowFavoriteRemove = eventValueFlow<Unit>()
+    override val progressFlowFavoriteRemove = eventValueFlow<Boolean>()
+    override val errorFlowFavoriteRemove = eventValueFlow<String>()
+
     private lateinit var textToSpeechEngine: TextToSpeech
     private lateinit var startForResult: ActivityResultLauncher<Intent>
     private val search: ArrayList<String> = ArrayList()
@@ -77,19 +85,26 @@ class ProductsScreenViewModelImpl @Inject constructor(private val categoryReposi
         if (!isConnected()) {
             return
         }
+
+        viewModelScope.launch {
+            progressFlowSearch.emit(true)
+        }
+
         searchJob?.cancel()
-        searchJob = categoryRepository.getSearch(query).onEach {
-            delay(500)
-            it.onSuccess { products ->
-                progressFlowSearch.emit(false)
-                products.data.map { search.add(it.name) }
-                successSearch.emit(search)
+        searchJob = viewModelScope.launch {
+            categoryRepository.getSearch(query).collect {
+                delay(500)
+                it.onSuccess { products ->
+                    products.data.map { search.add(it.name) }
+                    progressFlowSearch.emit(false)
+                    successFlowSearch.emit(search)
+                }
+                it.onFailure { throwable ->
+                    progressFlowSearch.emit(false)
+                    errorFlowSearch.emit(throwable.message.toString())
+                }
             }
-            it.onFailure { throwable ->
-                progressFlowSearch.emit(false)
-                errorFlow.emit(throwable.message.toString())
-            }
-        }.launchIn(viewModelScope)
+        }
     }
 
     override fun initial(
@@ -122,12 +137,12 @@ class ProductsScreenViewModelImpl @Inject constructor(private val categoryReposi
 
         categoryRepository.addCart(request).onEach {
             it.onSuccess {
-                progressFlowCart.emit(false)
+                progressFlowCartAdd.emit(false)
                 successFlowCartAdd.emit(it)
             }
             it.onFailure { throwable ->
-                progressFlowCart.emit(false)
-                errorFlow.emit(throwable.message.toString())
+                progressFlowCartAdd.emit(false)
+                errorFlowCartAdd.emit(throwable.message.toString())
             }
         }.launchIn(viewModelScope)
     }
@@ -139,12 +154,12 @@ class ProductsScreenViewModelImpl @Inject constructor(private val categoryReposi
 
         categoryRepository.deleteCart(request).onEach {
             it.onSuccess {
-                progressFlowCart.emit(false)
+                progressFlowCartRemove.emit(false)
                 successFlowCartRemove.emit(Unit)
             }
             it.onFailure { throwable ->
-                progressFlowCart.emit(false)
-                errorFlow.emit(throwable.message.toString())
+                progressFlowCartRemove.emit(false)
+                errorFlowCartRemove.emit(throwable.message.toString())
             }
         }.launchIn(viewModelScope)
     }
@@ -153,15 +168,14 @@ class ProductsScreenViewModelImpl @Inject constructor(private val categoryReposi
         if (!isConnected()) {
             return
         }
-
         categoryRepository.addFavorite(request).onEach {
             it.onSuccess {
-                progressFlowFavorite.emit(false)
+                progressFlowFavoriteAdd.emit(false)
                 successFlowFavoriteAdd.emit(Unit)
             }
             it.onFailure { throwable ->
-                progressFlowFavorite.emit(false)
-                errorFlow.emit(throwable.message.toString())
+                progressFlowFavoriteAdd.emit(false)
+                errorFlowFavoriteAdd.emit(throwable.message.toString())
             }
         }.launchIn(viewModelScope)
     }
@@ -173,12 +187,12 @@ class ProductsScreenViewModelImpl @Inject constructor(private val categoryReposi
 
         categoryRepository.deleteFavorite(request).onEach {
             it.onSuccess {
-                progressFlowFavorite.emit(false)
-                successFlowFavoriteAdd.emit(Unit)
+                progressFlowFavoriteRemove.emit(false)
+                successFlowFavoriteRemove.emit(Unit)
             }
             it.onFailure { throwable ->
-                progressFlowFavorite.emit(false)
-                errorFlow.emit(throwable.message.toString())
+                progressFlowFavoriteRemove.emit(false)
+                errorFlowFavoriteRemove.emit(throwable.message.toString())
             }
         }.launchIn(viewModelScope)
     }

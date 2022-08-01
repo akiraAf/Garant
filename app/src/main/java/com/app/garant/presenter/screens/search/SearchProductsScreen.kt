@@ -117,16 +117,16 @@ class SearchProductsScreen : Fragment(R.layout.screen_search_products) {
                 popUpMenu.show()
             }
 
-            adapter.setCartListenerClick { idProduct, index, isChecked ->
+            adapter.setCartListenerClick { product, index, isChecked ->
                 if (isChecked) {
-                    viewModel.addCart(CartRequest(1, idProduct))
+                    viewModel.addCart(CartRequest(1, product.id))
                     viewModel.successFlowCartRemove.onEach {
-                        adapter.notifyItemChanged(idProduct)
+                        adapter.notifyItemChanged(product.id)
                     }.launchIn(viewLifecycleOwner.lifecycleScope)
                 } else {
-                    viewModel.removeCart(CartDeleteRequest(idProduct))
+                    viewModel.removeCart(CartDeleteRequest(product.id))
                     viewModel.successFlowCartAdd.onEach {
-                        adapter.notifyItemChanged(idProduct)
+                        adapter.notifyItemChanged(product.id)
                     }.launchIn(viewLifecycleOwner.lifecycleScope)
                 }
             }
@@ -191,16 +191,16 @@ class SearchProductsScreen : Fragment(R.layout.screen_search_products) {
         }
 
 
-        adapter.setFavoriteListenerClick { idProduct, index, isChecked ->
+        adapter.setFavoriteListenerClick { product, index, isChecked ->
             if (isChecked) {
                 StaticValue.cartAmount.value = Unit
-                viewModel.addFavorite(FavoriteRequest(idProduct))
+                viewModel.addFavorite(FavoriteRequest(product.id))
                 viewModel.successFlowCartRemove.onEach {
                     adapter.notifyItemChanged(index)
                 }.launchIn(viewLifecycleOwner.lifecycleScope)
             } else {
                 StaticValue.cartAmount.value = Unit
-                viewModel.removeFavorite(FavoriteRequest(idProduct))
+                viewModel.removeFavorite(FavoriteRequest(product.id))
                 viewModel.successFlowCartAdd.onEach {
                     adapter.notifyItemChanged(index)
                 }.launchIn(viewLifecycleOwner.lifecycleScope)

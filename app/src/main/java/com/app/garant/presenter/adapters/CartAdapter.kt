@@ -2,7 +2,6 @@ package com.app.garant.presenter.adapters
 
 import android.annotation.SuppressLint
 import android.icu.text.NumberFormat
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -20,13 +19,14 @@ import java.util.*
 class CartAdapter : ListAdapter<Product, CartAdapter.CartVH>(MyDifUtils) {
 
     private var itemListener: ((Int) -> Unit)? = null
-    private var itemDeleteListener: ((Int, Int) -> Unit)? = null
+    private var itemDeleteListener: ((Product, Int) -> Unit)? = null
     private var itemAddListener: ((Int, Int, Int) -> Unit)? = null
     private var itemRemoveListener: ((Int, Int, Int) -> Unit)? = null
     var countX: Int = 0
     private val numberFormat = NumberFormat.getNumberInstance(Locale.CANADA)
 
     object MyDifUtils : DiffUtil.ItemCallback<Product>() {
+
         override fun areItemsTheSame(
             oldItem: Product,
             newItem: Product
@@ -53,7 +53,7 @@ class CartAdapter : ListAdapter<Product, CartAdapter.CartVH>(MyDifUtils) {
         }
 
         private fun price_converter(price: Long): String {
-            numberFormat.maximumFractionDigits = 0;
+           // numberFormat.maximumFractionDigits = 0;
             val convert = numberFormat.format(price)
             return (convert.replace(",", " ") + " cум")
         }
@@ -65,8 +65,10 @@ class CartAdapter : ListAdapter<Product, CartAdapter.CartVH>(MyDifUtils) {
             Glide.with(image.context).load(value.image).into(image)
             count.text = value.count.toString() + " шт"
             countX = value.count
+
             bind.close.setOnClickListener {
-                itemDeleteListener?.invoke(value.id, absoluteAdapterPosition)
+
+                itemDeleteListener?.invoke(value, absoluteAdapterPosition)
             }
             bind.plus.setOnClickListener {
                 bind.count.text = (++countX).toString() + " шт"
@@ -90,7 +92,7 @@ class CartAdapter : ListAdapter<Product, CartAdapter.CartVH>(MyDifUtils) {
         itemListener = function
     }
 
-    fun setDeleteListenerClick(function: (Int, Int) -> Unit) {
+    fun setDeleteListenerClick(function: (Product, Int) -> Unit) {
         itemDeleteListener = function
     }
 

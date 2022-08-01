@@ -1,26 +1,15 @@
 package com.app.garant.presenter.viewModel.viewModelimpl.cart
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.app.garant.data.request.cart.CartDeleteRequest
-import com.app.garant.data.request.cart.CartMonthRequest
-import com.app.garant.data.response.cart.CartDeleteResponse
-import com.app.garant.data.response.cart.CartParchRequest
 import com.app.garant.data.response.cart.CartResponse
 import com.app.garant.data.response.cart.Product
-import com.app.garant.data.response.category.Data
 import com.app.garant.domain.repository.CategoryRepository
-import com.app.garant.domain.repository.UserRepository
-import com.app.garant.presenter.viewModel.cart.CartViewModel
 import com.app.garant.presenter.viewModel.cart.CheckCartViewModel
 import com.app.garant.utils.eventValueFlow
 import com.app.garant.utils.isConnected
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
 import javax.inject.Inject
 

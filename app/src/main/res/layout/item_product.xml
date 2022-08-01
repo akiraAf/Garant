@@ -117,7 +117,7 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <CheckBox
-            android:id="@+id/product_btn"
+            android:id="@+id/btn_add_to_basket"
             android:layout_width="0dp"
             android:layout_height="45dp"
             android:layout_marginHorizontal="10dp"

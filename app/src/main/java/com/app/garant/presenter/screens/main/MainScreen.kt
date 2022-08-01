@@ -4,6 +4,7 @@ import android.app.ActionBar
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.LinearLayout
 import android.widget.SearchView
@@ -14,6 +15,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavDirections
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.navGraphViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.app.garant.R
@@ -23,7 +25,9 @@ import com.app.garant.presenter.adapters.main.BannerSalesAdapter
 import com.app.garant.presenter.adapters.main.ProductPagerAdapter
 import com.app.garant.presenter.adapters.search.SearchAdapter
 import com.app.garant.presenter.viewModel.main.MainScreenViewModel
+import com.app.garant.presenter.viewModel.navigation.NavigationScreenViewModel
 import com.app.garant.presenter.viewModel.viewModelimpl.main.MainScreenViewModelImpl
+import com.app.garant.presenter.viewModel.viewModelimpl.navigation.NavigationScreenViewModelImpl
 import com.app.garant.utils.hideKeyboard
 import com.app.garant.utils.scope
 import com.google.android.material.tabs.TabLayout
@@ -36,6 +40,7 @@ class MainScreen : Fragment(R.layout.screen_main) {
 
     private val bind by viewBinding(ScreenMainBinding::bind)
     private val viewModel: MainScreenViewModel by viewModels<MainScreenViewModelImpl>()
+    private val navigationViewModel: NavigationScreenViewModel by navGraphViewModels<NavigationScreenViewModelImpl>(R.id.nav_main)
     private val adapterSearch by lazy { SearchAdapter() }
     private var tabArray: ArrayList<String>? = null
     private var tabMediator: TabLayoutMediator? = null
@@ -46,7 +51,6 @@ class MainScreen : Fragment(R.layout.screen_main) {
         super.onViewCreated(view, savedInstanceState)
 
         viewModel.getProducts()
-
         initAdapters()
         initObservables()
         initClicks()
@@ -54,9 +58,14 @@ class MainScreen : Fragment(R.layout.screen_main) {
         updateToolbar()
         searchQuery()
         bind.salesPager.isSaveEnabled = false
+
+        view.setOnClickListener {
+            it.hideKeyboard()
+        }
     }
 
     private fun initClicks() {
+
         bind.bell.setOnClickListener {
             findNavController().navigate(R.id.action_mainPage_to_notificationScreen)
         }
@@ -68,10 +77,14 @@ class MainScreen : Fragment(R.layout.screen_main) {
             findNavController().navigate(action)
         }
 
-        view?.setOnClickListener {
-            it.hideKeyboard()
+        bind.all.setOnClickListener {
+            val action =
+                MainScreenDirections.actionMainPageToProductsScreen(
+                    nameCategory,
+                    idCategory
+                )
+            findNavController().navigate(action)
         }
-
     }
 
     private fun initObservables() {
@@ -84,22 +97,22 @@ class MainScreen : Fragment(R.layout.screen_main) {
         viewLifecycleOwner.lifecycleScope.launchWhenCreated {
             viewModel.successFlow.collect {
                 viewModel.getNames()
-
                 StaticValue.mainScreenProduct = it
-
-                bind.all.setOnClickListener {
-                    val action =
-                        MainScreenDirections.actionMainPageToProductsScreen(
-                            nameCategory,
-                            idCategory
-                        )
-                    findNavController().navigate(action)
-                }
                 bind.progress.visibility = View.GONE
             }
-
+            viewModel.successFlowCartAdd.collect {
+                navigationViewModel.getAmount()
+            }
+            viewModel.successFlowCartRemove.collect {
+                navigationViewModel.getAmount()
+            }
+            viewModel.errorFlowCartAdd.onEach {
+                navigationViewModel.getAmount()
+            }
+            viewModel.errorFlowCartRemove.collect {
+                navigationViewModel.getAmount()
+            }
         }
-
         StaticValue.mainRequest.observe(viewLifecycleOwner, observer)
 
     }
@@ -107,12 +120,12 @@ class MainScreen : Fragment(R.layout.screen_main) {
     private fun initAdapters() {
         // TabLayout adapter
         if (tabArray == null)
-            viewModel.tabСontentLoad.onEach {
+            viewModel.tabsFlow.onEach {
                 tabMediator?.detach()
                 tabArray = it
                 bind.productsPager.adapter =
                     ProductPagerAdapter(tabArray!!.size, childFragmentManager, lifecycle)
-                val names = tabArray!!.reversed()
+                val names = tabArray!!
                 tabMediator =
                     TabLayoutMediator(bind.tabLayout, bind.productsPager) { tab, position ->
                         tab.text = names[position]
@@ -122,7 +135,7 @@ class MainScreen : Fragment(R.layout.screen_main) {
         else {
             bind.productsPager.adapter =
                 ProductPagerAdapter(tabArray!!.size, childFragmentManager, lifecycle)
-            val names = tabArray!!.reversed()
+            val names = tabArray!!
 
             tabMediator?.detach()
             tabMediator = TabLayoutMediator(bind.tabLayout, bind.productsPager) { tab, position ->
@@ -130,6 +143,7 @@ class MainScreen : Fragment(R.layout.screen_main) {
             }
             tabMediator?.attach()
         }
+
         // SearchView adapter
         bind.listSearch.adapter = adapterSearch
         bind.listSearch.layoutManager = LinearLayoutManager(requireContext())

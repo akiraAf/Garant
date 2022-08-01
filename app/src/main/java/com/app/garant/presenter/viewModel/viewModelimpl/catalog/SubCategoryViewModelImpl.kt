@@ -16,6 +16,7 @@ import com.app.garant.utils.isConnected
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
@@ -30,10 +31,10 @@ class SubCategoryViewModelImpl @Inject constructor(private val categoryRepositor
     override val errorFlow = eventValueFlow<String>()
     override val progressFlow = eventValueFlow<Boolean>()
     override val successSearch = eventValueFlow<ArrayList<String>>()
+
     private lateinit var textToSpeechEngine: TextToSpeech
     private lateinit var startForResult: ActivityResultLauncher<Intent>
     private val search: ArrayList<String> = ArrayList()
-
 
     override fun initial(
         engine: TextToSpeech, launcher: ActivityResultLauncher<Intent>
@@ -67,18 +68,20 @@ class SubCategoryViewModelImpl @Inject constructor(private val categoryRepositor
             progressFlow.emit(true)
         }
         searchJob?.cancel()
-        searchJob = categoryRepository.getSearch(query).onEach {
+        searchJob = viewModelScope.launch {
             delay(500)
-            it.onSuccess { products ->
-                progressFlow.emit(false)
-                products.data.map { search.add(it.name) }
-                successSearch.emit(search)
+            categoryRepository.getSearch(query).collect {
+                it.onSuccess { products ->
+                    progressFlow.emit(false)
+                    products.data.map { search.add(it.name) }
+                    successSearch.emit(search)
+                }
+                it.onFailure { throwable ->
+                    progressFlow.emit(false)
+                    errorFlow.emit(throwable.message.toString())
+                }
             }
-            it.onFailure { throwable ->
-                progressFlow.emit(false)
-                errorFlow.emit(throwable.message.toString())
-            }
-        }.launchIn(viewModelScope)
+        }
     }
 
 }

@@ -10,9 +10,11 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.Flow
 
 interface SubCategoryViewModel {
+
     val errorFlow: Flow<String>
     val progressFlow: Flow<Boolean>
     val successSearch: Flow<ArrayList<String>>
+
     fun initial(engine: TextToSpeech, launcher: ActivityResultLauncher<Intent>): Job
     fun displaySpeechRecognizer()
     fun speak(text: String): Job

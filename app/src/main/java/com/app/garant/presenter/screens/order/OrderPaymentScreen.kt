@@ -13,15 +13,14 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 
-class OrderingPaymentPage : Fragment(R.layout.page_ordering_payment) {
+class OrderPaymentScreen : Fragment(R.layout.page_ordering_payment) {
 
     private val bind by viewBinding(PageOrderingPaymentBinding::bind)
 
 
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-     //   bind.orderRV.adapter = OrderAdapter(orderData, true)
+        //   bind.orderRV.adapter = OrderAdapter(orderData, true)
         bind.orderRV.layoutManager = LinearLayoutManager(activity)
 
         bind.pay.setOnClickListener {

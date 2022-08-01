@@ -4,7 +4,10 @@ import com.app.garant.data.request.cart.CartDeleteRequest
 import com.app.garant.data.request.cart.CartMonthRequest
 import com.app.garant.data.request.cart.CartRequest
 import com.app.garant.data.request.favorite.FavoriteRequest
+import com.app.garant.data.response.branch.BranchResponse
+import com.app.garant.data.response.brand.BrandResponse
 import com.app.garant.data.response.cart.CartDeleteResponse
+import com.app.garant.data.response.cart.EmptyResponse
 import com.app.garant.data.response.cart.CartParchRequest
 import com.app.garant.data.response.cart.CartResponse
 import com.app.garant.data.response.category.allProducts.AllProductsResponse
@@ -13,8 +16,6 @@ import com.app.garant.data.response.category.product.ProductResponse
 import com.app.garant.data.response.category.search.SearchResponse
 import com.app.garant.data.response.favorite.FavoriteResponse
 import kotlinx.coroutines.flow.Flow
-import retrofit2.Response
-import retrofit2.http.Body
 
 interface CategoryRepository {
 
@@ -30,7 +31,7 @@ interface CategoryRepository {
 
     fun getSearch(name: String): Flow<Result<SearchResponse>>
 
-    fun addCart(request: CartRequest): Flow<Result<CartResponse>>
+    fun addCart(request: CartRequest): Flow<Result<EmptyResponse>>
 
     fun getCart(): Flow<Result<CartResponse>>
 
@@ -46,6 +47,9 @@ interface CategoryRepository {
 
     fun getFavorite(): Flow<Result<FavoriteResponse>>
 
+    fun getBrand(): Flow<Result<BrandResponse>>
+
     fun deleteFavorite(request: FavoriteRequest): Flow<Result<FavoriteResponse>>
 
+    fun getBranch(): Flow<Result<BranchResponse>>
 }

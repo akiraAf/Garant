@@ -6,11 +6,8 @@ import androidx.activity.result.ActivityResultLauncher
 import com.app.garant.data.request.cart.CartDeleteRequest
 import com.app.garant.data.request.cart.CartRequest
 import com.app.garant.data.request.favorite.FavoriteRequest
-import com.app.garant.data.response.cart.CartResponse
-import com.app.garant.data.response.category.allProducts.AllProductsResponse
-import com.app.garant.data.response.category.product.ProductResponse
+import com.app.garant.data.response.cart.EmptyResponse
 import com.app.garant.data.response.category.search.SearchResponse
-import com.app.garant.utils.eventValueFlow
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.Flow
 import java.util.ArrayList
@@ -29,7 +26,7 @@ interface SearchProductsScreenViewModel {
     val successFlowFavoriteRemove: Flow<Unit>
     val progressFlowFavorite: Flow<Boolean>
 
-    val successFlowCartAdd: Flow<CartResponse>
+    val successFlowCartAdd: Flow<EmptyResponse>
     val successFlowCartRemove: Flow<Unit>
 
     fun getSearch(name: String)

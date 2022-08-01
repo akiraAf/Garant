@@ -203,7 +203,7 @@
                     android:id="@+id/installment_duration_btns"
                     android:layout_width="wrap_content"
                     android:layout_height="70dp"
-                    android:layout_marginHorizontal="15dp"
+                    android:layout_marginHorizontal="30dp"
                     android:layout_marginTop="15dp"
                     android:orientation="horizontal"
                     android:scrollbars="none"

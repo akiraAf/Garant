@@ -5,7 +5,10 @@ import com.app.garant.data.request.cart.CartMonthRequest
 import com.app.garant.data.request.cart.CartRequest
 import com.app.garant.data.request.favorite.FavoriteRequest
 import com.app.garant.data.request.order.OrderCreateRequest
+import com.app.garant.data.response.branch.BranchResponse
+import com.app.garant.data.response.brand.BrandResponse
 import com.app.garant.data.response.cart.CartDeleteResponse
+import com.app.garant.data.response.cart.EmptyResponse
 import com.app.garant.data.response.cart.CartParchRequest
 import com.app.garant.data.response.cart.CartResponse
 import com.app.garant.data.response.category.allProducts.AllProductsResponse
@@ -31,7 +34,7 @@ interface CategoryApi {
     suspend fun getCategory(): Response<CategoryResponse>
 
     @POST("cart")
-    suspend fun addCart(@Body data: CartRequest): Response<CartResponse>
+    suspend fun addCart(@Body data: CartRequest): Response<EmptyResponse>
 
     @GET("cart")
     suspend fun getCart(): Response<CartResponse>
@@ -60,5 +63,10 @@ interface CategoryApi {
     @POST("order")
     suspend fun createOrder(@Body data: OrderCreateRequest): Response<Unit>
 
+    @GET("brand")
+    suspend fun getBrand(): Response<BrandResponse>
+
+    @GET("branch")
+    suspend fun getBranch(): Response<BranchResponse>
 
 }
