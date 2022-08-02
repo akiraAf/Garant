@@ -17,6 +17,7 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:text="Samsung" />
 
+
     <androidx.appcompat.widget.AppCompatCheckBox
         android:id="@+id/check_box"
         android:layout_width="40sp"
@@ -24,4 +25,5 @@
         android:button="@drawable/brand_selector"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -36,7 +36,11 @@ class ChangePhoneScreen : Fragment(R.layout.screen_change_number) {
         super.onViewCreated(view, savedInstanceState)
 
 
-
+        bind.inputNewNumber.setOnFocusChangeListener { v, hasFocus ->
+            if (hasFocus) {
+                bind.inputNewNumber.setText(" ")
+            }
+        }
         bind.inputCurrentNumber.setText("  ${MyPref(App.instance).phoneNumber}")
 
         view.setOnClickListener {

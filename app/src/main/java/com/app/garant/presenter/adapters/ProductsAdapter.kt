@@ -28,7 +28,7 @@ class ProductsAdapter : ListAdapter<Product, ProductsAdapter.ProductVH>(MyDifUti
             oldItem: Product,
             newItem: Product
         ): Boolean {
-            return oldItem == newItem
+            return oldItem.id == newItem.id
         }
 
         @SuppressLint("DiffUtilEquals")
@@ -36,7 +36,7 @@ class ProductsAdapter : ListAdapter<Product, ProductsAdapter.ProductVH>(MyDifUti
             oldItem: Product,
             newItem: Product
         ): Boolean {
-            return oldItem == newItem
+            return oldItem.id == newItem.id
         }
     }
 
@@ -69,10 +69,12 @@ class ProductsAdapter : ListAdapter<Product, ProductsAdapter.ProductVH>(MyDifUti
 
             bind.btnAddToBasket.setOnCheckedChangeListener { buttonView, isChecked ->
                 itemCartListener?.invoke(item, absoluteAdapterPosition, isChecked)
+                item.is_cart = if (isChecked) 1 else 0
             }
 
             bind.favorite.setOnCheckedChangeListener { buttonView, isChecked ->
                 itemFavoriteListener?.invoke(item, absoluteAdapterPosition, isChecked)
+                item.is_favorite = if (isChecked) 1 else 0
             }
 
         }

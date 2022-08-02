@@ -11,8 +11,8 @@ data class Product(
     val discount_price: Int,
     val id: Int,
     val image: String,
-    val is_cart: Int,
-    val is_favorite: Int,
+    var is_cart: Int,
+    var is_favorite: Int,
     val monthly_price: Int,
     val name: String,
     val price: Int

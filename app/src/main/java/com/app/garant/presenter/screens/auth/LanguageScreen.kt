@@ -23,14 +23,13 @@ class LanguageScreen : Fragment(R.layout.screen_language) {
 
 
         bind.russianLanguageBg.setOnClickListener {
-            MyPref(App.instance).startScreen = false
             openAuth()
         }
 
         bind.uzbekLanguageBg.setOnClickListener {
-            MyPref(App.instance).startScreen = false
             openAuth()
         }
+        MyPref(App.instance).account = false
     }
 
     fun openAuth() {

@@ -31,7 +31,7 @@ class CartAdapter : ListAdapter<Product, CartAdapter.CartVH>(MyDifUtils) {
             oldItem: Product,
             newItem: Product
         ): Boolean {
-            return oldItem == newItem
+            return oldItem.id == newItem.id
         }
 
         @SuppressLint("DiffUtilEquals")
@@ -39,7 +39,7 @@ class CartAdapter : ListAdapter<Product, CartAdapter.CartVH>(MyDifUtils) {
             oldItem: Product,
             newItem: Product
         ): Boolean {
-            return oldItem == newItem
+            return oldItem.id == newItem.id
         }
     }
 
@@ -67,8 +67,8 @@ class CartAdapter : ListAdapter<Product, CartAdapter.CartVH>(MyDifUtils) {
             countX = value.count
 
             bind.close.setOnClickListener {
-
                 itemDeleteListener?.invoke(value, absoluteAdapterPosition)
+                notifyItemRemoved(absoluteAdapterPosition)
             }
             bind.plus.setOnClickListener {
                 bind.count.text = (++countX).toString() + " шт"

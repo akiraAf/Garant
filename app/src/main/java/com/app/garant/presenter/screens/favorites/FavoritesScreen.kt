@@ -114,11 +114,17 @@ class FavoritesScreen : Fragment(R.layout.screen_favorites) {
             popUpMenu.setOnMenuItemClickListener { menu ->
                 when (menu.itemId) {
                     R.id.cheaper_products_filter -> {
-                        StaticValue.filter.value = Unit
+
                     }
-                    R.id.discount_products_filter -> {}
-                    R.id.new_products_filter -> {}
-                    R.id.expensive_products_filter -> {}
+                    R.id.discount_products_filter -> {
+
+                    }
+                    R.id.new_products_filter -> {
+
+                    }
+                    R.id.expensive_products_filter -> {
+
+                    }
                 }
                 false
             }

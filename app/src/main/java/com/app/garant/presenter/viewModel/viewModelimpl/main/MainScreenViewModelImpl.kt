@@ -121,16 +121,6 @@ class MainScreenViewModelImpl @Inject constructor(private val categoryRepository
             }
 
         }
-//        categoryRepository.addCart(request).onEach {
-//            it.onSuccess {
-//                progressFlowCartAdd.emit(false)
-//                successFlowCartAdd.emit(Unit)
-//            }
-//            it.onFailure { throwable ->
-//                progressFlowCartAdd.emit(false)
-//                errorFlowCartAdd.emit(throwable.message.toString())
-//            }
-//        }.launchIn(viewModelScope)
     }
 
     override fun removeCart(request: CartDeleteRequest) {

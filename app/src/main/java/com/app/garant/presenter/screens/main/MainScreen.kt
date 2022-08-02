@@ -19,7 +19,9 @@ import androidx.navigation.navGraphViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.app.garant.R
+import com.app.garant.app.App
 import com.app.garant.data.other.StaticValue
+import com.app.garant.data.pref.MyPref
 import com.app.garant.databinding.ScreenMainBinding
 import com.app.garant.presenter.adapters.main.BannerSalesAdapter
 import com.app.garant.presenter.adapters.main.ProductPagerAdapter
@@ -30,6 +32,7 @@ import com.app.garant.presenter.viewModel.viewModelimpl.main.MainScreenViewModel
 import com.app.garant.presenter.viewModel.viewModelimpl.navigation.NavigationScreenViewModelImpl
 import com.app.garant.utils.hideKeyboard
 import com.app.garant.utils.scope
+import com.app.garant.utils.showToast
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
@@ -40,7 +43,9 @@ class MainScreen : Fragment(R.layout.screen_main) {
 
     private val bind by viewBinding(ScreenMainBinding::bind)
     private val viewModel: MainScreenViewModel by viewModels<MainScreenViewModelImpl>()
-    private val navigationViewModel: NavigationScreenViewModel by navGraphViewModels<NavigationScreenViewModelImpl>(R.id.nav_main)
+    private val navigationViewModel: NavigationScreenViewModel by navGraphViewModels<NavigationScreenViewModelImpl>(
+        R.id.nav_main
+    )
     private val adapterSearch by lazy { SearchAdapter() }
     private var tabArray: ArrayList<String>? = null
     private var tabMediator: TabLayoutMediator? = null
@@ -49,6 +54,7 @@ class MainScreen : Fragment(R.layout.screen_main) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
 
         viewModel.getProducts()
         initAdapters()
@@ -97,7 +103,6 @@ class MainScreen : Fragment(R.layout.screen_main) {
         viewLifecycleOwner.lifecycleScope.launchWhenCreated {
             viewModel.successFlow.collect {
                 viewModel.getNames()
-                StaticValue.mainScreenProduct = it
                 bind.progress.visibility = View.GONE
             }
             viewModel.successFlowCartAdd.collect {

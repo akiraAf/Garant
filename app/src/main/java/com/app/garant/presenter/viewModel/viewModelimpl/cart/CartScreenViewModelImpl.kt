@@ -13,6 +13,7 @@ import com.app.garant.utils.eventValueFlow
 import com.app.garant.utils.isConnected
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -64,11 +65,10 @@ class CartScreenViewModelImpl @Inject constructor(
         }
 
         getCartJob = viewModelScope.launch {
-
             progressFlowGetCart.emit(true)
 
+            delay(500)
             categoryRepository.getCart().collect {
-
                 available.clear()
                 unavailable.clear()
 
@@ -118,6 +118,8 @@ class CartScreenViewModelImpl @Inject constructor(
                     progressFlowDeleteAvailable.emit(false)
                 }
             }
+            delay(3500)
+            getCart()
         }
     }
 
@@ -144,17 +146,20 @@ class CartScreenViewModelImpl @Inject constructor(
         }
         putCartMonthJob?.cancel()
         putCartMonthJob = viewModelScope.launch {
-            categoryRepository.putCartMonth(request).onEach {
+            progressPutCart.emit(true)
+            categoryRepository.putCartMonth(request).collect {
                 it.onSuccess {
                     successPutCart.emit(Unit)
                     progressPutCart.emit(false)
+                    delay(3500)
+                    getCart()
                 }
                 it.onFailure { throwable ->
                     errorPutCart.emit(throwable.message.toString())
                     progressPutCart.emit(false)
-
                 }
             }
+            progressPutCart.emit(false)
         }
     }
 
@@ -169,6 +174,8 @@ class CartScreenViewModelImpl @Inject constructor(
                 it.onSuccess {
                     successPatchCart.emit(Unit)
                     progressPatchCart.emit(false)
+                    delay(3500)
+                    getCart()
                 }
                 it.onFailure { throwable ->
                     errorPatchCart.emit(throwable.message.toString())

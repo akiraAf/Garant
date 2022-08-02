@@ -18,7 +18,6 @@ import com.app.garant.data.other.StaticValue
 import com.app.garant.data.request.cart.CartDeleteRequest
 import com.app.garant.data.request.cart.CartMonthRequest
 import com.app.garant.data.response.cart.CartParchRequest
-import com.app.garant.data.response.cart.CartResponse
 import com.app.garant.data.response.cart.Product
 import com.app.garant.databinding.ScreenBasketBinding
 import com.app.garant.presenter.adapters.CartAdapter
@@ -26,9 +25,14 @@ import com.app.garant.presenter.dialogs.DialogCleanBasket
 import com.app.garant.presenter.dialogs.DialogDeleteItemBasket
 import com.app.garant.presenter.viewModel.cart.CartViewModel
 import com.app.garant.presenter.viewModel.viewModelimpl.cart.CartScreenViewModelImpl
+import com.app.garant.utils.scope
+import com.app.garant.utils.showToast
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
 import java.util.*
 
 @AndroidEntryPoint
@@ -39,10 +43,9 @@ class CartScreen : Fragment(R.layout.screen_basket) {
     private val numberFormat = NumberFormat.getNumberInstance(Locale.CANADA)
     private val cartAdapter by lazy { CartAdapter() }
     private val cartAdapterUn by lazy { CartAdapter() }
-    private var available = ArrayList<Product>()
 
-    private var cardData =  mutableListOf<Product>()
-    private var cardDataUn =  mutableListOf<Product>()
+    private var cartData = mutableListOf<Product>()
+    private var cartDataUn = mutableListOf<Product>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -72,8 +75,9 @@ class CartScreen : Fragment(R.layout.screen_basket) {
                 viewModel.deleteCart(
                     CartDeleteRequest(product.id)
                 )
-                cardData.remove(product)
-                cartAdapter.submitList(cardData)
+                cartData.remove(product)
+                cartAdapter.submitList(cartData)
+                cartIsEmpty()
                 dialog.dismiss()
             }
         }
@@ -88,8 +92,9 @@ class CartScreen : Fragment(R.layout.screen_basket) {
                 viewModel.deleteCart(
                     CartDeleteRequest(product.id)
                 )
-                cardDataUn.remove(product)
-                cartAdapterUn.submitList(cardData)
+                cartDataUn.remove(product)
+                cartAdapterUn.submitList(cartDataUn)
+                cartIsEmpty()
                 dialog.dismiss()
             }
         }
@@ -105,7 +110,6 @@ class CartScreen : Fragment(R.layout.screen_basket) {
                 viewModel.deleteAllCart()
                 bind.emptyCart.visibility = View.VISIBLE
                 bind.NestedScrollView.visibility = View.GONE
-                StaticValue.cartCheck = true
                 dialog.dismiss()
             }
         }
@@ -115,11 +119,15 @@ class CartScreen : Fragment(R.layout.screen_basket) {
         }
 
         bind.bookInstallment.setOnClickListener {
-            val action: NavDirections =
-                CartScreenDirections.actionBasketPageToCheckBasketPage(
-                    available.toTypedArray()
-                )
-            findNavController().navigate(action)
+            if (cartData.isNotEmpty()) {
+                val action: NavDirections =
+                    CartScreenDirections.actionBasketPageToCheckBasketPage(
+                        cartData.toTypedArray()
+                    )
+                findNavController().navigate(action)
+            } else {
+                showToast("Доступных товаров для заказа не имеется")
+            }
         }
 
         bind.goToCatalog.setOnClickListener {
@@ -162,6 +170,7 @@ class CartScreen : Fragment(R.layout.screen_basket) {
 
 
         viewModel.progressFlowGetCart.onEach {
+            delay(1000)
             bind.progress.isVisible = it
         }.launchIn(viewLifecycleOwner.lifecycleScope)
 
@@ -178,10 +187,12 @@ class CartScreen : Fragment(R.layout.screen_basket) {
                 bind.emptyCart.visibility = View.GONE
                 bind.NestedScrollView.visibility = View.VISIBLE
             }
-            cardData.clear()
-            cardData.addAll(it)
+            cartData.clear()
+            cartData.addAll(it)
             cartAdapter.submitList(it)
+            cartAdapter.notifyDataSetChanged()
         }.launchIn(viewLifecycleOwner.lifecycleScope)
+
 
         viewModel.successFlowCartUnavailable.onEach {
             if (it.isNotEmpty()) {
@@ -189,9 +200,10 @@ class CartScreen : Fragment(R.layout.screen_basket) {
                 bind.unavailableTv.visibility = View.VISIBLE
                 bind.NestedScrollView.visibility = View.VISIBLE
             }
-            cardDataUn.clear()
-            cardDataUn.addAll(it)
+            cartDataUn.clear()
+            cartDataUn.addAll(it)
             cartAdapterUn.submitList(it)
+            cartAdapterUn.notifyDataSetChanged()
         }.launchIn(viewLifecycleOwner.lifecycleScope)
 
         viewModel.successFlowGetCart.onEach {
@@ -202,14 +214,32 @@ class CartScreen : Fragment(R.layout.screen_basket) {
             month_btns(it.month.id)
         }.launchIn(viewLifecycleOwner.lifecycleScope)
 
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.progressPutCart.collect {
+                delay(500)
+                bind.progress.isVisible = it
+                btnIsEnable(it)
+            }
+        }
+
+
     }
 
     private fun price_converter(price: Long): String {
-        numberFormat.maximumFractionDigits = 0;
+        numberFormat.maximumFractionDigits = 0
         val convert = numberFormat.format(price)
         return (convert.replace(",", " ") + " cум")
     }
 
+    override fun onResume() {
+        super.onResume()
+        bind.progress.isVisible = true
+    }
+
+    override fun onStart() {
+        super.onStart()
+        viewModel.getCart()
+    }
 
     private fun month_btns(id: Int) {
 
@@ -301,7 +331,22 @@ class CartScreen : Fragment(R.layout.screen_basket) {
                 }
             }
         }
+    }
 
+    private fun btnIsEnable(bool: Boolean) = bind.scope {
+        button1Month.isEnabled = !bool
+        button3Month.isEnabled = !bool
+        button6Month.isEnabled = !bool
+        button9Month.isEnabled = !bool
+        button12Month.isEnabled = !bool
+    }
 
+    private fun cartIsEmpty() {
+        if (cartData.isEmpty() && cartDataUn.isEmpty()) {
+            bind.emptyCart.visibility = View.GONE
+            bind.NestedScrollView.visibility = View.VISIBLE
+        } else if (cartDataUn.isEmpty()) {
+            bind.unavailableTv.isVisible = false
+        }
     }
 }

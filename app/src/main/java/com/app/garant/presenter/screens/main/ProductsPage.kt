@@ -23,6 +23,7 @@ import com.app.garant.presenter.viewModel.viewModelimpl.main.MainScreenViewModel
 import com.app.garant.presenter.viewModel.viewModelimpl.main.ProdutsPageViewModelImpl
 import com.app.garant.utils.showToast
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -38,7 +39,6 @@ class ProductsPage(private val positionOnViewPager: Int) : Fragment(R.layout.pag
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
 
         bind.recycler.adapter = adapterProduct
         bind.recycler.layoutManager =
@@ -82,11 +82,11 @@ class ProductsPage(private val positionOnViewPager: Int) : Fragment(R.layout.pag
         }
 
         viewModel.successFlowCartRemove.onEach {
-            viewModel.getProducts()
             showToast("success")
         }.launchIn(lifecycleScope)
 
         viewModel.errorFlowCartRemove.onEach {
+            delay(5000)
             Log.d("RRR", "error removeCart: $it")
         }.launchIn(lifecycleScope)
 
@@ -95,6 +95,7 @@ class ProductsPage(private val positionOnViewPager: Int) : Fragment(R.layout.pag
         }.launchIn(lifecycleScope)
 
         viewModel.errorFlowCartAdd.onEach {
+            delay(3000)
             Log.d("RRR", "error addCart: $it")
         }.launchIn(lifecycleScope)
     }

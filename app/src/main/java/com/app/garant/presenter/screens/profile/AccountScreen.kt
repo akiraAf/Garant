@@ -57,19 +57,13 @@ class AccountScreen : Fragment(R.layout.screen_account) {
             bind.save.text = "ДАЛЕЕ"
         }
 
-        if (!checkAcc) {
+        if (checkAcc) {
             viewModel.getUserInfo()
-        } else {
-            getUserInfo()
         }
 
         val phoneNumber = MyPref(App.instance).phoneNumber
         bind.inputPhoneNumber.setText("  $phoneNumber")
         bind.inputPhoneNumber.isEnabled = false
-
-        viewModel.progressFlow.onEach {
-            //    bind.progress.isVisible = true
-        }.launchIn(viewLifecycleOwner.lifecycleScope)
 
 
         viewModel.errorFlow.onEach {
@@ -92,6 +86,7 @@ class AccountScreen : Fragment(R.layout.screen_account) {
         // viewModel success flow regions, profession and save
         getAddress()
         getProfession()
+        getUserInfo()
         save()
         docUpload()
     }
@@ -209,7 +204,6 @@ class AccountScreen : Fragment(R.layout.screen_account) {
     private fun getUserInfo() {
 
         viewModel.successFlowGetUserInfo.onEach {
-            delay(1000)
             bind.header.isVisible = true
             bind.progress.isVisible = false
             if (it.documents.passport == "waiting") {

@@ -30,10 +30,10 @@ class AuthorizationScreen : Fragment(R.layout.screen_authorization) {
     private val bind by viewBinding(ScreenAuthorizationBinding::bind)
     private val viewModel: AuthorizationViewModel by viewModels<AuthorizationViewModelImpl>()
     private val bundle = Bundle()
+
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-
 
         bind.back.setOnClickListener {
             findNavController().popBackStack()
@@ -43,7 +43,13 @@ class AuthorizationScreen : Fragment(R.layout.screen_authorization) {
             it.hideKeyboard()
         }
 
-        bind.inputPhoneNumber.setText("")
+        bind.inputPhoneNumber.setOnFocusChangeListener { v, hasFocus ->
+            if (hasFocus) {
+                bind.inputPhoneNumber.setText(" ")
+                bind.inputPhoneNumber.setText(" ")
+            }
+        }
+
 
         bind.next.setOnClickListener {
             val phoneNumber = bind.inputPhoneNumber.text?.toString()
