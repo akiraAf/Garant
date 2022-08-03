@@ -5,9 +5,11 @@ import android.os.Bundle
 import android.os.CountDownTimer
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.KeyEvent
 import android.view.View
 import android.widget.EditText
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -36,6 +38,7 @@ class VerificationScreen() : Fragment(R.layout.screen_verification) {
     private val viewModel: VerifyViewModel by viewModels<VerifyViewModelImpl>()
     private var phone: String = ""
     private var verifyCode = ""
+    private var attemps = 0
 
 
     override fun onAttach(context: Context) {
@@ -47,6 +50,7 @@ class VerificationScreen() : Fragment(R.layout.screen_verification) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) = bind.scope {
         super.onViewCreated(view, savedInstanceState)
+
 
         bind.back.setOnClickListener {
             findNavController().popBackStack()
@@ -65,27 +69,36 @@ class VerificationScreen() : Fragment(R.layout.screen_verification) {
         timerX.start()
 
         bind.confirm.setOnClickListener {
-            if (inputOne.text.toString().isNotEmpty() &&
-                inputTwo.text.toString().isNotEmpty() &&
-                inputThree.text.toString().isNotEmpty() &&
-                inputFour.text.toString().isNotEmpty()
-            ) {
-                verifyCode = ""
-                verifyCode += inputOne.text?.toString()
-                verifyCode += inputTwo.text?.toString()
-                verifyCode += inputThree.text?.toString()
-                verifyCode += inputFour.text?.toString()
+            ++attemps
+            if (attemps <= 10) {
+                if (inputOne.text.toString().isNotEmpty() &&
+                    inputTwo.text.toString().isNotEmpty() &&
+                    inputThree.text.toString().isNotEmpty() &&
+                    inputFour.text.toString().isNotEmpty()
+                ) {
+                    verifyCode = ""
+                    verifyCode += inputOne.text?.toString()
+                    verifyCode += inputTwo.text?.toString()
+                    verifyCode += inputThree.text?.toString()
+                    verifyCode += inputFour.text?.toString()
 
-                if (phone.isNotEmpty() && verifyCode.length == 4)
-                    viewModel.sendVerify(
-                        VerifyRequest(
-                            phone.toLong(),
-                            verifyCode.trim().toInt()
+                    if (phone.isNotEmpty() && verifyCode.length == 4)
+                        viewModel.sendVerify(
+                            VerifyRequest(
+                                phone.toLong(),
+                                verifyCode.trim().toInt()
+                            )
                         )
-                    )
 
+                } else {
+                    bind.attempt1.isVisible = true
+                }
+                if (attemps >= 3) {
+                    bind.attempt2.isVisible = true
+                    bind.attempt2.text = "Осталось попыток: $attemps из 10"
+                }
             } else {
-                showToast("Введите код подтверждения")
+                showToast("Попробуйте позже")
             }
         }
 
@@ -97,7 +110,7 @@ class VerificationScreen() : Fragment(R.layout.screen_verification) {
         nextAndBackFocus()
 
         viewModel.errorFlow.onEach {
-            showToast(it)
+            Log.d("LOL", "VerificationScreen: $it")
         }.launchIn(lifecycleScope)
 
         viewModel.successFlow.onEach {

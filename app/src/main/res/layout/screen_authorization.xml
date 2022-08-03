@@ -59,7 +59,6 @@
         android:layout_height="60dp"
         android:layout_marginHorizontal="30dp"
         android:background="@drawable/dark_grey_bg"
-        android:cursorVisible="false"
         android:drawableStart="@drawable/ic_phone_white"
         android:drawablePadding="15dp"
         android:hint="@string/number_phone"
@@ -75,9 +74,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.38"
-        app:mask="+998 (__) ___-__-__"
-        app:maskCharacter="_"
-        app:maskStyle="persistent"
         app:startIconDrawable="@drawable/ic_phone" />
 
     <!--    <com.vicmikhailau.maskededittext.MaskedEditText-->

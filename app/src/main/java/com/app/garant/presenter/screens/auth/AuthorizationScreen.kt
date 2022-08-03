@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
+import android.view.KeyEvent
 import android.view.View
 import android.widget.EditText
 import androidx.fragment.app.Fragment
@@ -22,6 +23,9 @@ import com.app.garant.presenter.viewModel.viewModelimpl.auth.AuthorizationViewMo
 import com.app.garant.utils.hideKeyboard
 import com.app.garant.utils.isConnected
 import com.app.garant.utils.showToast
+import com.santalu.maskara.Mask
+import com.santalu.maskara.MaskChangedListener
+import com.santalu.maskara.MaskStyle
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -34,6 +38,15 @@ class AuthorizationScreen : Fragment(R.layout.screen_authorization) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        val mask = Mask(
+            value = "+___ (__) ___ __ __",
+            character = '_',
+            style = MaskStyle.COMPLETABLE
+        )
+        val listener = MaskChangedListener(mask)
+        bind.inputPhoneNumber.addTextChangedListener(listener)
+
 
         bind.back.setOnClickListener {
             findNavController().popBackStack()
