@@ -53,7 +53,7 @@ class CartAdapter : ListAdapter<Product, CartAdapter.CartVH>(MyDifUtils) {
         }
 
         private fun price_converter(price: Long): String {
-           // numberFormat.maximumFractionDigits = 0;
+            // numberFormat.maximumFractionDigits = 0;
             val convert = numberFormat.format(price)
             return (convert.replace(",", " ") + " cум")
         }

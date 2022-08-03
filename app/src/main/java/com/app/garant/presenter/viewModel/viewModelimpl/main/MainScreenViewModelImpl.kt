@@ -58,6 +58,9 @@ class MainScreenViewModelImpl @Inject constructor(private val categoryRepository
         if (!isConnected()) {
             return
         }
+        viewModelScope.launch {
+            progressFlow.emit(true)
+        }
 
         categoryRepository.getProducts().onEach {
             it.onSuccess { products ->

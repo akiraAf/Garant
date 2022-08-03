@@ -43,7 +43,6 @@ class FavoritesScreen : Fragment(R.layout.screen_favorites) {
         bind.favoriteRV.adapter = adapterProduct
         bind.favoriteRV.layoutManager = GridLayoutManager(requireContext(), 2)
 
-        initPanel()
         initObserver()
         initClicks()
     }
@@ -105,41 +104,5 @@ class FavoritesScreen : Fragment(R.layout.screen_favorites) {
 
     }
 
-    private fun initPanel() {
-        bind.sort.setOnClickListener {
-            val wrapper: Context =
-                ContextThemeWrapper(requireContext(), R.style.Widget_App_PopupMenu)
-            val popUpMenu = PopupMenu(wrapper, it)
-            popUpMenu.inflate(R.menu.pop_menu)
-            popUpMenu.setOnMenuItemClickListener { menu ->
-                when (menu.itemId) {
-                    R.id.cheaper_products_filter -> {
 
-                    }
-                    R.id.discount_products_filter -> {
-
-                    }
-                    R.id.new_products_filter -> {
-
-                    }
-                    R.id.expensive_products_filter -> {
-
-                    }
-                }
-                false
-            }
-            popUpMenu.show()
-        }
-
-        bind.filter.setOnClickListener {
-            val dialog = DialogFilter()
-            dialog.show(childFragmentManager, "DIALOG_FILTER")
-            dialog.setReset {
-                dialog.dismiss()
-            }
-            dialog.setUse {
-                dialog.dismiss()
-            }
-        }
-    }
 }

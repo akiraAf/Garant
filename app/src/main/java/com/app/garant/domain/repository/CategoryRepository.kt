@@ -52,4 +52,9 @@ interface CategoryRepository {
     fun deleteFavorite(request: FavoriteRequest): Flow<Result<FavoriteResponse>>
 
     fun getBranch(): Flow<Result<BranchResponse>>
+
+    fun filterDiscountPercentage(
+        compilations_id: Int,
+        discount_percentage_id: Int
+    ): Flow<Result<AllProductsResponse>>
 }

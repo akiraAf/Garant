@@ -39,12 +39,18 @@ interface ProductsScreenViewModel {
     val progressFlowFavoriteRemove: Flow<Boolean>
     val errorFlowFavoriteRemove: Flow<String>
 
+//    val successFlowFilter: Flow<AllProductsResponse>
+//    val progressFlowFilter: Flow<Boolean>
+//    val errorFlowFilter: Flow<String>
+
     fun getAllProducts(id: Int)
 
     fun search(query: String)
     fun initial(engine: TextToSpeech, launcher: ActivityResultLauncher<Intent>): Job
     fun displaySpeechRecognizer()
     fun speak(text: String): Job
+
+    fun filterDiscountPercentage(compilations_id: Int, discount_percentage_id: Int)
 
     fun addCart(request: CartRequest)
     fun removeCart(request: CartDeleteRequest)

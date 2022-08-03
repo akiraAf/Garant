@@ -39,9 +39,13 @@ class DialogFilter : DialogFragment(R.layout.dialog_filter) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
         viewModel.getBrand()
+
         viewModel.successFlowGetBrand.onEach {
             brandAdapter.submitList(it)
+            bind.recycler.adapter = brandAdapter
+            bind.recycler.layoutManager = LinearLayoutManager(requireContext())
         }.launchIn(viewLifecycleOwner.lifecycleScope)
+
 
         bind.yesBtn
             .setOnClickListener {
@@ -52,10 +56,6 @@ class DialogFilter : DialogFragment(R.layout.dialog_filter) {
             .setOnClickListener {
                 reset?.invoke(Unit)
             }
-
-
-        bind.recycler.adapter = brandAdapter
-        bind.recycler.layoutManager = LinearLayoutManager(requireContext())
 
     }
 

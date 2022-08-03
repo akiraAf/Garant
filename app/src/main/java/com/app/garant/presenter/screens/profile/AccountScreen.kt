@@ -56,9 +56,9 @@ class AccountScreen : Fragment(R.layout.screen_account) {
         if (args.entryFlag) {
             bind.save.text = "ДАЛЕЕ"
         }
-
+        viewModel.getUserInfo()
         if (checkAcc) {
-            viewModel.getUserInfo()
+
         }
 
         val phoneNumber = MyPref(App.instance).phoneNumber

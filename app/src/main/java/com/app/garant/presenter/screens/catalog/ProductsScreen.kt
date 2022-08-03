@@ -34,6 +34,7 @@ import com.app.garant.presenter.dialogs.DialogFilter
 import com.app.garant.presenter.viewModel.catolog.ProductsScreenViewModel
 import com.app.garant.presenter.viewModel.viewModelimpl.catalog.ProductsScreenViewModelImpl
 import com.app.garant.utils.hideKeyboard
+import com.app.garant.utils.showToast
 import com.mindorks.editdrawabletext.DrawablePosition
 import com.mindorks.editdrawabletext.onDrawableClickListener
 import dagger.hilt.android.AndroidEntryPoint
@@ -55,8 +56,8 @@ class ProductsScreen : Fragment(R.layout.screen_products) {
         super.onViewCreated(view, savedInstanceState)
 
         bind.nameCategory.text = args.name
-        val idCategory = args.id + 1
 
+        val idCategory = args.id + 1
         if (idCategory <= 2)
             viewModel.getAllProducts(idCategory)
         else
@@ -66,6 +67,8 @@ class ProductsScreen : Fragment(R.layout.screen_products) {
         initClicks()
         voiceSearch()
         searchList()
+        initPanel()
+
 
         view.setOnClickListener {
             it.hideKeyboard()
@@ -263,6 +266,56 @@ class ProductsScreen : Fragment(R.layout.screen_products) {
                     viewModel.search(query)
             }
         })
+    }
+
+
+    private fun initPanel() {
+
+        var click: Boolean = true
+
+        bind.sort.setOnClickListener {
+            val wrapper: Context =
+                ContextThemeWrapper(requireContext(), R.style.Widget_App_PopupMenu)
+            val popUpMenu = PopupMenu(wrapper, it)
+            popUpMenu.inflate(R.menu.pop_menu)
+
+            popUpMenu.setOnMenuItemClickListener { menu ->
+                    when (menu.itemId) {
+                    R.id.cheaper_products_filter -> {
+                    }
+                    R.id.discount_products_filter -> {
+                        click = if (click) {
+                            productAdapter.notifyDataSetChanged()
+                            viewModel.filterDiscountPercentage(args.id + 1, 1)
+                            false
+                        } else {
+                            productAdapter.notifyDataSetChanged()
+                            viewModel.filterDiscountPercentage(args.id + 1, 0)
+                            true
+                        }
+                    }
+                    R.id.new_products_filter -> {
+
+                    }
+                    R.id.expensive_products_filter -> {
+
+                    }
+                }
+                false
+            }
+            popUpMenu.show()
+        }
+
+        bind.filter.setOnClickListener {
+            val dialog = DialogFilter()
+            dialog.show(childFragmentManager, "DIALOG_FILTER")
+            dialog.setReset {
+                dialog.dismiss()
+            }
+            dialog.setUse {
+                dialog.dismiss()
+            }
+        }
     }
 
 

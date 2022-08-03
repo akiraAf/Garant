@@ -39,7 +39,11 @@
             app:popExitAnim="@android:anim/fade_out" />
         <action
             android:id="@+id/action_profileScreen_to_accountScreen"
-            app:destination="@id/accountScreen" />
+            app:destination="@id/accountScreen"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@android:anim/fade_in"
+            app:popExitAnim="@android:anim/fade_out" />
     </fragment>
     <fragment
         android:id="@+id/accountScreen"
@@ -48,11 +52,15 @@
         tools:layout="@layout/screen_account">
         <argument
             android:name="entryFlag"
-            app:argType="boolean"
-            android:defaultValue="false" />
+            android:defaultValue="false"
+            app:argType="boolean" />
         <action
             android:id="@+id/action_accountScreen_to_profileScreen"
-            app:destination="@id/profileScreen" />
+            app:destination="@id/profileScreen"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@android:anim/fade_in"
+            app:popExitAnim="@android:anim/fade_out" />
     </fragment>
     <fragment
         android:id="@+id/changePhoneNumberPage"

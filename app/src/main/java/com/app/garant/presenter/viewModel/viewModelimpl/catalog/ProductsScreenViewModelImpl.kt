@@ -53,6 +53,10 @@ class ProductsScreenViewModelImpl @Inject constructor(private val categoryReposi
     override val progressFlowFavoriteRemove = eventValueFlow<Boolean>()
     override val errorFlowFavoriteRemove = eventValueFlow<String>()
 
+//    override val successFlowFilter = eventValueFlow<AllProductsResponse>()
+//    override val progressFlowFilter = eventValueFlow<Boolean>()
+//    override val errorFlowFilter = eventValueFlow<String>()
+
     private lateinit var textToSpeechEngine: TextToSpeech
     private lateinit var startForResult: ActivityResultLauncher<Intent>
     private val search: ArrayList<String> = ArrayList()
@@ -198,4 +202,21 @@ class ProductsScreenViewModelImpl @Inject constructor(private val categoryReposi
     }
 
 
+    override fun filterDiscountPercentage(compilations_id: Int, discount_percentage_id: Int) {
+        if (!isConnected()) {
+            return
+        }
+
+        categoryRepository.filterDiscountPercentage(compilations_id, discount_percentage_id)
+            .onEach {
+                it.onSuccess { data ->
+                    progressFlow.emit(false)
+                    successFlow.emit(data)
+                }
+                it.onFailure { throwable ->
+                    progressFlow.emit(false)
+                    errorFlow.emit(throwable.message.toString())
+                }
+            }.launchIn(viewModelScope)
+    }
 }

@@ -20,7 +20,7 @@ class BrandAdapter : ListAdapter<BrandResponseItem, BrandAdapter.BrandVH>(MyDifU
             oldItem: BrandResponseItem,
             newItem: BrandResponseItem
         ): Boolean {
-            return oldItem == newItem
+            return oldItem.id == newItem.id
         }
 
         @SuppressLint("DiffUtilEquals")
@@ -28,7 +28,7 @@ class BrandAdapter : ListAdapter<BrandResponseItem, BrandAdapter.BrandVH>(MyDifU
             oldItem: BrandResponseItem,
             newItem: BrandResponseItem
         ): Boolean {
-            return oldItem == newItem
+            return oldItem.id == newItem.id
         }
     }
 

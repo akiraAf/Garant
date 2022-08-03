@@ -241,4 +241,15 @@ class CategoryRepositoryImpl @Inject constructor(
         emit(Result.failure(Throwable(it.message.toString())))
     }.flowOn(Dispatchers.IO)
 
+    override fun filterDiscountPercentage(compilations_id: Int, discount_percentage_id: Int): Flow<Result<AllProductsResponse>> = flow {
+        val response = api.filterDiscountPercentage(compilations_id,discount_percentage_id)
+        if (response.isSuccessful) {
+            emit(Result.success(response.body()!!))
+        } else {
+            emit(Result.failure(Throwable(response.errorBody().toString())))
+        }
+    }.catch {
+        emit(Result.failure(Throwable(it.message.toString())))
+    }.flowOn(Dispatchers.IO)
+
 }

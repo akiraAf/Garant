@@ -51,9 +51,6 @@
         <action
             android:id="@+id/action_navigationScreen_to_languageScreen"
             app:destination="@id/languageScreen" />
-        <action
-            android:id="@+id/action_navigationScreen_to_noConnectionScreen"
-            app:destination="@id/noConnectionScreen" />
     </fragment>
     <fragment
         android:id="@+id/noConnectionScreen"

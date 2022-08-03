@@ -26,7 +26,7 @@
             android:id="@+id/recycler"
             android:layout_width="323dp"
             android:layout_height="160dp"
-            android:layout_marginHorizontal="15dp"
+            android:layout_marginStart="15dp"
             app:layout_constraintBottom_toTopOf="@+id/price"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
@@ -81,25 +81,29 @@
             app:layout_constraintRight_toRightOf="parent">
 
             <EditText
-                android:layout_width="wrap_content"
+                android:layout_width="60dp"
                 android:layout_height="50sp"
                 android:layout_marginHorizontal="15dp"
                 android:layout_weight="1"
                 android:background="@drawable/grey_bg"
                 android:hint="От"
-                android:maxWidth="460dp"
+                android:inputType="number"
+                android:maxWidth="260dp"
+                android:minWidth="60dp"
                 android:paddingHorizontal="8dp"
                 android:textColor="@color/default_black"
                 android:textColorHint="@color/default_black" />
 
             <EditText
-                android:layout_width="wrap_content"
+                android:layout_width="60dp"
                 android:layout_height="50sp"
                 android:layout_marginHorizontal="15dp"
                 android:layout_weight="1"
                 android:background="@drawable/grey_bg"
                 android:hint="До"
-                android:maxWidth="460dp"
+                android:inputType="number"
+                android:maxWidth="60dp"
+                android:minWidth="60dp"
                 android:paddingHorizontal="8dp"
                 android:textColor="@color/default_black"
                 android:textColorHint="@color/default_black" />

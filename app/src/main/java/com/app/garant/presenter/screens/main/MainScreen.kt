@@ -55,7 +55,6 @@ class MainScreen : Fragment(R.layout.screen_main) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
         viewModel.getProducts()
         initAdapters()
         initObservables()
@@ -101,6 +100,7 @@ class MainScreen : Fragment(R.layout.screen_main) {
         }.launchIn(viewLifecycleOwner.lifecycleScope)
 
         viewLifecycleOwner.lifecycleScope.launchWhenCreated {
+
             viewModel.successFlow.collect {
                 viewModel.getNames()
                 bind.progress.visibility = View.GONE
